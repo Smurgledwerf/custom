@@ -1,0 +1,13 @@
+update pref_setting set login = 'ian.ramsey' where id = '80';
+update pref_setting set login = 'forest.robin' where id = '81';
+update pref_setting set login = 'jeffrey.hebner' where id = '87';
+update pref_setting set login = 'kim.wall' where id = '36';
+update pref_setting set login = 'luis.barajas' where id = '60';
+update pref_setting set login = 'jeffrey.hebner' where id = '62';
+update pref_setting set login = 'daniel' where id = '63';
+update pref_setting set login = 'gena' where id = '64';
+update pref_setting set login = 'administrator' where id = '66';
+update pref_setting set login = 'brian' where id = '47';
+update pref_setting set login = 'jon.mouton' where id = '71';
+update pref_setting set login = 'jill.kuzma' where id = '70';
+update pref_setting set login = 'michael.doqui' where id = '78';

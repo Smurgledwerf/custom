@@ -1,0 +1,583 @@
+  id  |        login         |           login_group           |        code         | login_full_name 
+------+----------------------+---------------------------------+---------------------+-----------------
+ 1285 | luis                 | user                            |                     | 
+ 1286 | evan.carp            | user                            |                     | 
+    4 | matt.misenhimer      | user                            |                     | 
+    5 | philip.rowe          | user                            |                     | 
+ 1287 | elizabeth.holmes     | user                            |                     | 
+ 1288 | jason.debiasse       | user                            |                     | 
+ 1289 | jeanette.jones       | user                            |                     | 
+   12 | brian                | user                            |                     | 
+   13 | gena                 | user                            |                     | 
+   14 | sarah.louth          | user                            |                     | 
+   15 | rita.carreon         | user                            |                     | 
+   16 | leanna.marsh         | user                            |                     | 
+   17 | forest.robin         | user                            |                     | 
+   18 | luis.conde           | user                            |                     | 
+   19 | adriana.amador       | user                            |                     | 
+ 1290 | alberto.beltran      | user                            |                     | 
+ 3993 | cesar.ramirez        | audio                           | LOGIN_IN_GROUP03993 | 
+ 1291 | michael.doqui        | user                            |                     | 
+ 1292 | anthony.germain      | user                            |                     | 
+ 1293 | marcl                | user                            |                     | 
+ 3191 | christian.martucci   | user                            |                     | 
+ 3409 | candace.johnston     | client                          |                     | 
+ 3518 | derk.cullinan        | client                          |                     | 
+ 3410 | kelly.joseph         | client                          |                     | 
+ 3411 | anthony.jackson      | client                          |                     | 
+ 3519 | matt.johnson         | client                          |                     | 
+ 3412 | kristi.alires        | client                          |                     | 
+ 3413 | myesha.andrews       | client                          |                     | 
+ 3520 | jon.barbour          | client                          |                     | 
+ 3414 | matthew.kelson       | client                          |                     | 
+ 3415 | joe.arancio          | client                          |                     | 
+ 3521 | lawrence.kao         | client                          |                     | 
+ 3416 | mike.arrieta         | client                          |                     | 
+ 3417 | tyler.atkinson       | client                          |                     | 
+ 3522 | manu.kaushish        | client                          |                     | 
+ 3418 | janet.ayres          | client                          |                     | 
+ 3419 | james.laplante       | client                          |                     | 
+ 3420 | francis.badzey       | client                          |                     | 
+ 3421 | nathan.baesel        | client                          |                     | 
+ 3422 | lisa.bagley          | client                          |                     | 
+ 3423 | pam.baldwin          | client                          |                     | 
+ 3424 | kristine.bamattre    | client                          |                     | 
+ 3425 | larry.barnes         | client                          |                     | 
+ 3426 | jd.beaufils          | client                          |                     | 
+ 3427 | lindsay.beiriger     | client                          |                     | 
+ 3428 | ryan.benson          | client                          |                     | 
+ 3429 | sharon.beringer      | client                          |                     | 
+ 3430 | jon.bily             | client                          |                     | 
+ 3431 | tammy.blake          | client                          |                     | 
+ 3432 | jason.bowdach        | client                          |                     | 
+ 3433 | gene.brink           | client                          |                     | 
+ 3434 | kent.bruce           | client                          |                     | 
+ 3435 | ian.olsen            | client                          |                     | 
+ 3436 | louis.ceda           | client                          |                     | 
+ 3437 | shirley.chen         | client                          |                     | 
+ 3438 | richard.christie     | client                          |                     | 
+ 3439 | jim.norris           | client                          |                     | 
+ 3440 | barbara.clark        | client                          |                     | 
+ 3441 | claudia.cummings     | client                          |                     | 
+ 3442 | craig.cleaver        | client                          |                     | 
+ 3443 | danielle.cohen       | client                          |                     | 
+ 3444 | david.corpuz         | client                          |                     | 
+ 3445 | trent.cruz           | client                          |                     | 
+ 3446 | john.cummings        | client                          |                     | 
+ 3447 | micah.cyrus          | client                          |                     | 
+ 3448 | william.dannevik     | client                          |                     | 
+ 3449 | aja.davis            | client                          |                     | 
+ 3450 | edgar.davis          | client                          |                     | 
+ 3451 | michelle.davis       | client                          |                     | 
+ 3452 | frederic.demey       | client                          |                     | 
+ 3453 | summit.demo          | client                          |                     | 
+ 3454 | pam.dery             | client                          |                     | 
+ 3455 | krishna.devine       | client                          |                     | 
+ 3456 | annie.dimascio       | client                          |                     | 
+ 3457 | geoff.domenghini     | client                          |                     | 
+ 3458 | datg.domestic.sales  | client                          |                     | 
+ 3459 | max.duckler          | client                          |                     | 
+ 3460 | mike.duffy           | client                          |                     | 
+ 3461 | jerome.duplush       | client                          |                     | 
+ 3462 | steven.eisenman      | client                          |                     | 
+ 3463 | bob.miller           | client                          |                     | 
+ 3464 | rob.english          | client                          |                     | 
+ 3465 | melissa.ennis        | client                          |                     | 
+ 3466 | molly.erdman         | client                          |                     | 
+ 3467 | bertha.espinoza      | client                          |                     | 
+ 3468 | stacey.ferguson      | client                          |                     | 
+ 3469 | joyce.ferrell        | client                          |                     | 
+ 3470 | sophia.fields        | client                          |                     | 
+ 3471 | lynn.finley          | client                          |                     | 
+ 3472 | lizelle.fintland     | client                          |                     | 
+ 3473 | benjamin.flores      | client                          |                     | 
+ 3474 | andy.foerster        | client                          |                     | 
+ 3475 | mel.fong             | client                          |                     | 
+ 3476 | rebecca.fox          | client                          |                     | 
+ 3477 | jo.dee.freck         | client                          |                     | 
+ 3478 | gerald.freda         | client                          |                     | 
+ 3479 | anthony.frenden      | client                          |                     | 
+ 3480 | liz.fritz            | client                          |                     | 
+ 3481 | kevin.gaffney        | client                          |                     | 
+ 3482 | sue.galanoy          | client                          |                     | 
+ 3483 | keith.gallo          | client                          |                     | 
+ 3484 | micah.gallo          | client                          |                     | 
+ 3485 | jacqueline.ganison   | client                          |                     | 
+ 3486 | hector.garcia        | client                          |                     | 
+ 3487 | cristina.garza       | client                          |                     | 
+ 3488 | yves.gaume           | client                          |                     | 
+ 3489 | matt.goldstein       | client                          |                     | 
+ 3490 | sheila.goodman       | client                          |                     | 
+ 3491 | clif.gordon          | client                          |                     | 
+ 3492 | maura.grady          | client                          |                     | 
+ 3493 | noah.grossman        | client                          |                     | 
+ 3494 | nuria.guardado       | client                          |                     | 
+ 3495 | natalia.halatyn      | client                          |                     | 
+ 3496 | stephanie.hammergren | client                          |                     | 
+ 3497 | yuko.handler         | client                          |                     | 
+ 3498 | maridelle.hannah     | client                          |                     | 
+ 3499 | leslie.hathaway      | client                          |                     | 
+ 3500 | tyler.hawes          | client                          |                     | 
+ 3501 | kenneth.heger        | client                          |                     | 
+ 3502 | george.hernandez     | client                          |                     | 
+ 3503 | cindy.heyen          | client                          |                     | 
+ 3504 | tom.hinckley         | client                          |                     | 
+ 3505 | tom.hoffman          | client                          |                     | 
+ 3506 | luvenia.holland      | client                          |                     | 
+ 3507 | grace.hong           | client                          |                     | 
+ 3508 | donna.horn           | client                          |                     | 
+ 3509 | mark.horton          | client                          |                     | 
+ 3510 | marcus.hu            | client                          |                     | 
+ 3511 | delisa.hudson        | client                          |                     | 
+ 3512 | rick.ianniciello     | client                          |                     | 
+ 3513 | datg.international   | client                          |                     | 
+ 3514 | randa.jamil          | client                          |                     | 
+ 3515 | jeff.ollenburger     | client                          |                     | 
+ 3516 | carlos.jentimane     | client                          |                     | 
+ 3517 | colin.jessup         | client                          |                     | 
+ 3523 | fassika.kebede       | client                          |                     | 
+ 3626 | kristi.fojtik        | user                            |                     | 
+ 3524 | virginia.kenworthy   | client                          |                     | 
+ 3627 | kenny.ochoa          | user                            |                     | 
+ 3525 | dennis.king          | client                          |                     | 
+ 3628 | shauntel.paaluhi     | user                            |                     | 
+ 3526 | daley.kirby          | client                          |                     | 
+ 3527 | carol.knorr          | client                          |                     | 
+ 3994 | cosette.schanilec    | user                            | LOGIN_IN_GROUP03994 | 
+ 3630 | celeste.noreen       | user                            |                     | 
+ 3528 | erick.kovars         | client                          |                     | 
+ 3529 | hillary.kozel        | client                          |                     | 
+ 3530 | jennie.landin        | client                          |                     | 
+ 3633 | alberto.beltran      | compression                     |                     | 
+ 3531 | timothy.lane         | client                          |                     | 
+ 3634 | christian.martucci   | compression                     |                     | 
+ 3532 | deborah.lantieri     | client                          |                     | 
+ 3533 | traci.larsen         | client                          |                     | 
+ 3636 | brian                | management                      |                     | 
+ 3534 | stefanie.larson      | client                          |                     | 
+ 3637 | anthony.germain      | media vault                     |                     | 
+ 3535 | john.lasker          | client                          |                     | 
+ 3638 | adriana.amador       | scheduling                      |                     | 
+ 3536 | chris.leininger      | client                          |                     | 
+ 3639 | celeste.noreen       | scheduling                      |                     | 
+ 3537 | antonio.lopez        | client                          |                     | 
+ 3640 | adriana.amador       | scheduling supervisor           |                     | 
+ 3538 | patricia.lopez       | client                          |                     | 
+ 3641 | kenny.ochoa          | compression                     |                     | 
+ 3539 | david.lundy          | client                          |                     | 
+ 3642 | elizabeth.holmes     | edeliveries                     |                     | 
+ 3540 | hopi.marcum          | client                          |                     | 
+ 3643 | jeanette.jones       | edeliveries                     |                     | 
+ 3541 | pamela.martinez      | client                          |                     | 
+ 3644 | jason.debiasse       | edit                            |                     | 
+ 3542 | charlie.matthau      | client                          |                     | 
+ 3645 | evan.carp            | machine room                    |                     | 
+ 3543 | mike.williams        | client                          |                     | 
+ 3544 | nick.contino         | client                          |                     | 
+ 3647 | forest.robin         | scheduling                      |                     | 
+ 3545 | jaclyn.mazawey       | client                          |                     | 
+ 4046 | james.ho             | edeliveries                     | LOGIN_IN_GROUP04046 | 
+ 3546 | mark.mccoy           | client                          |                     | 
+ 3547 | aaron.mellman        | client                          |                     | 
+ 3650 | leanna.marsh         | scheduling                      |                     | 
+ 3548 | jaime.melara         | client                          |                     | 
+ 3651 | luis.conde           | scheduling                      |                     | 
+ 3549 | melinda.meyer        | client                          |                     | 
+ 3652 | marcl                | audio                           |                     | 
+ 3550 | casey.miller         | client                          |                     | 
+ 4047 | james.ho             | media vault                     | LOGIN_IN_GROUP04047 | 
+ 3551 | ross.milstein        | client                          |                     | 
+ 3552 | kenji.miwa           | client                          |                     | 
+ 3655 | michael.doqui        | media vault                     |                     | 
+ 3553 | alma.morfin          | client                          |                     | 
+ 3656 | jorge.ozuna          | user                            |                     | 
+ 3554 | sheila.morris        | client                          |                     | 
+ 3657 | shauntel.paaluhi     | edeliveries                     |                     | 
+ 3555 | eddie.mou            | client                          |                     | 
+ 3556 | laura.munoz          | client                          |                     | 
+ 3557 | darcy.murphy         | client                          |                     | 
+ 3558 | todd.myers           | client                          |                     | 
+ 3559 | lois.nemcovsky       | client                          |                     | 
+ 3560 | karen.nichols        | client                          |                     | 
+ 3561 | jamie.oliver         | client                          |                     | 
+ 3562 | rico.ortiz           | client                          |                     | 
+ 3563 | emily.paiz           | client                          |                     | 
+ 3564 | bill.patterson       | client                          |                     | 
+ 3565 | martin.pazos         | client                          |                     | 
+ 3566 | carl.pedregal        | client                          |                     | 
+ 3567 | jason.pfardrescher   | client                          |                     | 
+ 3568 | greg.phillips        | client                          |                     | 
+ 3569 | adam.princenthal     | client                          |                     | 
+ 3570 | jessica.pringle      | client                          |                     | 
+ 3571 | linda.ptolemy        | client                          |                     | 
+ 3572 | scott.purdy          | client                          |                     | 
+ 3573 | stephanie.raleigh    | client                          |                     | 
+ 3574 | rick.ramirez         | client                          |                     | 
+ 3575 | carlos.reveles       | client                          |                     | 
+ 3576 | anne.reynolds        | client                          |                     | 
+ 3577 | sara.rodriquez       | client                          |                     | 
+ 3578 | elizabeth.rojas      | client                          |                     | 
+ 3579 | gregory.rossiter     | client                          |                     | 
+ 3580 | greg.rubidge         | client                          |                     | 
+ 3581 | troy.sanchez         | client                          |                     | 
+ 3582 | alexia.sartin        | client                          |                     | 
+ 3583 | gabriel.sauerhoff    | client                          |                     | 
+ 3584 | peter.schade         | client                          |                     | 
+ 3585 | corey.scherbing      | client                          |                     | 
+ 3586 | stacy.schipritt      | client                          |                     | 
+ 3587 | richard.schultz      | client                          |                     | 
+ 3588 | william.sevilla      | client                          |                     | 
+ 3589 | john.sheehe          | client                          |                     | 
+ 3590 | anthony.simon        | client                          |                     | 
+ 3591 | taylor.sitton        | client                          |                     | 
+ 3592 | kevin.smith          | client                          |                     | 
+ 3593 | kathy.smith          | client                          |                     | 
+ 3594 | winston.smith        | client                          |                     | 
+ 3595 | ryan.sosa            | client                          |                     | 
+ 3596 | carrie.spalding      | client                          |                     | 
+ 3597 | bonnie.stern         | client                          |                     | 
+ 3598 | marc.sternberg       | client                          |                     | 
+ 3599 | danielle.stone       | client                          |                     | 
+ 3600 | michael.stradford    | client                          |                     | 
+ 3601 | jennifer.surabian    | client                          |                     | 
+ 3602 | david.taylor         | client                          |                     | 
+ 3603 | christina.thiele     | client                          |                     | 
+ 3604 | sean.thorburn        | client                          |                     | 
+ 3605 | roy.tjioe            | client                          |                     | 
+ 3606 | tony.koch            | client                          |                     | 
+ 3607 | jessi.todden         | client                          |                     | 
+ 3608 | michael.trainotti    | client                          |                     | 
+ 3609 | john.tunnell         | client                          |                     | 
+ 3610 | jeannine.turano      | client                          |                     | 
+ 3611 | kerrysue.underwood   | client                          |                     | 
+ 3612 | kelly.vanvalkenburg  | client                          |                     | 
+ 3613 | tammy.wange          | client                          |                     | 
+ 3614 | sara.wannarka        | client                          |                     | 
+ 3615 | devrha.warren        | client                          |                     | 
+ 3616 | april.watson         | client                          |                     | 
+ 3617 | justin.watt          | client                          |                     | 
+ 3618 | matthew.webb         | client                          |                     | 
+ 3619 | svea.wentzler        | client                          |                     | 
+ 3620 | sandra.wiencek       | client                          |                     | 
+ 3621 | john.wilbur          | client                          |                     | 
+ 3622 | frank.williams       | client                          |                     | 
+ 3623 | ashley.woodall       | client                          |                     | 
+ 3624 | ariana.young         | client                          |                     | 
+ 3625 | nicholas.ciske       | client                          |                     | 
+ 3661 | sarah.louth          | scheduling                      |                     | 
+ 3662 | chris.spofford       | user                            |                     | 
+ 3663 | michelle.holcombe    | user                            |                     | 
+ 3664 | jon.mouton           | user                            |                     | 
+ 3667 | tester               | audio                           |                     | 
+ 3670 | chris.spofford       | edeliveries                     |                     | 
+ 3673 | lisa.griffin         | user                            |                     | 
+ 3674 | daniel               | user                            |                     | 
+ 3675 | vincent.garcia       | user                            |                     | 
+ 3676 | james.coffey         | user                            |                     | 
+ 3677 | michelle.furnace     | user                            |                     | 
+ 3678 | david                | user                            |                     | 
+ 3682 | david                | management                      |                     | 
+ 3683 | jaime.schuman        | user                            |                     | 
+ 3684 | collin.mcdowell      | user                            |                     | 
+ 3996 | carl.brevil          | user                            | LOGIN_IN_GROUP03996 | 
+ 3686 | david                | it                              |                     | 
+ 3688 | michelle.holcombe    | scheduling                      |                     | 
+ 3689 | daniel               | machine room supervisor         |                     | 
+ 3690 | brian                | edit supervisor                 |                     | 
+ 3691 | daniel               | machine room                    |                     | 
+ 3692 | james.coffey         | technical services              |                     | 
+ 3693 | mike.lengyel         | user                            |                     | 
+ 3997 | fernando.vazquez     | admin                           | LOGIN_IN_GROUP03997 | 
+ 3998 | gary.shermer         | user                            | LOGIN_IN_GROUP03998 | 
+ 3698 | shauntel.paaluhi     | media vault                     |                     | 
+ 3699 | shauntel.paaluhi     | media vault supervisor          |                     | 
+ 4000 | carl.brevil          | compression                     | LOGIN_IN_GROUP04000 | 
+ 3703 | luis.barajas         | qc                              |                     | 
+ 3704 | vincent.garcia       | qc                              |                     | 
+ 3705 | luis.barajas         | qc supervisor                   |                     | 
+ 3706 | mike.lengyel         | compression                     |                     | 
+ 3707 | emma.klein           | user                            |                     | 
+ 3709 | emma.klein           | media vault                     |                     | 
+ 4001 | carl.brevil          | machine room                    | LOGIN_IN_GROUP04001 | 
+ 3711 | adriel.medrano       | user                            |                     | 
+ 3712 | adriel.medrano       | machine room                    |                     | 
+ 3713 | christopher.miller   | user                            |                     | 
+ 3714 | collin.mcdowell      | qc                              |                     | 
+ 3716 | elena.abbott         | user                            |                     | 
+ 3717 | vikki.orlando        | user                            |                     | 
+ 3718 | elena.abbott         | media vault                     |                     | 
+ 3719 | matt.misenhimer      | machine room                    |                     | 
+ 3720 | vikki.orlando        | media vault                     |                     | 
+ 3721 | jeffrey.hebner       | user                            |                     | 
+ 3722 | jeffrey.hebner       | compression                     |                     | 
+ 3723 | jaime.schuman        | compression                     |                     | 
+ 3724 | tiago.jacinto        | user                            |                     | 
+ 4002 | troy.huizar          | user                            | LOGIN_IN_GROUP04002 | 
+ 3726 | jonathan.vu          | user                            |                     | 
+ 3727 | jonathan.vu          | qc                              |                     | 
+ 4003 | troy.huizar          | media vault                     | LOGIN_IN_GROUP04003 | 
+ 3731 | tacticdemo           | user                            |                     | 
+ 3732 | tacticdemo           | management                      |                     | 
+ 3733 | tacticdemo           | scheduling                      |                     | 
+ 3734 | todd.crawford        | user                            |                     | 
+ 3735 | todd.crawford        | machine room                    |                     | 
+ 3736 | james.coffey         | management                      |                     | 
+ 4004 | troy.huizar          | vault                           | LOGIN_IN_GROUP04004 | 
+ 3739 | marisol              | user                            |                     | 
+ 4005 | eric.leong           | user                            | LOGIN_IN_GROUP04005 | 
+ 3741 | marisol              | billing and accounts receivable |                     | 
+ 4006 | eric.leong           | compression                     | LOGIN_IN_GROUP04006 | 
+ 3745 | administrator        | user                            |                     | 
+ 4007 | eric.leung           | user                            | LOGIN_IN_GROUP04007 | 
+ 3748 | johanna.mcgregor     | user                            |                     | 
+ 3749 | johanna.mcgregor     | scheduling                      |                     | 
+ 3750 | ian.ramsey           | user                            |                     | 
+ 3752 | cynthia.trejo        | user                            |                     | 
+ 4008 | eric.leung           | compression                     | LOGIN_IN_GROUP04008 | 
+ 3754 | jason.debiasse       | compression                     |                     | 
+ 4009 | magela.sevilla       | user                            | LOGIN_IN_GROUP04009 | 
+ 3757 | brian.gonzalez       | user                            |                     | 
+ 4010 | magela.sevilla       | edeliveries                     | LOGIN_IN_GROUP04010 | 
+ 3760 | jill.kuzma           | user                            |                     | 
+ 3761 | jill.kuzma           | scheduling                      |                     | 
+ 4011 | magela.sevilla       | media vault                     | LOGIN_IN_GROUP04011 | 
+ 3764 | hannah.cook          | user                            |                     | 
+ 3765 | david.binkley        | user                            |                     | 
+ 3766 | chelsea.spirito      | user                            |                     | 
+ 3767 | vanessa.gonzalez     | user                            |                     | 
+ 4012 | martin.vann          | user                            | LOGIN_IN_GROUP04012 | 
+ 3770 | chelsea.spirito      | qc                              |                     | 
+ 4013 | martin.vann          | sales                           | LOGIN_IN_GROUP04013 | 
+ 4014 | justin.kelley        | user                            | LOGIN_IN_GROUP04014 | 
+ 3777 | hannah.cook          | media vault                     |                     | 
+ 3779 | jennifer.olvey       | user                            |                     | 
+ 3781 | jennifer.olvey       | scheduling                      |                     | 
+ 3784 | cynthia.trejo        | machine room                    |                     | 
+ 4024 | justin.kelley        | management                      | LOGIN_IN_GROUP04024 | 
+ 4026 | justin.kelley        | scheduling supervisor           | LOGIN_IN_GROUP04026 | 
+ 3790 | brett.savelli        | user                            | LOGIN_IN_GROUP03790 | 
+ 4027 | justin.kelley        | technical services              | LOGIN_IN_GROUP04027 | 
+ 4028 | scott.bagley         | user                            | LOGIN_IN_GROUP04028 | 
+ 3793 | chuck.fillietaz      | user                            | LOGIN_IN_GROUP03793 | 
+ 3794 | dolly.rosell         | user                            | LOGIN_IN_GROUP03794 | 
+ 4029 | nick.baclagan        | user                            | LOGIN_IN_GROUP04029 | 
+ 3796 | dolly.rosell         | sales                           | LOGIN_IN_GROUP03796 | 
+ 4030 | nick.baclagan        | it                              | LOGIN_IN_GROUP04030 | 
+ 3798 | evan.carp            | edit                            | LOGIN_IN_GROUP03798 | 
+ 3800 | christina.bay        | user                            | LOGIN_IN_GROUP03800 | 
+ 3801 | christina.bay        | edeliveries                     | LOGIN_IN_GROUP03801 | 
+ 3802 | elizabeth.holmes     | media vault                     | LOGIN_IN_GROUP03802 | 
+ 4031 | scott.bagley         | qc                              | LOGIN_IN_GROUP04031 | 
+ 3804 | brett.savelli        | qc                              | LOGIN_IN_GROUP03804 | 
+ 3805 | rich.turke           | user                            | LOGIN_IN_GROUP03805 | 
+ 3806 | rich.turke           | compression                     | LOGIN_IN_GROUP03806 | 
+ 3807 | justin.chastain      | user                            | LOGIN_IN_GROUP03807 | 
+ 3808 | justin.chastain      | edeliveries                     | LOGIN_IN_GROUP03808 | 
+ 3809 | josh.matthies        | user                            | LOGIN_IN_GROUP03809 | 
+ 4032 | keiko.shriver        | user                            | LOGIN_IN_GROUP04032 | 
+ 3811 | jeffrey.Hebner       | user                            | LOGIN_IN_GROUP03811 | 
+ 3812 | laura.szot           | user                            | LOGIN_IN_GROUP03812 | 
+ 3813 | justin.hawkins       | user                            | LOGIN_IN_GROUP03813 | 
+ 3814 | justin.hawkins       | compression                     | LOGIN_IN_GROUP03814 | 
+ 3815 | michael.doqui        | edeliveries                     | LOGIN_IN_GROUP03815 | 
+ 4033 | keiko.shriver        | qc                              | LOGIN_IN_GROUP04033 | 
+ 4034 | alain.fleury         | user                            | LOGIN_IN_GROUP04034 | 
+ 4035 | alain.fleury         | compression                     | LOGIN_IN_GROUP04035 | 
+ 4036 | james.ho             | user                            | LOGIN_IN_GROUP04036 | 
+ 3822 | vilma.rubio          | user                            | LOGIN_IN_GROUP03822 | 
+ 3823 | vilma.rubio          | scheduling                      | LOGIN_IN_GROUP03823 | 
+ 3824 | kim.wall             | user                            | LOGIN_IN_GROUP03824 | 
+ 3826 | vanessa.gonzalez     | qc                              | LOGIN_IN_GROUP03826 | 
+ 3782 | administrator        | development                     |                     | 
+ 3785 | Administrator        | development                     |                     | 
+ 3786 | Administratorguy     | development                     |                     | 
+ 3787 | Administratorguyo    | development                     |                     | 
+ 3828 | vikki.orlando        | vault                           | LOGIN_IN_GROUP03828 | 
+ 3999 | gary.shermer         | admin                           | LOGIN_IN_GROUP03999 | 
+ 3882 | tiago.jacinto        | streamz                         | LOGIN_IN_GROUP03882 | 
+ 4037 | james.ho             | qc                              | LOGIN_IN_GROUP04037 | 
+ 3832 | perla.rivera         | user                            | LOGIN_IN_GROUP03832 | 
+ 3833 | perla.rivera         | compression                     | LOGIN_IN_GROUP03833 | 
+ 3834 | tiago.jacinto        | qc                              | LOGIN_IN_GROUP03834 | 
+ 3836 | christina.bay        | media vault                     | LOGIN_IN_GROUP03836 | 
+ 3837 | justin.chastain      | media vault                     | LOGIN_IN_GROUP03837 | 
+ 3838 | jeanette.jones       | media vault                     | LOGIN_IN_GROUP03838 | 
+ 3920 | nick.meraz           | user                            | LOGIN_IN_GROUP03920 | 
+ 3841 | kenny.ochoa          | audio                           | LOGIN_IN_GROUP03841 | 
+ 3843 | chris.spofford       | media vault                     | LOGIN_IN_GROUP03843 | 
+ 3844 | don.savage           | machine room                    | LOGIN_IN_GROUP03844 | 
+ 3845 | don.savage           | user                            | LOGIN_IN_GROUP03845 | 
+ 3847 | chantal.beukman      | scheduling                      | LOGIN_IN_GROUP03847 | 
+ 3848 | chantal.beukman      | user                            | LOGIN_IN_GROUP03848 | 
+ 3849 | lisa.mcguire         | user                            | LOGIN_IN_GROUP03849 | 
+ 3850 | lisa.mcguire         | scheduling                      | LOGIN_IN_GROUP03850 | 
+ 3851 | michelle.gonzalves   | user                            | LOGIN_IN_GROUP03851 | 
+ 3852 | michelle.gonzalves   | billing and accounts receivable | LOGIN_IN_GROUP03852 | 
+ 3853 | michelle.gonzalves   | office employees                | LOGIN_IN_GROUP03853 | 
+ 3854 | laura.szot           | scheduling                      | LOGIN_IN_GROUP03854 | 
+ 3855 | brian                | senior_staff                    | LOGIN_IN_GROUP03855 | 
+ 3857 | jodynne.wood         | user                            | LOGIN_IN_GROUP03857 | 
+ 3859 | jodynne.wood         | sales supervisor                | LOGIN_IN_GROUP03859 | 
+ 3860 | hannah.cook          | scheduling                      | LOGIN_IN_GROUP03860 | 
+ 3883 | chelsea.spirito      | streamz                         | LOGIN_IN_GROUP03883 | 
+ 3862 | david.featherstone   | scheduling                      | LOGIN_IN_GROUP03862 | 
+ 3863 | david.featherstone   | user                            | LOGIN_IN_GROUP03863 | 
+ 3864 | hannah.cook          | office employees                | LOGIN_IN_GROUP03864 | 
+ 3865 | fremantle            | user                            | LOGIN_IN_GROUP03865 | 
+ 3866 | fremantle            | client                          | LOGIN_IN_GROUP03866 | 
+ 3868 | luis.barajas         | user                            | LOGIN_IN_GROUP03868 | 
+ 3884 | vanessa.gonzalez     | streamz                         | LOGIN_IN_GROUP03884 | 
+ 3872 | gabrielle.gonka      | vault                           | LOGIN_IN_GROUP03872 | 
+ 3874 | gabrielle.gonka      | media vault                     | LOGIN_IN_GROUP03874 | 
+ 3875 | gabrielle.gonka      | user                            | LOGIN_IN_GROUP03875 | 
+ 3876 | daniel               | streamz                         | LOGIN_IN_GROUP03876 | 
+ 3878 | christopher.miller   | streamz                         | LOGIN_IN_GROUP03878 | 
+ 3879 | don.savage           | streamz                         | LOGIN_IN_GROUP03879 | 
+ 3880 | todd.crawford        | streamz                         | LOGIN_IN_GROUP03880 | 
+ 3881 | collin.mcdowell      | streamz                         | LOGIN_IN_GROUP03881 | 
+ 3888 | johanna.morales      | user                            | LOGIN_IN_GROUP03888 | 
+ 3889 | johanna.morales      | scheduling                      | LOGIN_IN_GROUP03889 | 
+ 3906 | christopher.miller   | compression                     | LOGIN_IN_GROUP03906 | 
+ 3896 | leonela.perez        | user                            | LOGIN_IN_GROUP03896 | 
+ 3897 | chris.thompson       | user                            | LOGIN_IN_GROUP03897 | 
+ 3921 | nick.meraz           | qc                              | LOGIN_IN_GROUP03921 | 
+ 3901 | rita.carreon         | scheduling                      | LOGIN_IN_GROUP03901 | 
+ 3902 | david.binkley        | machine room                    | LOGIN_IN_GROUP03902 | 
+ 3904 | josh.matthies        | edeliveries                     | LOGIN_IN_GROUP03904 | 
+ 3908 | justin.hawkins       | edit                            | LOGIN_IN_GROUP03908 | 
+ 3909 | brian.gonzalez       | qc                              | LOGIN_IN_GROUP03909 | 
+ 3910 | ian.ramsey           | qc                              | LOGIN_IN_GROUP03910 | 
+ 3911 | jaime.schuman        | audio                           | LOGIN_IN_GROUP03911 | 
+ 3912 | timothy.earle        | user                            | LOGIN_IN_GROUP03912 | 
+ 3913 | timothy.earle        | vault                           | LOGIN_IN_GROUP03913 | 
+ 3914 | natalie.ramirez      | user                            | LOGIN_IN_GROUP03914 | 
+ 3915 | natalie.ramirez      | vault                           | LOGIN_IN_GROUP03915 | 
+ 3916 | fernando.vazquez     | user                            | LOGIN_IN_GROUP03916 | 
+ 3917 | fernando.vazquez     | management                      | LOGIN_IN_GROUP03917 | 
+ 3918 | fernando.vazquez     | technical services              | LOGIN_IN_GROUP03918 | 
+ 3919 | leonela.perez        | scheduling                      | LOGIN_IN_GROUP03919 | 
+ 3922 | jaime.torres         | user                            | LOGIN_IN_GROUP03922 | 
+ 3923 | jaime.torres         | management                      | LOGIN_IN_GROUP03923 | 
+ 3924 | jaime.torres         | scheduling supervisor           | LOGIN_IN_GROUP03924 | 
+ 3925 | joy.erickson         | user                            | LOGIN_IN_GROUP03925 | 
+ 3926 | joy.erickson         | edeliveries                     | LOGIN_IN_GROUP03926 | 
+ 3927 | joy.erickson         | media vault                     | LOGIN_IN_GROUP03927 | 
+ 3928 | josue.perez          | user                            | LOGIN_IN_GROUP03928 | 
+ 3929 | josue.perez          | machine room                    | LOGIN_IN_GROUP03929 | 
+ 3930 | josue.perez          | machine room supervisor         | LOGIN_IN_GROUP03930 | 
+ 3931 | chris.fagot          | user                            | LOGIN_IN_GROUP03931 | 
+ 3932 | chris.fagot          | management                      | LOGIN_IN_GROUP03932 | 
+ 3933 | chris.fagot          | sales                           | LOGIN_IN_GROUP03933 | 
+ 3934 | chris.fagot          | sales supervisor                | LOGIN_IN_GROUP03934 | 
+ 3935 | jaime.torres         | technical services              | LOGIN_IN_GROUP03935 | 
+ 3936 | stephen.buchsbaum    | user                            | LOGIN_IN_GROUP03936 | 
+ 3937 | stephen.buchsbaum    | executives                      | LOGIN_IN_GROUP03937 | 
+ 3940 | apache               | user                            | LOGIN_IN_GROUP03940 | 
+ 3942 | nicholas.fitzgerald  | user                            | LOGIN_IN_GROUP03942 | 
+ 3945 | david.hayes          | user                            | LOGIN_IN_GROUP03945 | 
+ 3946 | david.hayes          | qc                              | LOGIN_IN_GROUP03946 | 
+ 3947 | willie.medina        | user                            | LOGIN_IN_GROUP03947 | 
+ 4038 | natalie.ramirez      | billing and accounts receivable | LOGIN_IN_GROUP04038 | 
+ 3949 | seth.mirimanian      | user                            | LOGIN_IN_GROUP03949 | 
+ 4039 | joy.erickson         | compression                     | LOGIN_IN_GROUP04039 | 
+ 4040 | monica.cavalho       | user                            | LOGIN_IN_GROUP04040 | 
+ 4041 | monica.cavalho       | scheduling                      | LOGIN_IN_GROUP04041 | 
+ 3954 | willie.medina        | compression                     | LOGIN_IN_GROUP03954 | 
+ 3955 | seth.mirimanian      | qc                              | LOGIN_IN_GROUP03955 | 
+ 3958 | celia.pacheco        | user                            | LOGIN_IN_GROUP03958 | 
+ 3959 | celia.pacheco        | scheduling                      | LOGIN_IN_GROUP03959 | 
+ 3960 | andy.hopkins         | user                            | LOGIN_IN_GROUP03960 | 
+ 4042 | monica.carvalho      | user                            | LOGIN_IN_GROUP04042 | 
+ 3962 | andy.hopkins         | scheduling                      | LOGIN_IN_GROUP03962 | 
+ 3963 | rachel.solis         | user                            | LOGIN_IN_GROUP03963 | 
+ 4043 | monica.carvalho      | scheduling                      | LOGIN_IN_GROUP04043 | 
+ 3965 | rachel.solis         | edeliveries                     | LOGIN_IN_GROUP03965 | 
+ 3966 | rachel.solis         | media vault                     | LOGIN_IN_GROUP03966 | 
+ 3967 | julia.currin         | user                            | LOGIN_IN_GROUP03967 | 
+ 3968 | julia.currin         | sales                           | LOGIN_IN_GROUP03968 | 
+ 3969 | jeffrey.provan       | user                            | LOGIN_IN_GROUP03969 | 
+ 3970 | jeffrey.provan       | edeliveries                     | LOGIN_IN_GROUP03970 | 
+ 3971 | jeffrey.hebner       | media vault                     | LOGIN_IN_GROUP03971 | 
+ 3972 | jeffrey.provan       | media vault                     | LOGIN_IN_GROUP03972 | 
+ 3973 | josue.perez          | media vault                     | LOGIN_IN_GROUP03973 | 
+ 3975 | seth.mirimanian      | media vault                     | LOGIN_IN_GROUP03975 | 
+ 3976 | josue.perez          | edeliveries                     | LOGIN_IN_GROUP03976 | 
+ 3978 | admin                | edeliveries                     | LOGIN_IN_GROUP03978 | 
+ 3979 | josue.perez          | compression                     | LOGIN_IN_GROUP03979 | 
+ 3980 | darin.harris         | user                            | LOGIN_IN_GROUP03980 | 
+ 3982 | elliot.lear          | user                            | LOGIN_IN_GROUP03982 | 
+ 3983 | solomon.park         | user                            | LOGIN_IN_GROUP03983 | 
+ 3984 | solomon.park         | edeliveries                     | LOGIN_IN_GROUP03984 | 
+ 3985 | elliot.lear          | vault                           | LOGIN_IN_GROUP03985 | 
+ 3986 | solomon.park         | media vault                     | LOGIN_IN_GROUP03986 | 
+ 3988 | lorenzo.riley        | user                            | LOGIN_IN_GROUP03988 | 
+ 3989 | cesar.ramirez        | user                            | LOGIN_IN_GROUP03989 | 
+ 3990 | lorenzo.riley        | qc                              | LOGIN_IN_GROUP03990 | 
+ 3991 | nick.meraz           | qc supervisor                   | LOGIN_IN_GROUP03991 | 
+ 4048 | admin                | qc                              | LOGIN_IN_GROUP04048 | 
+ 4049 | admin                | audio                           | LOGIN_IN_GROUP04049 | 
+ 4050 | admin                | compression                     | LOGIN_IN_GROUP04050 | 
+ 4051 | admin                | edit                            | LOGIN_IN_GROUP04051 | 
+ 4052 | admin                | machine room                    | LOGIN_IN_GROUP04052 | 
+ 4054 | admin                | technical services              | LOGIN_IN_GROUP04054 | 
+ 4055 | admin                | vault                           | LOGIN_IN_GROUP04055 | 
+ 4056 | rebecca.salvador     | user                            | LOGIN_IN_GROUP04056 | 
+ 4057 | rebecca.salvador     | scheduling                      | LOGIN_IN_GROUP04057 | 
+ 4058 | eynar.lopez          | user                            | LOGIN_IN_GROUP04058 | 
+ 4059 | julio.nunez          | user                            | LOGIN_IN_GROUP04059 | 
+ 4060 | eynar.lopez          | compression                     | LOGIN_IN_GROUP04060 | 
+ 4061 | julio.nunez          | machine room                    | LOGIN_IN_GROUP04061 | 
+ 4062 | julio.nunez          | qc                              | LOGIN_IN_GROUP04062 | 
+ 4063 | stan.kirdey          | user                            | LOGIN_IN_GROUP04063 | 
+ 4064 | stan.kirdey          | it                              | LOGIN_IN_GROUP04064 | 
+ 4065 | stan.kirdey          | technical services              | LOGIN_IN_GROUP04065 | 
+ 4066 | jordan.jacobs        | user                            | LOGIN_IN_GROUP04066 | 
+ 4067 | jordan.jacobs        | sales                           | LOGIN_IN_GROUP04067 | 
+ 4068 | cosette.schanilec    | scheduling                      | LOGIN_IN_GROUP04068 | 
+ 4069 | stan.kirdey          | admin                           | LOGIN_IN_GROUP04069 | 
+ 4070 | elliot.lear          | scheduling                      | LOGIN_IN_GROUP04070 | 
+ 4071 | eynar.lopez          | machine room                    | LOGIN_IN_GROUP04071 | 
+ 4072 | richard.gonzales     | user                            | LOGIN_IN_GROUP04072 | 
+ 4073 | richard.gonzales     | qc                              | LOGIN_IN_GROUP04073 | 
+ 4099 | shea.sinclair        | user                            | LOGIN_IN_GROUP04099 | 
+ 4077 | stan.kirdey          | audio                           | LOGIN_IN_GROUP04077 | 
+ 4078 | stan.kirdey          | edeliveries                     | LOGIN_IN_GROUP04078 | 
+ 4079 | stan.kirdey          | edit                            | LOGIN_IN_GROUP04079 | 
+ 4080 | stan.kirdey          | machine room                    | LOGIN_IN_GROUP04080 | 
+ 4081 | stan.kirdey          | media vault                     | LOGIN_IN_GROUP04081 | 
+ 4082 | stan.kirdey          | qc                              | LOGIN_IN_GROUP04082 | 
+ 4083 | stan.kirdey          | scheduling                      | LOGIN_IN_GROUP04083 | 
+ 4084 | tawney.dalton        | user                            | LOGIN_IN_GROUP04084 | 
+ 4085 | tawney.dalton        | scheduling                      | LOGIN_IN_GROUP04085 | 
+ 4086 | christopher.miller   | compression supervisor          | LOGIN_IN_GROUP04086 | 
+ 4087 | christian.martucci   | compression supervisor          | LOGIN_IN_GROUP04087 | 
+ 4088 | kyle.villella        | user                            | LOGIN_IN_GROUP04088 | 
+ 4089 | kyle.villella        | sales                           | LOGIN_IN_GROUP04089 | 
+ 4090 | elliot.gomez         | user                            | LOGIN_IN_GROUP04090 | 
+ 4091 | elliot.gomez         | media vault                     | LOGIN_IN_GROUP04091 | 
+ 4092 | elliot.gomez         | vault                           | LOGIN_IN_GROUP04092 | 
+ 4093 | mike.greenberg       | user                            | LOGIN_IN_GROUP04093 | 
+ 4094 | mike.greenberg       | client                          | LOGIN_IN_GROUP04094 | 
+ 4095 | isaac.mizrahi        | user                            | LOGIN_IN_GROUP04095 | 
+ 4096 | david.rodriguez      | user                            | LOGIN_IN_GROUP04096 | 
+ 4097 | nadja.pineiro        | user                            | LOGIN_IN_GROUP04097 | 
+ 4098 | rebecca.gallivan     | user                            | LOGIN_IN_GROUP04098 | 
+ 4100 | david.rodriguez      | client                          | LOGIN_IN_GROUP04100 | 
+ 4101 | isaac.mizrahi        | client                          | LOGIN_IN_GROUP04101 | 
+ 4102 | nadja.pineiro        | client                          | LOGIN_IN_GROUP04102 | 
+ 4103 | rebecca.gallivan     | client                          | LOGIN_IN_GROUP04103 | 
+ 4104 | shea.sinclair        | client                          | LOGIN_IN_GROUP04104 | 
+ 4105 | wile.coyote          | user                            | LOGIN_IN_GROUP04105 | 
+ 4106 | wile.coyote          | client                          | LOGIN_IN_GROUP04106 | 
+ 4107 | rachel.schwartz      | user                            | LOGIN_IN_GROUP04107 | 
+ 4108 | rachel.schwartz      | client                          | LOGIN_IN_GROUP04108 | 
+ 4109 | maxwell.dipaolo      | user                            | LOGIN_IN_GROUP04109 | 
+ 4110 | maxwell.dipaolo      | client                          | LOGIN_IN_GROUP04110 | 
+ 4112 | admin                | scheduling                      | LOGIN_IN_GROUP04112 | 
+ 4113 | ken.blaustein        | user                            | LOGIN_IN_GROUP04113 | 
+ 4114 | ken.blaustein        | sales                           | LOGIN_IN_GROUP04114 | 
+ 4115 | chris.fagot          | executives                      | LOGIN_IN_GROUP04115 | 
+ 4116 | fernando.vazquez     | executives                      | LOGIN_IN_GROUP04116 | 
+ 4117 | james.coffey         | scheduling                      | LOGIN_IN_GROUP04117 | 
+(579 rows)
+

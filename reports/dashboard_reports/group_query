@@ -1,0 +1,1 @@
+select code, login_group, hourly_rate from login_group;  

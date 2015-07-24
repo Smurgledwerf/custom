@@ -1,0 +1,1 @@
+select code, login, client_code from work_order_templ;

@@ -1,0 +1,1 @@
+select code, work_order_code, units, equipment_code, expected_duration, expected_quantity, expected_cost, actual_cost, actual_duration, actual_quantity, client_code from equipment_used;

@@ -1,0 +1,1 @@
+select code, timestamp, login, order_code, title_code, proj_code, work_order_code, error_type, process, scheduler_login, operator_login, responsible_users, rejection_cause, time_spent from production_error where s_status is NULL;

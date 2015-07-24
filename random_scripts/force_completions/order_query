@@ -1,0 +1,1 @@
+select code, classification, needs_completion_review from "order" where s_status is NULL and classification not in ('Master','Cancelled');

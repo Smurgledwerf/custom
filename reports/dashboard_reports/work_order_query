@@ -1,0 +1,1 @@
+select code, proj_code, task_code, process, client_code, work_group, estimated_work_hours, closed, actual_cost, expected_cost, due_date from work_order where s_status is NULL;

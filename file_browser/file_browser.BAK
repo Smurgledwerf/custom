@@ -1,0 +1,629 @@
+__all__ = ["FileBrowser","FileBrowserDirectoryContents"]
+import tacticenv
+#import time
+import os, math, commands
+from datetime import datetime
+from os.path import isfile, join
+from pyasm.common import Environment
+from pyasm.biz import *
+from pyasm.web import Table, DivWdg
+from pyasm.widget import SelectWdg, IconWdg, TextWdg, CheckboxWdg
+from pyasm.search import Search
+from tactic.ui.common import BaseRefreshWdg
+
+class FileBrowser(BaseRefreshWdg):
+    def init(my):
+        #my.start_dir = '/Volumes'
+        my.start_dir = '/opt/spt/custom/'
+    
+    def get_display(my):   
+        widget = DivWdg()
+        contents_div = FileBrowserDirectoryContents(dir=my.start_dir)
+        table = Table()
+        table.add_attr('id','top_of_file_browser')
+        table.add_row()
+        con_div = table.add_cell(contents_div)
+        con_div.add_attr('id','con_div')
+        widget.add(table)
+        return widget 
+
+class FileBrowserDirectoryContents(BaseRefreshWdg):
+    def init(my):
+        my.start_dir = '/Volumes'
+        my.dir = '/Volumes'
+        my.old_dir = '/Volumes'
+        my.folder_icon = '<img src="/context/icons/silk/folder.png" title="TITLE" name="TITLE"/>'
+        my.file_icon = '<img src="/context/icons/silk/page_white_text.png" title="TITLE" name="TITLE"/>'
+
+    def dir_click(my):
+        behavior = {'css_class': 'clickme', 'type': 'click_up', 'cbjs_action': '''        
+                        try{
+                               var new_dir = bvr.src_el.getAttribute('dir'); 
+                               var top_el = document.getElementById("top_of_file_browser");
+                               dir_list = top_el.getElementById('dir_div');
+                               contents_list = top_el.getElementById('con_div');
+                               spt.api.load_panel(contents_list, 'file_browser.file_browser.FileBrowserDirectoryContents', {'dir': new_dir}); 
+                }
+                catch(err){
+                          spt.app_busy.hide();
+                          spt.alert(spt.exception.handler(err));
+                          //alert(err);
+                }
+         '''}
+        return behavior
+
+    def file_click(my):
+        behavior = {'css_class': 'clickme', 'type': 'click_up', 'cbjs_action': '''        
+                        try{
+                               var file = bvr.src_el.getAttribute('file'); 
+                               alert(file);
+                }
+                catch(err){
+                          spt.app_busy.hide();
+                          spt.alert(spt.exception.handler(err));
+                          //alert(err);
+                }
+         '''}
+        return behavior
+
+    def change_location(my, current_location):
+        behavior = {'css_class': 'clickme', 'type': 'change', 'cbjs_action': '''        
+                        try{
+                               var current_location = '%s';
+                               var new_dir = bvr.src_el.value; 
+                               var top_el = document.getElementById("top_of_file_browser");
+                               dir_list = top_el.getElementById('dir_div');
+                               contents_list = top_el.getElementById('con_div');
+                               spt.api.load_panel(contents_list, 'file_browser.file_browser.FileBrowserDirectoryContents', {'dir': new_dir, 'old_dir': current_location}); 
+                }
+                catch(err){
+                          spt.app_busy.hide();
+                          spt.alert(spt.exception.handler(err));
+                          //alert(err);
+                }
+         ''' % current_location}
+        return behavior
+
+    def onload_js(my):
+        dragger = '''
+        // iMouseDown represents the current mouse button state: up or down
+        /*
+        lMouseState represents the previous mouse button state so that we can
+        check for button clicks and button releases:
+        if(iMouseDown && !lMouseState) // button just clicked!
+        if(!iMouseDown && lMouseState) // button just released!
+        */
+        var mouseOffset = null;
+        var iMouseDown  = false;
+        var lMouseState = false;
+        var dragObject  = null;
+        // Demo 0 variables
+        var DragDrops   = [];
+        var curTarget   = null;
+        var lastTarget  = null;
+        var dragHelper  = null;
+        var tempDiv     = null;
+        var rootParent  = null;
+        var rootSibling = null;
+        Number.prototype.NaN0=function(){return isNaN(this)?0:this;}
+        function CreateDragContainer(){
+                /*
+                Create a new "Container Instance" so that items from one "Set" can not
+                be dragged into items from another "Set"
+                */
+                var cDrag        = DragDrops.length;
+                alert('cDrag = ' + cDrag);
+                DragDrops[cDrag] = [];
+                /*
+                Each item passed to this function should be a "container".  Store each
+                of these items in our current container
+                */
+                arguments = arguments[0];
+                for(var i=0; i<arguments.length; i++){
+                        var cObj = arguments[i];
+                        DragDrops[cDrag].push(cObj);
+                        cObj.setAttribute('DropObj', cDrag);
+                        /*
+                        Every top level item in these containers should be draggable.  Do this
+                        by setting the DragObj attribute on each item and then later checking
+                        this attribute in the mouseMove function
+                        */
+                        for(var j=0; j<cObj.childNodes.length; j++){
+                                // Firefox puts in lots of #text nodes...skip these
+                                if(cObj.childNodes[j].nodeName=='#text') continue;
+                                cObj.childNodes[j].setAttribute('DragObj', cDrag);
+                        }
+                }
+        }
+        function mouseMove(ev){
+                ev         = ev || window.event;
+                /*
+                We are setting target to whatever item the mouse is currently on
+                Firefox uses event.target here, MSIE uses event.srcElement
+                */
+                var target   = ev.target || ev.srcElement;
+                var mousePos = mouseCoords(ev);
+                // mouseOut event - fires if the item the mouse is on has changed
+                if(lastTarget && (target!==lastTarget)){
+                        // reset the classname for the target element
+                        var origClass = lastTarget.getAttribute('origClass');
+                        if(origClass) lastTarget.className = origClass;
+                }
+                /*
+                dragObj is the grouping our item is in (set from the createDragContainer function).
+                if the item is not in a grouping we ignore it since it can't be dragged with this
+                script.
+                */
+                var dragObj = target.getAttribute('DragObj');
+                 // if the mouse was moved over an element that is draggable
+                if(dragObj!=null){
+                        // mouseOver event - Change the item's class if necessary
+                        if(target!=lastTarget){
+                                var oClass = target.getAttribute('overClass');
+                                if(oClass){
+                                        target.setAttribute('origClass', target.className);
+                                        target.className = oClass;
+                                }
+                        }
+                        // if the user is just starting to drag the element
+                        if(iMouseDown && !lMouseState){
+                                // mouseDown target
+                                curTarget     = target;
+                                // Record the mouse x and y offset for the element
+                                rootParent    = curTarget.parentNode;
+                                rootSibling   = curTarget.nextSibling;
+                                mouseOffset   = getMouseOffset(target, ev);
+                                // We remove anything that is in our dragHelper DIV so we can put a new item in it.
+                                for(var i=0; i<dragHelper.childNodes.length; i++) dragHelper.removeChild(dragHelper.childNodes[i]);
+                                // Make a copy of the current item and put it in our drag helper.
+                                dragHelper.appendChild(curTarget.cloneNode(true));
+                                dragHelper.style.display = 'block';
+                                // set the class on our helper DIV if necessary
+                                var dragClass = curTarget.getAttribute('dragClass');
+                                if(dragClass){
+                                        dragHelper.firstChild.className = dragClass;
+                                }
+                                // disable dragging from our helper DIV (it's already being dragged)
+                                dragHelper.firstChild.removeAttribute('DragObj');
+                                /*
+                                Record the current position of all drag/drop targets related
+                                to the element.  We do this here so that we do not have to do
+                                it on the general mouse move event which fires when the mouse
+                                moves even 1 pixel.  If we don't do this here the script
+                                would run much slower.
+                                */
+                                var dragConts = DragDrops[dragObj];
+                                /*
+                                first record the width/height of our drag item.  Then hide it since
+                                it is going to (potentially) be moved out of its parent.
+                                */
+                                curTarget.setAttribute('startWidth',  parseInt(curTarget.offsetWidth));
+                                curTarget.setAttribute('startHeight', parseInt(curTarget.offsetHeight));
+                                curTarget.style.display  = 'none';
+                                // loop through each possible drop container
+                                for(var i=0; i<dragConts.length; i++){
+                                        with(dragConts[i]){
+                                                var pos = getPosition(dragConts[i]);
+                                                /*
+                                                save the width, height and position of each container.
+                                                Even though we are saving the width and height of each
+                                                container back to the container this is much faster because
+                                                we are saving the number and do not have to run through
+                                                any calculations again.  Also, offsetHeight and offsetWidth
+                                                are both fairly slow.  You would never normally notice any
+                                                performance hit from these two functions but our code is
+                                                going to be running hundreds of times each second so every
+                                                little bit helps!
+                                                Note that the biggest performance gain here, by far, comes
+                                                from not having to run through the getPosition function
+                                                hundreds of times.
+                                                */
+                                                setAttribute('startWidth',  parseInt(offsetWidth));
+                                                setAttribute('startHeight', parseInt(offsetHeight));
+                                                setAttribute('startLeft',   pos.x);
+                                                setAttribute('startTop',    pos.y);
+                                        }
+                                        // loop through each child element of each container
+                                        for(var j=0; j<dragConts[i].childNodes.length; j++){
+                                                with(dragConts[i].childNodes[j]){
+                                                        if((nodeName=='#text') || (dragConts[i].childNodes[j]==curTarget)) continue;
+                                                        var pos = getPosition(dragConts[i].childNodes[j]);
+                                                        // save the width, height and position of each element
+                                                        setAttribute('startWidth',  parseInt(offsetWidth));
+                                                        setAttribute('startHeight', parseInt(offsetHeight));
+                                                        setAttribute('startLeft',   pos.x);
+                                                        setAttribute('startTop',    pos.y);
+                                                }
+                                        }
+                                }
+                        }
+                }
+                // If we get in here we are dragging something
+                if(curTarget){
+                        // move our helper div to wherever the mouse is (adjusted by mouseOffset)
+                        dragHelper.style.top  = mousePos.y - mouseOffset.y;
+                        dragHelper.style.left = mousePos.x - mouseOffset.x;
+                        var dragConts  = DragDrops[curTarget.getAttribute('DragObj')];
+                        var activeCont = null;
+                        var xPos = mousePos.x - mouseOffset.x + (parseInt(curTarget.getAttribute('startWidth')) /2);
+                        var yPos = mousePos.y - mouseOffset.y + (parseInt(curTarget.getAttribute('startHeight'))/2);
+                        // check each drop container to see if our target object is "inside" the container
+                        for(var i=0; i<dragConts.length; i++){
+                                with(dragConts[i]){
+                                        if(((getAttribute('startLeft'))                               < xPos) &&
+                                                ((getAttribute('startTop'))                                < yPos) &&
+                                                ((getAttribute('startLeft') + getAttribute('startWidth'))  > xPos) &&
+                                                ((getAttribute('startTop')  + getAttribute('startHeight')) > yPos)){
+                                                        /*
+                                                        our target is inside of our container so save the container into
+                                                        the activeCont variable and then exit the loop since we no longer
+                                                        need to check the rest of the containers
+                                                        */
+                                                        activeCont = dragConts[i];
+                                                        // exit the for loop
+                                                        break;
+                                        }
+                                }
+                        }
+                        // Our target object is in one of our containers.  Check to see where our div belongs
+                        if(activeCont){
+                                // beforeNode will hold the first node AFTER where our div belongs
+                                var beforeNode = null;
+                                // loop through each child node (skipping text nodes).
+                                for(var i=activeCont.childNodes.length-1; i>=0; i--){
+                                        with(activeCont.childNodes[i]){
+                                                if(nodeName=='#text') continue;
+                                                // if the current item is "After" the item being dragged
+                                                if(
+                                                        curTarget != activeCont.childNodes[i]                              &&
+                                                        ((getAttribute('startLeft') + getAttribute('startWidth'))  > xPos) &&
+                                                        ((getAttribute('startTop')  + getAttribute('startHeight')) > yPos)){
+                                                                beforeNode = activeCont.childNodes[i];
+                                                }
+                                        }
+                                }
+                                // the item being dragged belongs before another item
+                                if(beforeNode){
+                                        if(beforeNode!=curTarget.nextSibling){
+                                                activeCont.insertBefore(curTarget, beforeNode);
+                                        }
+                                // the item being dragged belongs at the end of the current container
+                                } else {
+                                        if((curTarget.nextSibling) || (curTarget.parentNode!=activeCont)){
+                                                activeCont.appendChild(curTarget);
+                                        }
+                                }
+                                // make our drag item visible
+                                if(curTarget.style.display!=''){
+                                        curTarget.style.display  = '';
+                                }
+                        } else {
+                                // our drag item is not in a container, so hide it.
+                                if(curTarget.style.display!='none'){
+                                        curTarget.style.display  = 'none';
+                                }
+                        }
+                }
+                // track the current mouse state so we can compare against it next time
+                lMouseState = iMouseDown;
+                // mouseMove target
+                lastTarget  = target;
+                // track the current mouse state so we can compare against it next time
+                lMouseState = iMouseDown;
+                // this helps prevent items on the page from being highlighted while dragging
+                return false;
+        }
+        function mouseUp(ev){
+                if(curTarget){
+                        // hide our helper object - it is no longer needed
+                        dragHelper.style.display = 'none';
+                        // if the drag item is invisible put it back where it was before moving it
+                        if(curTarget.style.display == 'none'){
+                                if(rootSibling){
+                                        rootParent.insertBefore(curTarget, rootSibling);
+                                } else {
+                                        rootParent.appendChild(curTarget);
+                                }
+                        }
+                        // make sure the drag item is visible
+                        curTarget.style.display = '';
+                }
+                curTarget  = null;
+                iMouseDown = false;
+        }
+        function mouseDown(){
+                iMouseDown = true;
+                if(lastTarget){
+                        return false;
+                }
+        }
+        document.onmousemove = mouseMove;
+        document.onmousedown = mouseDown;
+        document.onmouseup   = mouseUp;
+        '''
+        behavior = {'css_class': 'clickme', 'type': 'load', 'cbjs_action': '''        
+                %s
+                try{
+                        dragHelper = document.createElement('DIV');
+                        dragHelper.style.cssText = 'position:absolute;display:none;';
+                        CreateDragContainer(
+		            document.getElementById('DragContainer1'),
+		            document.getElementById('DragContainer2')
+                        );
+                        document.body.appendChild(dragHelper);
+                }
+                catch(err){
+                          spt.app_busy.hide();
+                          spt.alert(spt.exception.handler(err));
+                          //alert(err);
+                }
+         ''' % dragger}
+        return behavior
+    
+    
+ 
+    def convertSize(my, size, type):
+       if size not in [0,'0','',None]:
+           size_name = ("KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB")
+           if type == 'file':
+               size_name = ("B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB")
+           i = int(math.floor(math.log(size,1024)))
+           p = math.pow(1024,i)
+           s = round(size/p,2)
+           if (s > 0):
+               return '%s %s' % (s,size_name[i])
+           else:
+               return '0 B'
+       else:
+           return '0 B'
+
+    def normalize_size(my, size_str):
+        return size_str.replace('K',' KB').replace('M',' MB').replace('G',' GB').replace('T',' TB').replace('P',' PB')
+
+    def get_display(my):   
+        widget = DivWdg()
+        #widget.add_behavior(my.onload_js())
+        if 'dir' in my.kwargs.keys():
+            my.dir = my.kwargs.get('dir')
+        if 'old_dir' in my.kwargs.keys():
+            my.old_dir = my.kwargs.get('old_dir')
+        else:
+            my.old_dir = my.dir
+        print "DIR = %s, OLD DIR = %s" % (my.dir, my.old_dir)
+        err_msg = ''
+        if not os.path.isdir(my.dir):
+            err_msg = '%s is not a valid directory' % my.dir 
+            my.dir = my.old_dir
+        trimmed_dir = my.dir
+        if trimmed_dir[len(trimmed_dir) - 1] == '/' and len(trimmed_dir) > 1:
+            trimmed_dir = trimmed_dir[:-1]
+        prev_dir_s = trimmed_dir.split('/')
+        prev_dir_s = prev_dir_s[:-1]
+        prev_dir = ''
+        for ct in range(0,len(prev_dir_s)):
+            if prev_dir_s[ct] not in [None,'']:
+                if prev_dir == '':
+                    prev_dir = '/%s' % prev_dir_s[ct]
+                else:   
+                    prev_dir = '%s/%s' % (prev_dir, prev_dir_s[ct])
+        if prev_dir in [None,'','//']:
+            prev_dir = '/'
+        print "PREV DIR = %s" % prev_dir
+        files_list = []
+        dir_list = []
+        files_dict = {}
+        dirs_dict = {}
+        longest_name_len = 0
+        for f in os.listdir(my.dir):
+            joined = join(my.dir,f)
+            if os.path.isfile(joined):
+                files_list.append(joined)
+                last_modified =  datetime.fromtimestamp(os.path.getmtime(joined)).strftime('%Y-%m-%d %H:%M:%S')
+                created =  datetime.fromtimestamp(os.path.getctime(joined)).strftime('%Y-%m-%d %H:%M:%S')
+                size = my.convertSize(os.path.getsize(joined),'file')
+                file_name_s = joined.split('/')
+                file_name = file_name_s[len(file_name_s) - 1]
+                files_dict[joined] = {'last_modified': last_modified, 'created': created, 'size': size, 'name': file_name}
+                if len(file_name) > longest_name_len:
+                    longest_name_len = len(file_name)
+            elif os.path.isdir(joined):
+                dir_list.append(joined)
+                last_modified =  datetime.fromtimestamp(os.path.getmtime(joined)).strftime('%Y-%m-%d %H:%M:%S')
+                created =  datetime.fromtimestamp(os.path.getctime(joined)).strftime('%Y-%m-%d %H:%M:%S')
+                size = 'N/A'
+                #This is to keep us from calculating the size of the huge base directories
+                #Probably want a way to turn directory sizes on and off
+                if joined.count('/') > 3:
+                    prepresize = commands.getoutput('du -s %s' % joined).split()[0]
+                    try:
+                        presize = float(prepresize)
+                        if not math.isnan(presize):
+                            size = my.convertSize(float(presize),'dir')
+                    except ValueError:
+                        print "GOT AN ERROR FOR %s" % joined
+                        pass
+                dir_name_s = joined.split('/')
+                dir_name = dir_name_s[len(dir_name_s) - 1]
+                dirs_dict[joined] = {'size': size, 'created': created, 'last_modified': last_modified, 'name': dir_name}
+                if len(dir_name) > longest_name_len:
+                    longest_name_len = len(dir_name)
+        print "LONGEST NAME LEN = %s" % longest_name_len
+        name_len = longest_name_len * 10
+        top_tbl = Table()
+        if err_msg != '':
+            top_tbl.add_row()
+            top_tbl.add_cell('<b><font color="#FF0000">%s</font></b>' % err_msg)
+        top_tbl.add_row()
+        dir_path_txt = TextWdg('dir_path')
+        dir_path_txt.set_value(my.dir)
+        dir_path_txt.set_option('size','100')
+        dir_path_txt.add_behavior(my.change_location(my.old_dir))
+        top_tbl.add_cell('Location: ')
+        top_tbl.add_cell(dir_path_txt)
+
+        #table = Table()
+        #table.add_row()
+        div = DivWdg()
+        back_tbl = Table()
+        back_dir = back_tbl.add_cell("<-Back...")
+        back_dir.add_attr('dir',prev_dir)
+        back_dir.add_style('cursor: pointer;')
+        back_dir.add_style('width: %spx;' % name_len)
+        back_dir.add_behavior(my.dir_click())
+        #back_tbl.add_cell('&nbsp;&nbsp;&nbsp;')
+        back_size = back_tbl.add_cell('Size')
+        back_size.add_style('width: 100px;')
+        #back_tbl.add_cell('&nbsp;&nbsp;&nbsp;')
+        back_created = back_tbl.add_cell('Created')
+        back_created.add_style('width: 150px;')
+        #back_tbl.add_cell('&nbsp;&nbsp;&nbsp;')
+        back_modified = back_tbl.add_cell('Last Modified')
+        back_modified.add_style('width: 150px;')
+        div.add(back_tbl)
+        content_counter = 0
+        #table.add_row()
+        dir_list.sort()
+        files_list.sort()
+        mult_dirs = DivWdg()
+        mult_dirs.add_attr('class','DragContainer')
+        mult_dirs.add_attr('id','DragContainer1')
+        for dr in dir_list:
+            #table.add_row()
+            tbl = Table()
+            tbl.add_row()
+            dir_name = dirs_dict[dr]['name']
+            FOLDER_ICON = my.folder_icon.replace("TITLE",dir_name)
+            lil_tbl = Table()
+            lil_tbl.add_row()
+            lil_tbl.add_cell(FOLDER_ICON)
+            lil_tbl.add_cell('<b>%s</b>' % dir_name)
+            #lil_cell = table.add_cell(lil_tbl)
+            lil_cell = tbl.add_cell(lil_tbl)
+            lil_cell.add_attr('dir',dr)
+            lil_cell.add_style('cursor: pointer;')
+            lil_cell.add_style('width: %spx;' % name_len)
+            lil_cell.add_behavior(my.dir_click())
+            #table.add_cell('&nbsp;&nbsp;&nbsp;')
+            #tbl.add_cell('&nbsp;&nbsp;&nbsp;')
+            #sc = table.add_cell('<i>%s</i>' % dirs_dict[dr]['size'])
+            sc = tbl.add_cell('<i>%s</i>' % dirs_dict[dr]['size'])
+            sc.add_attr('nowrap','nowrap')
+            sc.add_attr('title','Size of Contents')
+            sc.add_attr('name','Size of Contents')
+            sc.add_style('width: 100px;')
+            #table.add_cell('&nbsp;&nbsp;&nbsp;')
+            #tbl.add_cell('&nbsp;&nbsp;&nbsp;')
+            #cc = table.add_cell(dirs_dict[dr]['created'])
+            cc = tbl.add_cell(dirs_dict[dr]['created'])
+            cc.add_attr('nowrap','nowrap')
+            cc.add_attr('title','Created')
+            cc.add_attr('name','Created')
+            cc.add_style('width: 150px;')
+            #table.add_cell('&nbsp;&nbsp;&nbsp;')
+            #tbl.add_cell('&nbsp;&nbsp;&nbsp;')
+            #mc = table.add_cell(dirs_dict[dr]['last_modified'])
+            mc = tbl.add_cell(dirs_dict[dr]['last_modified'])
+            mc.add_attr('nowrap','nowrap')
+            mc.add_attr('title','Last Modified')
+            mc.add_attr('name','Last Modified')
+            mc.add_style('width: 150px;')
+            div_dir = DivWdg()
+            div_dir.add(tbl)
+            mult_dirs.add(div_dir)
+            content_counter = content_counter + 1
+        div.add(mult_dirs)
+        mult_files = DivWdg()
+        mult_files.add_attr('class','DragContainer')
+        mult_files.add_attr('id','DragContainer2')
+        for fl in files_list:
+            #table.add_row()
+            tbl = Table()
+            tbl.add_row()
+            file_name = files_dict[fl]['name']
+            FILE_ICON = my.file_icon.replace("TITLE",file_name)
+            lil_tbl = Table()
+            lil_tbl.add_row()
+            lil_tbl.add_cell(FILE_ICON)
+            lil_tbl.add_cell('<b>%s</b>' % file_name)
+            #lil_cell = table.add_cell(lil_tbl)
+            lil_cell = tbl.add_cell(lil_tbl)
+            lil_cell.add_attr('file',fl)
+            lil_cell.add_style('cursor: pointer;')
+            lil_cell.add_style('width: %spx;' % name_len)
+            lil_cell.add_behavior(my.file_click())
+            #table.add_cell('&nbsp;&nbsp;&nbsp;')
+            #tbl.add_cell('&nbsp;&nbsp;&nbsp;')
+            #sc = table.add_cell('<i>%s</i>' % files_dict[fl]['size'])
+            sc = tbl.add_cell('<i>%s</i>' % files_dict[fl]['size'])
+            sc.add_attr('nowrap','nowrap')
+            sc.add_attr('title','Size')
+            sc.add_attr('name','Size')
+            sc.add_style('width: 100px;')
+            #table.add_cell('&nbsp;&nbsp;&nbsp;')
+            #tbl.add_cell('&nbsp;&nbsp;&nbsp;')
+            #cc = table.add_cell(files_dict[fl]['created'])
+            cc = tbl.add_cell(files_dict[fl]['created'])
+            cc.add_attr('nowrap','nowrap')
+            cc.add_attr('title','Created')
+            cc.add_attr('name','Created')
+            cc.add_style('width: 150px;')
+            #table.add_cell('&nbsp;&nbsp;&nbsp;')
+            #tbl.add_cell('&nbsp;&nbsp;&nbsp;')
+            #mc = table.add_cell(files_dict[fl]['last_modified'])
+            mc = tbl.add_cell(files_dict[fl]['last_modified'])
+            mc.add_attr('nowrap','nowrap')
+            mc.add_attr('title','Last Modified')
+            mc.add_attr('name','Last Modified')
+            mc.add_style('width: 150px;')
+            div_fl = DivWdg()
+            div_fl.add(tbl)
+            mult_files.add(div_fl)
+            content_counter = content_counter + 1
+        div.add(mult_files)
+        widget.add(top_tbl)
+        #widget.add(table)
+        widget.add(div)
+        return widget 
+#        stupid = DivWdg()
+#        stupid.add_behavior(my.onload_js())
+#        dc1 = DivWdg()
+#        dc1.add_attr('class','DragContainer')
+#        dc1.add_attr('id','DragContainer1')
+#        cct = 1
+#        for ix in range(cct, cct+4):
+#            new_div = DivWdg()
+#            new_div.add_attr('id','Item%s' % ix)
+#            new_div.add_attr('class','DragBox')
+#            new_div.add_attr('overClass','OverDragBox')
+#            new_div.add_attr('dragClass','DragDragBox')
+#            new_div.add('Item #%s' % ix)
+#            dc1.add(new_div)
+#            cct = cct + 1
+#        stupid.add(dc1)
+#        dc2 = DivWdg()
+#        dc2.add_attr('class','DragContainer')
+#        dc2.add_attr('id','DragContainer2')
+#        for ix in range(cct, cct+4):
+#            new_div = DivWdg()
+#            new_div.add_attr('id','Item%s' % ix)
+#            new_div.add_attr('class','DragBox')
+#            new_div.add_attr('overClass','OverDragBox')
+#            new_div.add_attr('dragClass','DragDragBox')
+#            new_div.add('Item #%s' % ix)
+#            dc2.add(new_div)
+#            cct = cct + 1
+#        stupid.add(dc2)
+#        dc3 = DivWdg()
+#        dc3.add_attr('class','DragContainer')
+#        dc3.add_attr('id','DragContainer3')
+#        for ix in range(cct, cct+4):
+#            new_div = DivWdg()
+#            new_div.add_attr('id','Item%s' % ix)
+#            new_div.add_attr('class','DragBox')
+#            new_div.add_attr('overClass','OverDragBox')
+#            new_div.add_attr('dragClass','DragDragBox')
+#            new_div.add('Item #%s' % ix)
+#            dc3.add(new_div)
+#            cct = cct + 1
+#        stupid.add(dc3)
+#        return stupid

@@ -1,0 +1,2 @@
+psql -U postgres sthpw < login_query > login_file
+psql -U postgres sthpw < login_in_group_query > login_in_group_file

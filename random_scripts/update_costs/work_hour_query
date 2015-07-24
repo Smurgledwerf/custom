@@ -1,0 +1,1 @@
+select code, task_code, login, straight_time from work_hour; 

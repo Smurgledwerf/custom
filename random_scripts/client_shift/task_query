@@ -1,0 +1,1 @@
+select code, client_code, client_name, assigned, supervisor, creator_login from task; 

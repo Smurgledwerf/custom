@@ -1,0 +1,1 @@
+update source set in_house = 'True', company_location = '2G DIGITAL' where strat2g_id = '465110';

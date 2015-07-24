@@ -1,0 +1,1 @@
+select code, order_code, status from title where s_status is NULL;

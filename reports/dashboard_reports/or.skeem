@@ -1,0 +1,91 @@
+--
+-- Name: order_report; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE order_report (
+    s_status character varying(256),
+    id integer NOT NULL,
+    day timestamp without time zone,
+    month character varying(256),
+    client_code character varying(256),
+    client_name character varying(256),
+    due_date timestamp without time zone,
+    completion_date timestamp without time zone,
+    month_due_date character varying(256),
+    month_completion_date character varying(256),
+    classification character varying(256),
+    billed character varying(256),
+    platform character varying(256),
+    eq_actual_hours double precision,
+    eq_expected_hours character varying(256),
+    eq_actual_cost double precision,
+    eq_expected_cost double precision,
+    wh_total_hours double precision,
+    wh_billable_hours double precision,
+    wh_estimated_hours double precision,
+    wh_total_cost double precision,
+    wh_billable_cost double precision,
+    wh_estimated_cost double precision,
+    order_codes text,
+    count integer,
+    t_expected_cost double precision,
+    t_actual_cost double precision,
+    price double precision,
+    expected_price double precision,
+    code character varying(256)
+);
+
+
+ALTER TABLE public.order_report OWNER TO postgres;
+
+--
+-- Name: order_report_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE order_report_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.order_report_id_seq OWNER TO postgres;
+
+--
+-- Name: order_report_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE order_report_id_seq OWNED BY order_report.id;
+
+
+--
+-- Name: order_report_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('order_report_id_seq', 1, true);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY order_report ALTER COLUMN id SET DEFAULT nextval('order_report_id_seq'::regclass);
+
+
+--
+-- Data for Name: order_report; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+--
+-- Name: order_report_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY order_report
+    ADD CONSTRAINT order_report_pkey PRIMARY KEY (id);
+
+
+--
+-- PostgreSQL database dump complete
+--
+

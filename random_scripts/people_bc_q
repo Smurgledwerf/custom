@@ -1,0 +1,1 @@
+select barcode from login where location = 'internal' and license_type = 'user' order by barcode;

@@ -1,0 +1,3 @@
+delete from order_report;
+delete from wo_report;
+delete from error_report;

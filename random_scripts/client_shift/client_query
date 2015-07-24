@@ -1,0 +1,1 @@
+select code, name, login from client;

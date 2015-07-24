@@ -1,0 +1,1 @@
+select code, status, order_code, title_code from task where s_status is NULL and lookup_code like 'WORK_ORDER%';

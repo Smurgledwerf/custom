@@ -1,0 +1,3 @@
+psql -U postgres twog < eq_u_query > eq_u_file
+psql -U postgres twog < eq_query > eq_file
+psql -U postgres twog < eq_cost_query > eq_cost_file

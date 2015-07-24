@@ -1,0 +1,1 @@
+select code, s_status, lookup_code from task;

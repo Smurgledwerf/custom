@@ -1,0 +1,5 @@
+psql -U postgres sthpw < note_query > note_file
+psql -U postgres twog < work_order_query > work_order_file
+psql -U postgres twog < proj_query > proj_file
+psql -U postgres twog < title_query > title_file
+psql -U postgres twog < order_query > order_file

@@ -1,0 +1,1 @@
+select code, assigned, status, actual_start_date, actual_end_date, lookup_code, client_code, search_id from task where s_status is NULL;

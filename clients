@@ -1,0 +1,330 @@
+    code     |                        name                        |    country     |   state    |                     city                      |              street_address              | s_status 
+-------------+----------------------------------------------------+----------------+------------+-----------------------------------------------+------------------------------------------+----------
+ CLIENT00286 | 0                                                  |                |            |                                               |                                          | 
+ CLIENT00042 | 20th Century Fox                                   |                |            |                                               |                                          | 
+ CLIENT00122 | 20th Century Television                            |                |            |                                               |                                          | 
+ CLIENT00279 | 2G Digital In House                                |                |            |                                               |                                          | 
+ CLIENT00074 | 2G Digital Post                                    | United States  | California | Burbank                                       |                                          | 
+ CLIENT00089 | 50+1                                               |                |            |                                               |                                          | 
+ CLIENT00090 | 5SM Productions                                    |                |            |                                               |                                          | 
+ CLIENT00028 | A and E                                            |                |            |                                               |                                          | 
+ CLIENT00054 | ABC                                                |                |            |                                               |                                          | 
+ CLIENT00091 | Abe Froman Productions                             |                |            |                                               |                                          | 
+ CLIENT00325 | ACME                                               | United States  | California |                                               |                                          | 
+ CLIENT00092 | Alta Vista Films                                   |                |            |                                               |                                          | 
+ CLIENT00093 | Amblin Entertainment                               |                |            |                                               |                                          | 
+ CLIENT00094 | AMC Entertainment                                  |                |            |                                               |                                          | 
+ CLIENT00337 | Americatown, LLC                                   |                |            |                                               |                                          | 
+ CLIENT00095 | Anchor Bay Entertainment                           |                |            |                                               |                                          | 
+ CLIENT00060 | APA Online                                         |                |            |                                               |                                          | 
+ CLIENT00022 | Apple                                              |                |            |                                               |                                          | 
+ CLIENT00291 | ARTE France Unite cinema                           | France         |            | paris                                         | 8 rue Marceau                            | 
+ CLIENT00096 | Artisan Entertainment                              |                |            |                                               |                                          | 
+ CLIENT00055 | Ascent                                             |                |            |                                               |                                          | 
+ CLIENT00327 | Atlas Digital                                      |                |            |                                               |                                          | 
+ CLIENT00326 | Atlas Digital                                      |                |            |                                               |                                          | 
+ CLIENT00304 | Atlas Distribution                                 |                |            |                                               |                                          | 
+ CLIENT00312 | Atlas Distribution Company                         | United States  | New Jersey | Haddonfield                                   | 56 N. Haddon Ave                         | 
+ CLIENT00341 | Babcock Media Services                             | United Kingdom |            | LONDON                                        | 10 Wyvil Road                            | 
+ CLIENT00097 | Backwash                                           |                |            |                                               |                                          | 
+ CLIENT00081 | Baker Productions LLC                              |                | California |                                               |                                          | 
+ CLIENT00098 | Bandai Features                                    |                |            |                                               |                                          | 
+ CLIENT00099 | Barnholtz Entertainment                            |                |            |                                               |                                          | 
+ CLIENT00339 | Barry Nulman                                       |                |            |                                               |                                          | 
+ CLIENT00039 | Base Productions                                   |                |            |                                               |                                          | 
+ CLIENT00100 | Bay Films                                          |                |            |                                               |                                          | 
+ CLIENT00101 | Baywatch Productions                               |                |            |                                               |                                          | 
+ CLIENT00102 | Beezer Productions                                 |                |            |                                               |                                          | 
+ CLIENT00344 | Bell TV                                            | Canada         |            | Toronto, Ontario M3B 2R2                      | 115 Scarsdale Road                       | 
+ CLIENT00103 | BET                                                |                |            |                                               |                                          | 
+ CLIENT00104 | Big Air Studios                                    |                |            |                                               |                                          | 
+ CLIENT00105 | Big Science Film, Inc.                             |                |            |                                               |                                          | 
+ CLIENT00106 | Bismark Productions                                |                |            |                                               |                                          | 
+ CLIENT00107 | Blind Decker Productions                           |                |            |                                               |                                          | 
+ CLIENT00343 | Blue River Production                              |                |            |                                               |                                          | 
+ CLIENT00340 | Bonded                                             |                |            |                                               |                                          | 
+ CLIENT00335 | Bonded                                             |                |            |                                               |                                          | 
+ CLIENT00108 | BooGoooBantan                                      |                |            |                                               |                                          | 
+ CLIENT00057 | Buena Vista International                          |                |            |                                               |                                          | 
+ CLIENT00109 | Bullseye Productions                               |                |            |                                               |                                          | 
+ CLIENT00281 | Cablevision                                        |                |            |                                               |                                          | 
+ CLIENT00110 | Canana Films                                       |                |            |                                               |                                          | 
+ CLIENT00111 | Canvas Pictures LLC                                |                |            |                                               |                                          | 
+ CLIENT00112 | Caption Max Features                               |                |            |                                               |                                          | 
+ CLIENT00113 | Captive Entertainment                              |                |            |                                               |                                          | 
+ CLIENT00293 | Carrie Donmoyer                                    | United States  | California |                                               |                                          | 
+ CLIENT00114 | Carsey-Warner                                      |                |            |                                               |                                          | 
+ CLIENT00294 | Chris Kern                                         |                |            |                                               |                                          | 
+ CLIENT00115 | Cine Magnetics                                     |                |            |                                               |                                          | 
+ CLIENT00315 | Cinema Libre Studios                               | United States  | California | Hollywood                                     | 6634 W. Sunset Blvd                      | 
+ CLIENT00116 | CO3                                                |                |            |                                               |                                          | 
+ CLIENT00342 | Cohen Media Group                                  |                |            |                                               |                                          | 
+ CLIENT00117 | Columbia Pictures                                  |                |            |                                               |                                          | 
+ CLIENT00118 | Comedy Central                                     |                |            |                                               |                                          | 
+ CLIENT00119 | Consolidated Hierarchies                           |                |            |                                               |                                          | 
+ CLIENT00080 | Constante Cabunoc                                  | United States  | California | Century City                                  | 2121 Avenue of the Stars                 | 
+ CLIENT00276 | Corazon Pictures                                   | United States  | California | Whittier                                      | 9439 Bona Vista Lane                     | 
+ CLIENT00120 | Crash Productions, LLC                             |                |            |                                               |                                          | 
+ CLIENT00285 | Crest Animation                                    |                | California |                                               |                                          | 
+ CLIENT00088 | Crosscreek Entertainment                           |                |            |                                               |                                          | 
+ CLIENT00290 | Daniele Nero                                       |                |            |                                               |                                          | 
+ CLIENT00289 | Daniele Nero                                       |                |            |                                               |                                          | 
+ CLIENT00063 | Daniel Englehardt                                  |                |            |                                               |                                          | 
+ CLIENT00121 | Dark Harbor                                        |                |            |                                               |                                          | 
+ CLIENT00123 | Decoupage Productions                              |                |            |                                               |                                          | 
+ CLIENT00124 | Dej Productions                                    |                |            |                                               |                                          | 
+ CLIENT00052 | Deluxe                                             |                |            |                                               |                                          | 
+ CLIENT00125 | Digital 2 Visual                                   |                |            |                                               |                                          | 
+ CLIENT00126 | Dimension Films                                    |                |            |                                               |                                          | 
+ CLIENT00073 | DirecTV                                            |                |            |                                               |                                          | 
+ CLIENT00127 | Discovery                                          |                |            |                                               |                                          | 
+ CLIENT00307 | Discovery Corporate Services Limited               | United Kingdom |            | London                                        | Chiswick Park Building 2                 | 
+ CLIENT00032 | Disney                                             |                |            |                                               |                                          | 
+ CLIENT00086 | Disney                                             |                |            |                                               |                                          | 
+ CLIENT00292 | DMS Production Services, Inc.                      |                |            |                                               |                                          | 
+ CLIENT00128 | Double Image Productions                           |                |            |                                               |                                          | 
+ CLIENT00075 | DreamWorks                                         | United States  | California |                                               |                                          | 
+ CLIENT00311 | DreamWorks Animation                               | United States  | California | Glendale                                      | 1000 Flower Street                       | 
+ CLIENT00129 | DreamWorks-Paramount                               |                |            |                                               |                                          | 
+ CLIENT00225 | DreamWorks-Paramount                               |                |            |                                               |                                          | 
+ CLIENT00130 | DRGM Advertising                                   |                |            |                                               |                                          | 
+ CLIENT00131 | Earthship Productions                              |                |            |                                               |                                          | 
+ CLIENT00132 | Echo Entertainment                                 |                |            |                                               |                                          | 
+ CLIENT00072 | Echostar                                           |                |            |                                               |                                          | 
+ CLIENT00133 | Edwards-Edmiston                                   |                |            |                                               |                                          | 
+ CLIENT00056 | Efilm                                              |                |            |                                               |                                          | 
+ CLIENT00302 | Elite Media                                        | United States  | California | Burbank                                       | 639 S. Glenwood Place                    | 
+ CLIENT00078 | Empire Distribution                                |                |            |                                               |                                          | 
+ CLIENT00077 | Entertainment One                                  |                |            |                                               |                                          | 
+ CLIENT00059 | ESPN                                               |                |            |                                               |                                          | 
+ CLIENT00134 | Evolution Film and Tape, Inc                       |                |            |                                               |                                          | 
+ CLIENT00135 | Extreme Music                                      |                |            |                                               |                                          | 
+ CLIENT00136 | Fabrication Films                                  |                |            |                                               |                                          | 
+ CLIENT00137 | Ferrari Club of America                            |                |            |                                               |                                          | 
+ CLIENT00138 | Fifty Plus One                                     |                |            |                                               |                                          | 
+ CLIENT00345 | Films Seville Inc une filiale de Entertainment One |                |            |                                               |                                          | 
+ CLIENT00139 | First Look Studios                                 |                |            |                                               |                                          | 
+ CLIENT00140 | Fischer Productions                                |                |            |                                               |                                          | 
+ CLIENT00141 | Fitvid Productions                                 |                |            |                                               |                                          | 
+ CLIENT00142 | Five Star Video                                    |                |            |                                               |                                          | 
+ CLIENT00068 | Forta                                              |                |            |                                               |                                          | 
+ CLIENT00143 | Fotissimo Film Sales VOF                           |                |            |                                               |                                          | 
+ CLIENT00044 | Fotokem                                            |                |            |                                               |                                          | 
+ CLIENT00043 | Fox Latin America                                  |                |            |                                               |                                          | 
+ CLIENT00144 | Fox Searchlight Pictures                           |                |            |                                               |                                          | 
+ CLIENT00310 | Fox Sports                                         |                |            |                                               |                                          | 
+ CLIENT00317 | Foxtel Broadcast Centre                            | Australia      |            | North Ryde                                    | 5 Thomas Hold Drive                      | 
+ CLIENT00145 | Frankenstein Brothers                              |                |            |                                               |                                          | 
+ CLIENT00047 | Fremantle                                          |                |            |                                               |                                          | 
+ CLIENT00146 | Freund and Brackey LLP                             |                |            |                                               |                                          | 
+ CLIENT00147 | Fuel TV                                            |                |            |                                               |                                          | 
+ CLIENT00018 | FX                                                 |                |            |                                               |                                          | 
+ CLIENT00084 | Geoff DeHaven                                      |                |            |                                               |                                          | 
+ CLIENT00085 | Geoff DeHaven                                      |                |            |                                               |                                          | 
+ CLIENT00296 | Globo Comunicacao e Participacoes S.A.             | Brazil         |            | RIO DE JANEIRO                                | RUA LOPES QUINTAS 303 6º ANDAR           | 
+ CLIENT00148 | Gold Circle Films                                  |                |            |                                               |                                          | 
+ CLIENT00149 | Gray Matter Media                                  |                |            |                                               |                                          | 
+ CLIENT00319 | GRB Entertainment                                  | United States  | California |                                               |                                          | 
+ CLIENT00150 | Grindstone Media                                   |                |            |                                               |                                          | 
+ CLIENT00152 | Groovpix                                           |                |            |                                               |                                          | 
+ CLIENT00338 | GULF FILM                                          |                |            |                                               |                                          | 
+ CLIENT00151 | Hallmark Entertainment                             |                |            |                                               |                                          | 
+ CLIENT00153 | Harvey Entertainment                               |                |            |                                               |                                          | 
+ CLIENT00154 | Hernandes Lobo                                     |                |            |                                               |                                          | 
+ CLIENT00155 | Herring Broadcasting, Inc                          |                |            |                                               |                                          | 
+ CLIENT00156 | Highway Entertainment                              |                |            |                                               |                                          | 
+ CLIENT00157 | Hollystell                                         |                |            |                                               |                                          | 
+ CLIENT00158 | Hollywood Company                                  |                |            |                                               |                                          | 
+ CLIENT00159 | Hometown Glory                                     |                |            |                                               |                                          | 
+ CLIENT00160 | Horse Pictures                                     |                |            |                                               |                                          | 
+ CLIENT00161 | Hot In Hollywood                                   |                |            |                                               |                                          | 
+ CLIENT00162 | HPA                                                |                |            |                                               |                                          | 
+ CLIENT00316 | Hulu                                               | United States  | California | Santa Monica                                  | 2500 Broadway, Fl 2                      | 
+ CLIENT00299 | Illuminate Post-Production                         | United States  | California | Hollywood                                     | 3575 Cahuenga Blvd                       | 
+ CLIENT00163 | Image Entertainment                                |                |            |                                               |                                          | 
+ CLIENT00164 | Image Trends Inc                                   |                |            |                                               |                                          | 
+ CLIENT00165 | IMAX                                               |                |            |                                               |                                          | 
+ CLIENT00166 | INCUE                                              |                |            |                                               |                                          | 
+ CLIENT00082 | Indomina                                           | United States  | California |                                               |                                          | 
+ CLIENT00167 | Inflight Productions                               |                |            |                                               |                                          | 
+ CLIENT00168 | Inside Films, LLC                                  |                |            |                                               |                                          | 
+ CLIENT00169 | Interact                                           |                |            |                                               |                                          | 
+ CLIENT00348 | IPA                                                |                | California | Burbank                                       | 1622 W Oak St                            | 
+ CLIENT00349 | Iron Mountain                                      |                |            |                                               |                                          | 
+ CLIENT00350 | Iron Mountain                                      |                |            |                                               |                                          | 
+ CLIENT00170 | Island Film Group                                  |                |            |                                               |                                          | 
+ CLIENT00171 | Islandog Productions                               |                |            |                                               |                                          | 
+ CLIENT00172 | Italian Mono Comp                                  |                |            |                                               |                                          | 
+ CLIENT00173 | iTunes                                             |                |            |                                               |                                          | 
+ CLIENT00174 | IVC                                                |                |            |                                               |                                          | 
+ CLIENT00175 | iWeb Solutions                                     |                |            |                                               |                                          | 
+ CLIENT00177 | Jack High Productions                              |                |            |                                               |                                          | 
+ CLIENT00236 | Jack High Productions                              |                |            |                                               |                                          | 
+ CLIENT00275 | Jacqui Frost                                       | United States  | California | Fullerton                                     | Cal State Fullerton                      | 
+ CLIENT00178 | Japan Airlines                                     |                |            |                                               |                                          | 
+ CLIENT00041 | JetBlue                                            |                |            |                                               |                                          | 
+ CLIENT00179 | Jetstream Pictures                                 |                |            |                                               |                                          | 
+ CLIENT00308 | Jonathan Dragul                                    | United States  | California | Woodland Hills                                | 20640 Martinez St.                       | 
+ CLIENT00176 | J W Two                                            |                |            |                                               |                                          | 
+ CLIENT00180 | Kando                                              |                |            |                                               |                                          | 
+ CLIENT00181 | Kandu Entertainment                                |                |            |                                               |                                          | 
+ CLIENT00182 | Kingston KVR                                       |                |            |                                               |                                          | 
+ CLIENT00183 | KLIC Video Productions, Inc.                       |                |            |                                               |                                          | 
+ CLIENT00330 | Kyle Hasday                                        |                |            |                                               |                                          | 
+ CLIENT00332 | Kyle Hasday                                        |                |            |                                               |                                          | 
+ CLIENT00184 | Lakeshore International                            |                |            |                                               |                                          | 
+ CLIENT00278 | Laura Duncan                                       |                |            |                                               |                                          | 
+ CLIENT00185 | Left                                               |                |            |                                               |                                          | 
+ CLIENT00186 | Lenz Entertainment                                 |                |            |                                               |                                          | 
+ CLIENT00187 | LGE                                                |                |            |                                               |                                          | 
+ CLIENT00188 | Liberation                                         |                |            |                                               |                                          | 
+ CLIENT00189 | Lift Productions, LLC                              |                |            |                                               |                                          | 
+ CLIENT00190 | Lighting Entertainment                             |                |            |                                               |                                          | 
+ CLIENT00305 | Light Iron                                         | United States  | California | Hollywood                                     | 6381 DeLongpre Ave                       | 
+ CLIENT00191 | Lightning Media                                    |                |            |                                               |                                          | 
+ CLIENT00019 | Lionsgate                                          |                |            |                                               |                                          | 
+ CLIENT00037 | Lit Post                                           |                |            |                                               |                                          | 
+ CLIENT00283 | Liz Flush                                          |                |            |                                               |                                          | 
+ CLIENT00192 | Lobster Films                                      |                |            |                                               |                                          | 
+ CLIENT00273 | Luga Podesta                                       | United States  | California | Marina Del Rey, 90292                         | 1046 Princeton Dr.                       | 
+ CLIENT00193 | Magno International                                |                |            |                                               |                                          | 
+ CLIENT00194 | Mainframe Entertainment                            |                |            |                                               |                                          | 
+ CLIENT00195 | Mainline Releasing                                 |                |            |                                               |                                          | 
+ CLIENT00196 | Malaco                                             |                |            |                                               |                                          | 
+ CLIENT00197 | Malcolm Sim                                        |                |            |                                               |                                          | 
+ CLIENT00198 | Marvel Entertainment                               |                |            |                                               |                                          | 
+ CLIENT00034 | Mar Vista                                          |                |            |                                               |                                          | 
+ CLIENT00033 | Max Post                                           |                |            |                                               |                                          | 
+ CLIENT00200 | Max Q                                              |                |            |                                               |                                          | 
+ CLIENT00201 | Maze Films                                         |                |            |                                               |                                          | 
+ CLIENT00202 | Media 8 Entertainment                              |                |            |                                               |                                          | 
+ CLIENT00203 | Meet the Mothers                                   |                |            |                                               |                                          | 
+ CLIENT00204 | MGM Studios                                        |                |            |                                               |                                          | 
+ CLIENT00205 | Miramax                                            |                |            |                                               |                                          | 
+ CLIENT00206 | Miramax-Disney                                     |                |            |                                               |                                          | 
+ CLIENT00207 | Mitsubishi                                         |                |            |                                               |                                          | 
+ CLIENT00313 | MiTu                                               | United States  | California | Culver City                                   | 3535 Hayden Avenue | Suite 330 90232     | 
+ CLIENT00029 | MLB                                                |                |            |                                               |                                          | 
+ CLIENT00050 | Modern Video Film                                  |                |            |                                               |                                          | 
+ CLIENT00208 | Montgomery and Co                                  |                |            |                                               |                                          | 
+ CLIENT00209 | Moonburn Productions                               |                |            |                                               |                                          | 
+ CLIENT00210 | Morgan Nicols                                      |                |            |                                               |                                          | 
+ CLIENT00211 | MPAA                                               |                |            |                                               |                                          | 
+ CLIENT00333 | M Pictures Co.                                     | Thailand       |            | Ratchadapisek Rd., Ladyao, Jatuchak, Bangkok  | 234 Suzuki AvenueBuilding (Ratchayothin) | 
+ CLIENT00212 | MTV Networks                                       |                |            |                                               |                                          | 
+ CLIENT00303 | Multimusic, S.A. de C.V.                           | Mexico         |            | Col. America                                  | Constituyentes 411                       | 
+ CLIENT00213 | Music Video Distributors                           |                |            |                                               |                                          | 
+ CLIENT00214 | Mustang Pictures                                   |                |            |                                               |                                          | 
+ CLIENT00215 | Myriad Pictures                                    |                |            |                                               |                                          | 
+ CLIENT00274 | Natalie Zamudio                                    |                |            |                                               |                                          | 
+ CLIENT00216 | National Forensic League                           |                |            |                                               |                                          | 
+ CLIENT00217 | National Geographic Channel                        |                |            |                                               |                                          | 
+ CLIENT00218 | NBC-Universal                                      |                |            |                                               |                                          | 
+ CLIENT00066 | Neoclassic Film                                    |                |            |                                               |                                          | 
+ CLIENT00219 | Netflix                                            |                |            |                                               |                                          | 
+ CLIENT00297 | New Life Foundation                                |                |            |                                               |                                          | 
+ CLIENT00295 | New Life Foundation                                |                |            |                                               |                                          | 
+ CLIENT00220 | New Line Cinema                                    |                |            |                                               |                                          | 
+ CLIENT00221 | Nickelodeon                                        |                |            |                                               |                                          | 
+ CLIENT00087 | No Client Code                                     |                |            |                                               |                                          | 
+ CLIENT00222 | North Fork Films                                   |                |            |                                               |                                          | 
+ CLIENT00351 | Odd Machine                                        |                |            |                                               |                                          | 
+ CLIENT00318 | Odd Machine                                        |                |            |                                               |                                          | 
+ CLIENT00298 | ONE-K STUDIOS                                      | United States  | California | BURBANK                                       | 3400 WEST OLIVE                          | 
+ CLIENT00282 | On-Line Copy Corp                                  |                |            |                                               |                                          | 
+ CLIENT00223 | Overture Films                                     |                |            |                                               |                                          | 
+ CLIENT00309 | Pacific Avenue Warehouse                           | United States  | California | Burbank                                       | 3300 Pacific Ave                         | 
+ CLIENT00323 | Pacific Title Archives                             |                |            |                                               |                                          | 
+ CLIENT00320 | Pacific Title Archives                             | United States  | California | North Hollywood                               | 10717 Vanowen Street                     | 
+ CLIENT00224 | Panasonic                                          |                |            |                                               |                                          | 
+ CLIENT00035 | Paramount                                          |                |            |                                               |                                          | 
+ CLIENT00069 | Paramount Comedy - Spain                           |                |            |                                               |                                          | 
+ CLIENT00226 | Pearson Intenational TV                            |                |            |                                               |                                          | 
+ CLIENT00280 | Perky Pickle                                       |                |            |                                               |                                          | 
+ CLIENT00227 | Plastic Pictures                                   |                |            |                                               |                                          | 
+ CLIENT00228 | Plinyminor                                         |                |            |                                               |                                          | 
+ CLIENT00049 | Point 360                                          |                |            |                                               |                                          | 
+ CLIENT00229 | Pokemon USA                                        |                |            |                                               |                                          | 
+ CLIENT00336 | POLAR STAR S.A.                                    | Argentina      |            | Buenos Aires                                  |                                          | 
+ CLIENT00230 | Post Modern                                        |                |            |                                               |                                          | 
+ CLIENT00231 | Power TV                                           |                |            |                                               |                                          | 
+ CLIENT00232 | Precision Post                                     |                |            |                                               |                                          | 
+ CLIENT00233 | QRS Software                                       |                |            |                                               |                                          | 
+ CLIENT00031 | Quality Films                                      |                |            |                                               |                                          | 
+ CLIENT00234 | Ratio Pictures                                     |                |            |                                               |                                          | 
+ CLIENT00235 | RCA Music Group                                    |                |            |                                               |                                          | 
+ CLIENT00321 | Red Compass Media                                  | United States  | California |                                               |                                          | 
+ CLIENT00324 | Red Zone Post                                      | United States  | California | Los Angeles                                   | 5657 Wilshihre Blvd.                     | 
+ CLIENT00328 | Relativity Media                                   | United States  | California |                                               |                                          | 
+ CLIENT00254 | Revolution Studios                                 |                |            |                                               |                                          | 
+ CLIENT00199 | Rich Entertainment                                 |                |            |                                               |                                          | 
+ CLIENT00238 | Saban Brands                                       |                |            |                                               |                                          | 
+ CLIENT00239 | Sam Hurwitz Productions                            |                |            |                                               |                                          | 
+ CLIENT00006 | Samsung                                            |                |            |                                               |                                          | 
+ CLIENT00079 | Santa Monica Video                                 |                |            |                                               |                                          | 
+ CLIENT00240 | Scholastic Entertainment                           |                |            |                                               |                                          | 
+ CLIENT00241 | Scott Sternburg Productions                        |                |            |                                               |                                          | 
+ CLIENT00242 | Screen Media Films                                 |                |            |                                               |                                          | 
+ CLIENT00061 | Scripps Network                                    |                |            |                                               |                                          | 
+ CLIENT00083 | SDI Media                                          |                |            |                                               |                                          | 
+ CLIENT00076 | Seville                                            |                |            |                                               |                                          | 
+ CLIENT00243 | SGI-USA                                            |                |            |                                               |                                          | 
+ CLIENT00058 | Shout Factory                                      |                |            |                                               |                                          | 
+ CLIENT00064 | Showtime Networks                                  |                |            |                                               |                                          | 
+ CLIENT00244 | Sic Lyric Production                               |                |            |                                               |                                          | 
+ CLIENT00245 | Singular Pictures, LLC                             |                |            |                                               |                                          | 
+ CLIENT00287 | Siren Digital                                      |                |            |                                               |                                          | 
+ CLIENT00246 | Skidompha                                          |                |            |                                               |                                          | 
+ CLIENT00300 | SMgroup                                            | Mexico         |            | Mexico                                        | Constituventes 411                       | 
+ CLIENT00247 | Snowbound Productions                              |                |            |                                               |                                          | 
+ CLIENT00237 | Sonar Entertainment                                |                |            |                                               |                                          | 
+ CLIENT00036 | Sony                                               |                |            |                                               |                                          | 
+ CLIENT00248 | Spafax Airlines Network                            |                |            |                                               |                                          | 
+ CLIENT00249 | Spirit of the Wind                                 |                |            |                                               |                                          | 
+ CLIENT00070 | Star India                                         |                |            |                                               |                                          | 
+ CLIENT00250 | Starz Home Entertainment                           |                |            |                                               |                                          | 
+ CLIENT00251 | Stellar Group                                      |                |            |                                               |                                          | 
+ CLIENT00040 | Strand Releasing                                   |                |            |                                               |                                          | 
+ CLIENT00272 | Style Network                                      | United States  | California | Los Angeles                                   | 5750 Wilshire Blvd                       | 
+ CLIENT00048 | Summit                                             |                |            |                                               |                                          | 
+ CLIENT00252 | Swinerton and Walhberg                             |                |            |                                               |                                          | 
+ CLIENT00346 | Syfy Channel                                       | United States  | New York   | New York                                      | 30 Rockefeller Plaza, 18th Floor         | 
+ CLIENT00030 | Syndicado                                          |                |            |                                               |                                          | 
+ CLIENT00253 | Tapestry Films                                     |                |            |                                               |                                          | 
+ CLIENT00051 | Technicolor                                        |                |            |                                               |                                          | 
+ CLIENT00071 | Telenica                                           |                |            |                                               |                                          | 
+ CLIENT00067 | Televisa                                           |                |            |                                               |                                          | 
+ CLIENT00255 | The Weinstein Company, LLC                         |                |            |                                               |                                          | 
+ CLIENT00256 | Tooley Film Works                                  |                |            |                                               |                                          | 
+ CLIENT00257 | Trimark Pictures                                   |                |            |                                               |                                          | 
+ CLIENT00258 | Tufguy Production, Inc                             |                |            |                                               |                                          | 
+ CLIENT00259 | Turner                                             |                |            |                                               |                                          | 
+ CLIENT00301 | TVGN                                               |                |            |                                               |                                          | 
+ CLIENT00027 | Under the Milky Way                                |                |            |                                               |                                          | 
+ CLIENT00045 | Universal                                          |                |            |                                               |                                          | 
+ CLIENT00260 | USA Films                                          |                |            |                                               |                                          | 
+ CLIENT00261 | USA Home Entertainment                             |                |            |                                               |                                          | 
+ CLIENT00262 | Venevision International                           |                |            |                                               |                                          | 
+ CLIENT00263 | VIACOM-MTV                                         |                |            |                                               |                                          | 
+ CLIENT00038 | Video Services Corp                                |                |            |                                               |                                          | 
+ CLIENT00264 | Virgin Mobile                                      |                |            |                                               |                                          | 
+ CLIENT00265 | Vision Quest Productions                           |                |            |                                               |                                          | 
+ CLIENT00053 | Visual Data                                        |                |            |                                               |                                          | 
+ CLIENT00266 | Vortex Films                                       |                |            |                                               |                                          | 
+ CLIENT00306 | Vubiquity                                          |                |            |                                               |                                          | 
+ CLIENT00284 | Wanderlust Pictures                                |                |            |                                               |                                          | 
+ CLIENT00007 | Warner Brothers                                    |                |            |                                               |                                          | 
+ CLIENT00267 | Warner Home Video                                  |                |            |                                               |                                          | 
+ CLIENT00347 | WCBS-TV / WLNY-TV                                  | United States  | New York   | New York                                      | 524 W. 57th Street                       | 
+ CLIENT00026 | Well Go                                            |                |            |                                               |                                          | 
+ CLIENT00268 | Westwind Media                                     |                |            |                                               |                                          | 
+ CLIENT00269 | Whamo Entertainment                                |                |            |                                               |                                          | 
+ CLIENT00270 | Wild Brain                                         |                |            |                                               |                                          | 
+ CLIENT00334 | Wild Woods                                         | United States  | California | Los Angeles                                   | 3575 Cahuenga Blvd                       | 
+ CLIENT00329 | Wild Woods                                         |                |            |                                               |                                          | 
+ CLIENT00271 | WNS                                                |                |            |                                               |                                          | 
+ CLIENT00288 | Worlds Fair Production                             |                |            |                                               |                                          | 
+ CLIENT00331 | Xtrack/Wild Woods                                  |                |            |                                               |                                          | 
+ CLIENT00314 |                                                    | United States  | California | Culver Ciy                                    | 3535 Hayden Ave.                         | 
+(326 rows)
+

@@ -1,0 +1,1 @@
+select code, timestamp, pipeline_code, title, episode, order_code, start_date, due_date, client_code, status, closed, actual_cost, expected_cost, price, expected_price, expected_revenue_month, revenue_month, platform, sales_rep, completion_date from title where s_status is NULL;

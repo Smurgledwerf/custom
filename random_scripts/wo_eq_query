@@ -1,0 +1,1 @@
+select code, name, actual_duration, units, work_order_code from equipment_used;

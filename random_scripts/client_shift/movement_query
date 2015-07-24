@@ -1,0 +1,1 @@
+select code, signatory_twog, login from movement;

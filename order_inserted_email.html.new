@@ -1,0 +1,233 @@
+				<html>
+				<head>
+				<meta http-equiv='Content-Type' content='text/html; charset=us-ascii'>
+				<style type='text/css'>
+				<!--
+				body
+					{width:900px;
+					font-family:Tahoma,Arial,sans-serif;
+					font-size:12px;
+					font-style:bold}
+				#pageTitle
+					{text-align:center;
+					font-family:Calibri,Helvetica,sans-serif;
+					font-size:20px;
+					color: #666;
+					font-weight: bold;
+					font-style:bold}
+				#pagesubTitle1
+					{text-align:center;
+					font-family:Calibri,Helvetica,sans-serif;
+					font-size:26px;
+					color: #06C;
+					font-style:bold}
+				#pagesubTitle2
+					{text-align:center;
+					font-family:Calibri,Helvetica,sans-serif;
+					font-size:22px;
+					color: #06C;
+					font-style:bold}
+				#hr
+					{width:100%}
+				#name
+					{position:relative;
+					text-align:left;
+					width:80px;
+					height:34px;
+					top:0px;
+					left:0px}
+				#address_name
+					{position:relative;
+					float:left;
+					text-align:left;
+					width:10%;
+					min-height:25px}
+				#address_to
+					{position:relative;
+					float:left;
+					text-align:left;
+					top:0px;
+					width:90%;
+					font-family: Gotham,sans-serif;
+					font-size:14px;
+					font-weight:lighter;
+					min-height:25px}
+				#shipping
+					{float:inherit;
+					position:relative;
+					left:0%;
+					width:100%}
+				#update
+					{float:left;
+					width:100%;
+					background-color:#F7F7F7;
+					border:thin;
+					border-style:solid;
+					font-weight:bold}
+				#div_name
+					{position:relative;
+					float:left;
+					text-align:left;
+					width:10%;
+					height:15px}
+				#div_data
+					{position:relative;
+					float:left;
+					text-align:left;
+					width:40%;
+					font-family: Gotham,sans-serif;
+					font-size: 12px;
+					font-weight: lighter;
+					height:15px}
+				#movement_code_header
+					{position:relative;
+					float:inherit;
+					text-align:center;
+					width:100%;
+					eight:30px}
+				#type_header
+					{position:relative;
+					float:inherit;
+					text-align:left;
+					width:10%;
+					height:30px}
+				#episode_header
+					{position:relative;
+					float:inherit;
+					text-align:left;
+					width:10%;
+					height:30px}
+				#title_header
+					{position:relative;
+					float:inherit;
+					text-align:left;
+					width:20%;
+					height:30px}
+				#outside_barcode_header
+					{position:relative;
+					float:inherit;
+					text-align:left;
+					width:10%;
+					height:30px}
+				#client_header
+					{position:relative;
+					float:inherit;
+					text-align:left;
+					width:10%;
+					height:30px}
+				#source
+					{float:left;
+					width:100%;
+					height:40px;
+					border-bottom:thin;
+					border-bottom-style:solid;
+					border-bottom-color:#9F9F9F}
+				#barcode
+					{position:relative;
+					float:inherit;
+					text-align:left;
+					width:15%;
+					height:30px}
+				#type
+					{position:relative;
+					float:inherit;
+					text-align:left;
+					width:15%;
+					height:30px}
+				#title
+					{position:relative;
+					float:inherit;
+					text-align:left;
+					width:30%;
+					height:30px}
+				#client
+					{position:relative;
+					float:inherit;
+					text-align:left;
+					width:15%;
+					height:30px}
+				#msg_block
+					{position:relative;
+					float:left;
+					border-bottom:thin;
+					border-bottom-style:solid;
+					border-bottom-color:#9F9F9F;
+					width:100%;
+					min-height:75px;
+					font-family:Verdana,Arial,Helvetica,sans-serif;
+					font-size:10px;
+					font-style:bold;
+					color:blue;
+					background-color:#F7F7F7;
+					font-weight:bold}
+				#footer
+					{position:relative;
+					float: left;
+					border-top:thin;
+					border-top-style:solid;
+					border-top-color:#9F9F9F;
+					/*background: #EEEEEE;*/
+					width:100%;
+					height:20px;
+					font-family:Tahoma,sans-serif;
+					font-size:12px;
+					font-style:bold;
+					text-align:center;
+					font-weight:bold}
+				#header
+					{position:relative;
+					float:left;
+					border-bottom:thin;
+					border-bottom-style:solid;
+					border-bottom-color:#9F9F9F;
+					width:100%;
+					height:20px;
+					font-family:Tahoma,sans-serif;
+					font-size:12px;
+					font-style:bold;
+					text-align:center;
+					color:#999;
+					/*background-color:#CCC;*/
+   
+  					/* Safari 5.1, Chrome 10+ */
+  					background: -webkit-linear-gradient(top, #FFFFFF, #CCCCCC);
+  
+  					/* Firefox 3.6+ */
+  					background: -moz-linear-gradient(top, #FFFFFF, #CCCCCC);
+  
+  					/* IE 10 */
+ 					 background: -ms-linear-gradient(top, #2F2727, #CCCCCC);
+					font-weight:bold}
+				-->
+				</style>
+				</head>
+				<body>
+				<div id='pageTitle'><img src="http://tactic02.2gdigitalpost.local/2gstrat2g_email_header.jpg"></div>
+                <div id='pagesubTitle1'><strong>[ORDER_NAME]</strong></div>       
+                <div id='pagesubTitle2'><strong>[CLIENT]</strong> Order Code: <strong>[ORDER_CODE]</strong> | PO Number: <strong>[PO_NUMBER]</strong></div>
+				<div id='header'> NOTIFICATION START</div>
+                <div>&nbsp;</div>
+                <div id='address_name'><strong>TO/CC:</strong></div><div id='address_to'><a href="mailto:[CLIENT_EMAIL]">[CLIENT_EMAIL]</a>,[EMAIL_CC_LIST]</div>
+				<div id='address_name'><strong>FROM:</strong></div><div id='address_to'><a href="mailto:[SCHEDULER_EMAIL]">[SCHEDULER_EMAIL]</a></div>
+				<div id='address_name'><strong>MESSAGE:</strong></div><div id='address_to'>[MESSAGE]</div>
+                <div>&nbsp;</div>
+				<div id='footer'>
+				<div id='div_name'>Company:</div>
+				<div id='div_data'>[CLIENT]</div>
+				<div id='div_name'>Customer:</div>
+				<div id='div_data'>[CLIENT_LOGIN]</div>
+				<div id='div_name'>Order Name:</div>
+				<div id='div_data'>[ORDER_NAME]</div>
+				<div id='div_name'>PO Number:</div>
+				<div id='div_data'>[PO_NUMBER]</div>
+				<div id='div_name'>Start Date:</div>
+				<div id='div_data'>[START_DATE]</div>
+				<div id='div_name'>Due Date:</div>
+				<div id='div_data'>[DUE_DATE]</div>
+                <br>
+                <div>&nbsp;</div>
+                <div id='header'> NOTIFICATION END</div>
+				</div>
+				</body>
+				</html>
+

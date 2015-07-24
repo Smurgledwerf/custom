@@ -1,0 +1,1 @@
+select code, assigned, assigned_login_group, status, bid_end_date, actual_start_date, actual_end_date, lookup_code, client_code, platform, search_id from task where s_status is NULL;

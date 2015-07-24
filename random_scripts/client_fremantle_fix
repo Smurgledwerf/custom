@@ -1,0 +1,5 @@
+update company set client_code='' where code = 'COMPANY04878';
+update company set client_code='' where code = 'COMPANY04880';
+update company set client_code='' where code = 'COMPANY04887';
+update company set client_code='' where code = 'COMPANY04901';
+

@@ -1,0 +1,1 @@
+select code, timestamp, pipeline_code, due_date, start_date, is_billable, task_code, title_code, process, client_code, closed, actual_cost, expected_cost, price from proj where s_status is NULL;

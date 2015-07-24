@@ -1,0 +1,1 @@
+select code, actual_cost, expected_cost, expected_price, client_code, client_name, due_date, classification, name, start_date, timestamp, po_number, completion_date, sales_rep, closed, revenue_month, invoiced_date, price, expected_revenue_month, expected_delivery_date platform from "order" where s_status is NULL;

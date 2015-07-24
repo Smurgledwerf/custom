@@ -1,0 +1,1 @@
+select code, status, proj_code, lookup_code, title_code, order_code, actual_end_date from task where search_type = 'twog/proj?project=twog' and s_status is NULL order by proj_code;

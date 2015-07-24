@@ -1,0 +1,2115 @@
+__all__ = ["IndieBBSelectWdg","BigBoardSingleWOSelectWdg2","BigBoardViewWdg2","BigBoardSelectWdg2","BigBoardWOSelectWdg2","BigBoardWOSelect4MultiTitlesWdg2","BigBoardWdg2"]
+import tacticenv
+import time, datetime
+#from pyasm.common import Environment
+#from pyasm.biz import *
+from pyasm.web import Table, DivWdg
+from tactic.ui.common import BaseTableElementWdg
+from tactic.ui.common import BaseRefreshWdg
+#from pyasm.search import Search
+#from tactic.ui.widget import DiscussionWdg
+#from operator import itemgetter
+
+class IndieBBSelectWdg(BaseTableElementWdg):
+
+    def init(my):
+        nothing = 'true'
+        my.server = None
+
+    def get_stub(my):
+        from tactic_client_lib import TacticServerStub
+        my.server = TacticServerStub.get()
+    
+    def get_launch_behavior(my, search_key, title_code, lookup_code):
+        behavior = {'css_class': 'clickme', 'type': 'click_up', 'cbjs_action': '''        
+                        try{ 
+                          var server = TacticServerStub.get();
+                          var search_key = "%s";
+                          var title_code = "%s";
+                          var lookup_code = "%s";
+                          var task_code = search_key.split('code=')[1];
+                          var state = bvr.src_el.get('state');
+                          var checked = '/context/icons/custom/small_blue_racecar_alpha.png';
+                          var unchecked = '/context/icons/custom/small_grey_racecar_alpha.png';
+                          changed = false
+                          if(state == 'checked'){
+                              if(confirm("Do you really want to take this off the Hot Today Board?")){
+                                  img = unchecked;
+                                  server.update(search_key, {'indie_bigboard': 'false'}); 
+                                  indies = server.eval("@SOBJECT(twog/indie_bigboard['task_code','" + task_code + "']['indie_bigboard','true'])");
+                                  for(var r = 0; r < indies.length; r++){
+                                      server.update(indies[r].__search_key__, {'indie_bigboard': 'false'});
+                                  }
+                                  bvr.src_el.setAttribute('state', 'unchecked');
+                                  changed = true
+                              }
+                          }else{
+                              new_prio = prompt("Please assign a priority to this Work Order");
+                              if(new_prio != null && new_prio != ''){
+                                  if(!(isNaN(new_prio))){
+                                      img = checked; 
+                                      new_prio = Number(new_prio);
+                                      server.update(search_key, {'indie_bigboard': 'true', 'indie_priority': new_prio}); 
+                                      server.insert('twog/indie_bigboard', {'indie_bigboard': 'true', 'indie_priority': new_prio, 'title_code': title_code, 'lookup_code': lookup_code, 'task_code': task_code}); 
+                                      title = server.eval("@SOBJECT(twog/title['code','" + title_code + "'])")[0];
+                                      title_sk = title.__search_key__;
+                                      task = server.eval("@SOBJECT(sthpw/task['code','" + task_code + "'])")[0];
+                                      asl = task.assigned_login_group;
+                                      adps = title.active_dept_priorities;
+                                      asl_prio = asl.replace(' ','_') + '_priority';
+                                      data_out = {}
+                                      data_out[asl_prio] = new_prio; 
+                                      if(adps.indexOf(asl) == -1){
+                                          if(adps == ''){
+                                              adps = asl;
+                                          }else{
+                                              adps = adps + ',' + asl;
+                                          }
+                                          data_out['active_dept_priorities'] = adps;
+                                      }
+                                      server.update(title_sk, data_out);
+                                      bvr.src_el.setAttribute('state', 'checked');
+                                      changed = true;
+                                  }else{
+                                      alert(new_prio + " is not a number. Work Order not placed on Hot Today.");
+                                  }
+                              }
+                          } 
+                          if(changed){
+                              var inner = bvr.src_el.innerHTML;
+                              in1 = inner.split('src="')[0];
+                              in1 = in1 + 'src="' + img + '"/>';
+                              bvr.src_el.innerHTML = in1;
+                          }
+                }
+                catch(err){
+                          spt.app_busy.hide();
+                          spt.alert(spt.exception.handler(err));
+                }
+         ''' % (search_key, title_code, lookup_code)}
+        return behavior
+
+    def get_display(my):
+        is_on = False
+        search_key = my.kwargs.get('search_key')
+        task_code = search_key.split('code=')[1]
+        title_code = my.kwargs.get('title_code')
+        lookup_code = my.kwargs.get('lookup_code')
+        if 'indie_bigboard' in my.kwargs.keys():
+            if my.kwargs.get('indie_bigboard') in [True,'true','t','T',1]:
+                is_on = True
+        else:
+            my.get_stub()
+            task = my.server.eval("@SOBJECT(sthpw/task['code','%s'])" % task_code)[0]
+            if task.get('indie_bigboard') in [True,'true','t','T',1]:
+                is_on = True
+
+        widget = DivWdg()
+        table = Table()
+
+        img = '/context/icons/custom/small_grey_racecar_alpha.png'
+        state = 'unchecked'
+        if is_on:
+            img = '/context/icons/custom/small_blue_racecar_alpha.png'
+            state = 'checked'
+        table.add_row()
+        cell1 = table.add_cell('<img border="0" style="vertical-align: middle" title="" src="%s">' % img)
+        cell1.add_attr('search_key', search_key)
+        cell1.add_attr('state',state)
+        launch_behavior = my.get_launch_behavior(search_key, title_code, lookup_code)
+        cell1.add_style('cursor: pointer;')
+        cell1.add_behavior(launch_behavior)
+        widget.add(table)
+        return widget
+
+class BigBoardSingleWOSelectWdg2(BaseTableElementWdg):
+
+    def init(my):
+        nothing = 'true'
+        my.server = None
+
+    def get_stub(my):
+        from tactic_client_lib import TacticServerStub
+        my.server = TacticServerStub.get()
+
+    def get_launch_behavior(my, search_key, title_code, lookup_code):
+        behavior = {'css_class': 'clickme', 'type': 'click_up', 'cbjs_action': '''        
+                        try{ 
+                          var server = TacticServerStub.get();
+                          var search_key = "%s";
+                          var title_code = "%s";
+                          var lookup_code = "%s";
+                          var task_code = search_key.split('code=')[1];
+                          var state = bvr.src_el.get('state');
+                          var checked = '/context/icons/silk/rosette.png';
+                          var unchecked = '/context/icons/silk/rosette_grey.png';
+                          changed = false
+                          if(state == 'checked'){
+                              if(confirm("Do you really want to take this off the Hot Today Board?")){
+                                  img = unchecked;
+                                  server.update(search_key, {'bigboard': 'false'}); 
+                                  bvr.src_el.setAttribute('state', 'unchecked');
+                                  changed = true
+                              }
+                          }else{
+                              img = checked; 
+                              server.update(search_key, {'bigboard': 'true'}); 
+                              bvr.src_el.setAttribute('state', 'checked');
+                              changed = true;
+                              title = server.eval("@SOBJECT(twog/title['code','" + title_code + "'])")[0];
+                              if(!(title.bigboard)){
+                                  alert('Placing the Title on the BigBoard as well.');
+                                  server.update(title.__search_key__, {'bigboard': 'true'});
+                                  tc_str = 'title_bigboard_' + title_code;
+                                  title_bbs = document.getElementById(tc_str);
+                                  if(title_bbs){
+                                      title_bb_inner = title_bbs.innerHTML;
+                                      in1 = title_bb_inner.split('src="')[0];
+                                      in1 = in1 + 'src="' + img + '"/>';
+                                      title_bbs.innerHTML = in1;
+                                      title_bbs.setAttribute('state','checked');
+                                  }
+                              }
+                          } 
+                          if(changed){
+                              var inner = bvr.src_el.innerHTML;
+                              in1 = inner.split('src="')[0];
+                              in1 = in1 + 'src="' + img + '"/>';
+                              bvr.src_el.innerHTML = in1;
+                          }
+                }
+                catch(err){
+                          spt.app_busy.hide();
+                          spt.alert(spt.exception.handler(err));
+                }
+         ''' % (search_key, title_code, lookup_code)}
+        return behavior
+    
+    def get_display(my):
+        is_on = False
+        search_key = my.kwargs.get('search_key')
+        task_code = search_key.split('code=')[1]
+        title_code = my.kwargs.get('title_code')
+        lookup_code = my.kwargs.get('lookup_code')
+        if 'bigboard' in my.kwargs.keys():
+            if my.kwargs.get('bigboard') in [True,'true','t','T',1]:
+                is_on = True
+        else:
+            my.get_stub()
+            task = my.server.eval("@SOBJECT(sthpw/task['code','%s'])" % task_code)[0]
+            if task.get('bigboard') in [True,'true','t','T',1]:
+                is_on = True
+
+        widget = DivWdg()
+        table = Table()
+
+        img = '/context/icons/silk/rosette_grey.png'
+        state = 'unchecked'
+        if is_on:
+            img = '/context/icons/silk/rosette.png'
+            state = 'checked'
+        table.add_row()
+        cell1 = table.add_cell('<img border="0" style="vertical-align: middle" title="" src="%s">' % img)
+        cell1.add_attr('search_key', search_key)
+        cell1.add_attr('state',state)
+        launch_behavior = my.get_launch_behavior(search_key, title_code, lookup_code)
+        cell1.add_style('cursor: pointer;')
+        cell1.add_behavior(launch_behavior)
+        widget.add(table)
+        return widget
+
+class BigBoardViewWdg2(BaseTableElementWdg):
+
+    def init(my):
+        nothing = 'true'
+
+    def get_display(my):
+        sobject = my.get_current_sobject()
+        code = sobject.get_code()
+        widget = DivWdg()
+        table = Table()
+        bigboard = sobject.get_value('bigboard')
+        img = '/context/icons/silk/rosette_grey.png'
+        if bigboard == True:
+            img = '/context/icons/silk/rosette.png'
+        table.add_row()
+        cell1 =  table.add_cell('<img border="0" style="vertical-align: middle" title="" src="%s">' % img)
+        widget.add(table)
+        return widget
+
+class BigBoardSelectWdg2(BaseTableElementWdg):
+
+    def init(my):
+        nothing = 'true'
+        my.server = None
+
+    def get_stub(my):
+        from tactic_client_lib import TacticServerStub
+        my.server = TacticServerStub.get()
+    
+    def get_launch_behavior(my, title_name, in_bigboard):
+        behavior = {'css_class': 'clickme', 'type': 'click_up', 'cbjs_action': '''        
+                        try{ 
+                          var server = TacticServerStub.get();
+                          var title_name = "%s";
+                          var in_bigboard = "%s";
+                          var my_sk = bvr.src_el.get('sk');
+                          var state = bvr.src_el.get('state');
+                          var class_name = 'nighttime_hotlist.nighttime_hotlist2.BigBoardWOSelectWdg2';
+                          var checked = '/context/icons/silk/rosette.png';
+                          var unchecked = '/context/icons/silk/rosette_grey.png';
+                          nothing_else = false;
+                          changed = false
+                          if(state == 'checked'){
+                              img = unchecked;
+                              if(in_bigboard != 'Yep'){
+                                  if(confirm("Do you really want to take this off the Hot Today list?")){
+                                      server.update(my_sk, {'bigboard': 'false'}); 
+                                      bvr.src_el.setAttribute('state', 'unchecked');
+                                      changed = true;
+                                  }
+                              }else{
+                                  if(confirm("Do you really want to take this off the Hot Today list?")){
+                                      server.update(my_sk, {'bigboard': 'false'}); 
+                                      changed = true;
+                                      var buttons_el = document.getElementsByClassName('auto_buttons')[0]; 
+                                      auto_el = buttons_el.getElementById('auto_refresh');
+                                      auto = auto_el.getAttribute('auto');
+                                      scroll_el = buttons_el.getElementById('scroll_el');
+                                      scroll = scroll_el.getAttribute('scroll');
+                                      //group_el = buttons_el.getElementById('group_select');
+                                      //group = group_el.value;
+                                      group = 'ALL';
+                                      board_els = document.getElementsByClassName('bigboard');     
+                                      nothing_else = true;
+                                      spt.app_busy.show("Refreshing...");
+                                      spt.api.load_panel(board_els[0], 'nighttime_hotlist.BigBoardWdg2', {'auto_refresh': auto, 'auto_scroll': scroll, 'groups': group});
+                                      spt.app_busy.hide();
+                                  }
+                              }
+                          }else{
+                              img = checked; 
+                              server.update(my_sk, {'bigboard': 'true'}); 
+                              bvr.src_el.setAttribute('state', 'checked');
+                              kwargs = {
+                                           'sk': my_sk
+                                   };
+                              spt.panel.load_popup('Select Big Board Work Orders for ' + title_name, class_name, kwargs);
+                              changed = true;
+                          } 
+                          if(!nothing_else && changed){
+                              var inner = bvr.src_el.innerHTML;
+                              in1 = inner.split('src="')[0];
+                              in1 = in1 + 'src="' + img + '"/>';
+                              bvr.src_el.innerHTML = in1;
+                          }
+                }
+                catch(err){
+                          spt.app_busy.hide();
+                          spt.alert(spt.exception.handler(err));
+                }
+         ''' % (title_name, in_bigboard)}
+        return behavior
+
+    def get_display(my):
+        expression_lookup = {'twog/title': "@SOBJECT(twog/title['code','REPLACE_ME'])", 'twog/proj': "@SOBJECT(twog/proj['code','REPLACE_ME'].twog/title)", 'twog/work_order': "@SOBJECT(twog/work_order['code','REPLACE_ME'].twog/proj.twog/title)", 'twog/equipment_used': "@SOBJECT(twog/equipment_used['code','REPLACE_ME'].twog/work_order.twog/proj.twog/title)"}
+        search_type = 'twog/title'
+        code = ''
+        order_name = ''
+        sob_sk = ''
+        not_title = True
+        bad_code = False
+        if 'search_type' in my.kwargs.keys():
+            my.get_stub()
+            search_type = str(my.kwargs.get('search_type'))
+            code = str(my.kwargs.get('code'))
+            sobject = my.server.eval(expression_lookup[search_type].replace('REPLACE_ME',code))
+            if sobject:
+                sobject = sobject[0]
+                code = sobject.get('code')
+                sob_sk = sobject.get('__search_key__')
+        else: 
+            sobject = my.get_current_sobject()
+            sob_sk = sobject.get_search_key()
+            code = sobject.get_code()
+            not_title = False
+            if 'TITLE' not in code:
+                not_title = True
+                my.get_stub()
+                if 'WORK_ORDER' in code:
+                    sobject = my.server.eval(expression_lookup['twog/work_order'].replace('REPLACE_ME',code))
+                elif 'EQUIPMENT_USED' in code:
+                    sobject = my.server.eval(expression_lookup['twog/equipment_used'].replace('REPLACE_ME',code))
+                elif 'PROJ' in code:
+                    sobject = my.server.eval(expression_lookup['twog/proj'].replace('REPLACE_ME',code))
+                try:
+                    if sobject:
+                        sobject = sobject[0]
+                        code = sobject.get('code')
+                        sob_sk = sobject.get('__search_key__')
+                except:
+                    bad_code = True
+                    pass
+        widget = DivWdg()
+        table = Table()
+        if not bad_code:
+            in_bigboard = 'Nope'
+            if 'in_bigboard' in my.kwargs.keys():
+                if my.kwargs.get('in_bigboard') in ['Yes','yes','true','True']:
+                    in_bigboard = 'Yep' 
+            img = '/context/icons/silk/rosette_grey.png'
+            state = 'unchecked'
+            bigboard = ''
+            title_name = ''
+            episode = ''
+            if not not_title:
+                bigboard = sobject.get_value('bigboard')
+                title_name = sobject.get_value('title')
+                episode = sobject.get_value('episode')
+            else:
+                bigboard = sobject.get('bigboard')
+                title_name = sobject.get('title')
+                episode = sobject.get('episode')
+            if episode not in [None,'']:
+                title_name = '%s Episode: %s' % (title_name, episode) 
+            if bigboard == True:
+                img = '/context/icons/silk/rosette.png'
+                state = 'checked'
+            #table.add_attr('width', '50px')
+            table.add_row()
+            cell1 =  table.add_cell('<img border="0" style="vertical-align: middle" title="" src="%s">' % img)
+            cell1.add_attr('id', 'title_bigboard_%s' % code)
+            cell1.add_attr('sk', sob_sk)
+            cell1.add_attr('state',state)
+            launch_behavior = my.get_launch_behavior(title_name, in_bigboard)
+            cell1.add_style('cursor: pointer;')
+            cell1.add_behavior(launch_behavior)
+        widget.add(table)
+        return widget
+
+class BigBoardWOSelect4MultiTitlesWdg2(BaseRefreshWdg):
+    def init(my):
+        from tactic_client_lib import TacticServerStub
+        my.server = TacticServerStub.get()
+        my.title_codes = ''
+
+    def get_switcher_behavior(my):
+        behavior = {'css_class': 'clickme', 'type': 'click_up', 'cbjs_action': '''        
+                        try{ 
+                          var top_el = document.getElementsByClassName('bigboard_wo_selector_multi')[0];
+                          var checkboxes = top_el.getElementsByTagName('input');
+                          inner = bvr.src_el.innerHTML;
+                          doing = inner.split('value="')[1];
+                          doing = doing.split('"')[0];
+                          for(var r = 0; r < checkboxes.length; r++){
+                              if(checkboxes[r].type == 'checkbox'){
+                                  if(doing == 'Select All'){
+                                      checkboxes[r].checked = true;
+                                  }else{
+                                      checkboxes[r].checked = false;
+                                  }
+                              }
+                          }
+                          if(doing == 'Select All'){
+                              bvr.src_el.innerHTML = '<input type="button" value="Deselect All"/>';
+                          }else{
+                              bvr.src_el.innerHTML = '<input type="button" value="Select All"/>';
+                          }
+                          
+                }
+                catch(err){
+                          spt.app_busy.hide();
+                          spt.alert(spt.exception.handler(err));
+                          //alert(err);
+                }
+         '''}
+        return behavior
+
+    def get_bigboardem_behavior(my):
+        behavior = {'css_class': 'clickme', 'type': 'click_up', 'cbjs_action': '''        
+                        try{ 
+                          var server = TacticServerStub.get();
+                          var top_el = document.getElementsByClassName('bigboard_wo_selector_multi')[0];
+                          var checkboxes = top_el.getElementsByTagName('input');
+                          for(var r = 0; r < checkboxes.length; r++){
+                              if(checkboxes[r].type == 'checkbox'){
+                                  task_sks = checkboxes[r].getAttribute('sks');
+                                  sks = task_sks.split(',')
+                                  cname = checkboxes[r].name;
+                                  if(cname.indexOf('bigboard_wo_select_by_process') != -1){
+                                      if(checkboxes[r].checked){
+                                          for(var k = 0; k < sks.length; k++){
+                                              server.update(sks[k], {'bigboard': 'true'});
+                                          }
+                                      }else{
+                                          for(var k = 0; k < sks.length; k++){
+                                              server.update(sks[k], {'bigboard': 'false'});
+                                          }
+                                      }
+                                  }
+                               }
+                          }
+                          //alert('Done adding to the BigBoard');
+                          spt.popup.close(spt.popup.get_popup(bvr.src_el));
+                }
+                catch(err){
+                          spt.app_busy.hide();
+                          spt.alert(spt.exception.handler(err));
+                          //alert(err);
+                }
+         '''}
+        return behavior
+
+    def make_where_str(my, arr):
+        where_str = ''
+        for sa in arr:
+            if where_str == '':
+                where_str = "('%s'" % sa
+            else:
+                where_str = "%s,'%s'" % (where_str, sa)
+        if where_str != '':
+            where_str = '%s)' % where_str
+        return where_str
+ 
+    def update_titles(my, arr, dict):
+        for code in arr:
+            sk = my.server.build_search_key('twog/title',code)
+            my.server.update(sk, dict)
+        
+    
+    def get_display(my):   
+        #THE SEARCH KEY BEING PASSED IN SHOULD BELONG TO A TITLE
+        from pyasm.search import Search
+        from pyasm.widget import CheckboxWdg
+        my.title_codes = str(my.kwargs.get('title_codes'))
+        tc_split = my.title_codes.split(',')
+        my.update_titles(tc_split, {'bigboard': True})
+        where_str = my.make_where_str(tc_split)
+        search = Search("sthpw/task")
+        search.add_filter('status', 'Completed', op="!=")
+        search.add_filter('active','1')
+        search.add_filter('search_type','twog/proj?project=twog')
+        search.add_where("\"title_code\" in %s" % where_str)
+        search.add_order_by("process")
+        tasks = search.get_sobjects()
+        
+        processes = {} 
+        inorder = []
+        for task in tasks:
+            process = task.get_value('process')
+            try:
+                processes[process] = '%s,%s' % (processes[process], task.get_search_key())
+            except:
+                processes[process] = task.get_search_key()
+                inorder.append(process)
+                pass
+
+        inorder.sort()
+        table = Table()
+        if len(tasks) > 0:
+            table.add_row()
+            switcher = table.add_cell('<input type="button" value="Select All"/>')
+            switcher.add_behavior(my.get_switcher_behavior())
+            for process in inorder:
+                table.add_row()
+                checkbox = CheckboxWdg('bigboard_wo_select_by_process')
+                checkbox.set_value(False) 
+                checkbox.add_attr('sks',processes[process])
+                checkbox.add_attr('process',process)
+                table.add_cell(checkbox)
+                t1 = table.add_cell(process)
+                t1.add_attr('nowrap','nowrap')
+        cover_table = Table()
+        cover_table.add_attr('class','bigboard_wo_selector_multi')
+        cover_table.add_row()
+        cover_cell = cover_table.add_cell(table)
+        cover_table.add_row()
+        buttont = Table()
+        buttont.add_row()
+        c1 = buttont.add_cell(' ')
+        c1.add_attr('width','40%s' % '%')
+        button = buttont.add_cell('<input type="button" value="BigBoard Selected Work Orders"/>')
+        button.add_behavior(my.get_bigboardem_behavior()) 
+        c2 = buttont.add_cell(' ')
+        c2.add_attr('width','40%s' % '%')
+        cover_table.add_cell(buttont)
+        return cover_table
+
+class BigBoardWOSelectWdg2(BaseRefreshWdg):
+    def init(my):
+        #from client.tactic_client_lib import TacticServerStub
+        #from pyasm.common import Environment
+        #from pyasm.search import Search
+        #my.server = TacticServerStub.get()
+        #my.login = Environment.get_login()
+        #my.user = my.login.get_login()
+        my.sk = ''
+
+    def get_switcher_behavior(my, title_sk):
+        behavior = {'css_class': 'clickme', 'type': 'click_up', 'cbjs_action': '''        
+                        try{ 
+                          var title_sk = '%s';
+                          var top_el = document.getElementsByClassName('bigboard_wo_selector_' + title_sk)[0];
+                          var checkboxes = top_el.getElementsByTagName('input');
+                          inner = bvr.src_el.innerHTML;
+                          doing = inner.split('value="')[1];
+                          doing = doing.split('"')[0];
+                          for(var r = 0; r < checkboxes.length; r++){
+                              if(checkboxes[r].type == 'checkbox'){
+                                  if(doing == 'Select All'){
+                                      checkboxes[r].checked = true;
+                                  }else{
+                                      checkboxes[r].checked = false;
+                                  }
+                              }
+                          }
+                          if(doing == 'Select All'){
+                              bvr.src_el.innerHTML = '<input type="button" value="Deselect All"/>';
+                          }else{
+                              bvr.src_el.innerHTML = '<input type="button" value="Select All"/>';
+                          }
+                          
+                }
+                catch(err){
+                          spt.app_busy.hide();
+                          spt.alert(spt.exception.handler(err));
+                          //alert(err);
+                }
+         ''' % title_sk}
+        return behavior
+
+    def get_bigboardem_behavior(my, title_sk):
+        behavior = {'css_class': 'clickme', 'type': 'click_up', 'cbjs_action': '''        
+                        try{ 
+                          var server = TacticServerStub.get();
+                          var title_sk = '%s';
+                          var top_el = document.getElementsByClassName('bigboard_wo_selector_' + title_sk)[0];
+                          var checkboxes = top_el.getElementsByTagName('input');
+                          for(var r = 0; r < checkboxes.length; r++){
+                              if(checkboxes[r].type == 'checkbox'){
+                                  task_sk = checkboxes[r].getAttribute('sk');
+                                  cname = checkboxes[r].name;
+                                  if(cname.indexOf('bigboard_wo_select_') != -1){
+                                      if(checkboxes[r].checked){
+                                          server.update(task_sk, {'bigboard': 'true'});
+                                      }else{
+                                          server.update(task_sk, {'bigboard': 'false'});
+                                      }
+                                  }
+                               }
+                          }
+                          //alert('Done adding to the BigBoard');
+                          spt.popup.close(spt.popup.get_popup(bvr.src_el));
+                }
+                catch(err){
+                          spt.app_busy.hide();
+                          spt.alert(spt.exception.handler(err));
+                          //alert(err);
+                }
+         ''' % title_sk}
+        return behavior
+    
+    def get_display(my):   
+        #THE SEARCH KEY BEING PASSED IN SHOULD BELONG TO A TITLE
+        from pyasm.search import Search
+        from pyasm.widget import CheckboxWdg
+        my.sk = str(my.kwargs.get('sk'))
+        code = my.sk.split('code=')[1]
+        #tasks = my.server.eval("@SOBJECT(sthpw/task['title_code','%s']['search_type','twog/proj?project=twog']['status','!=','Completed']['active','1'])" % code)
+        search = Search("sthpw/task")
+        search.add_filter('title_code',code)
+        search.add_filter('status', 'Completed', op="!=")
+        search.add_filter('active','1')
+        search.add_filter('search_type','twog/proj?project=twog')
+        tasks = search.get_sobjects()
+        
+        table = Table()
+        if len(tasks) > 0:
+            table.add_row()
+            switcher = table.add_cell('<input type="button" value="Select All"/>')
+            switcher.add_behavior(my.get_switcher_behavior(my.sk))
+            for task in tasks:
+                table.add_row()
+                #checkbox = CheckboxWdg('bigboard_wo_select_%s' % task.get('__search_key__'))
+                checkbox = CheckboxWdg('bigboard_wo_select_%s' % task.get_search_key())
+                #checkbox.set_persistence()
+                #if task.get('bigboard'):
+                if task.get_value('bigboard'):
+                    checkbox.set_value(True) 
+                else:
+                    checkbox.set_value(False) 
+                #checkbox.add_attr('sk',task.get('__search_key__'))
+                checkbox.add_attr('sk',task.get_search_key())
+                table.add_cell(checkbox)
+                #assigned_login_group = task.get('assigned_login_group')
+                assigned_login_group = task.get_value('assigned_login_group')
+                #assigned = task.get('assigned')
+                assigned = task.get_value('assigned')
+                if assigned_login_group in [None,'']:
+                    assigned_login_group = 'No Group?'
+                if assigned in [None,'']:
+                    assigned = 'Unassigned'
+                #t1 = table.add_cell('[%s]: %s, %s, %s, %s' % (task.get('lookup_code'), task.get('process'), assigned_login_group, assigned, task.get('status')))
+                t1 = table.add_cell('[%s]: %s, %s, %s, %s' % (task.get_value('lookup_code'), task.get_value('process'), assigned_login_group, assigned, task.get_value('status')))
+                t1.add_attr('nowrap','nowrap')
+        cover_table = Table()
+        cover_table.add_attr('class','bigboard_wo_selector_%s' % my.sk)
+        cover_table.add_row()
+        cover_cell = cover_table.add_cell(table)
+        cover_table.add_row()
+        buttont = Table()
+        buttont.add_row()
+        c1 = buttont.add_cell(' ')
+        c1.add_attr('width','40%s' % '%')
+        button = buttont.add_cell('<input type="button" value="BigBoard Selected Work Orders"/>')
+        button.add_behavior(my.get_bigboardem_behavior(my.sk)) 
+        c2 = buttont.add_cell(' ')
+        c2.add_attr('width','40%s' % '%')
+        cover_table.add_cell(buttont)
+        return cover_table
+
+class BigBoardWdg2(BaseRefreshWdg):
+    def init(my):
+        from pyasm.common import Environment
+        from pyasm.search import Search
+        my.login = Environment.get_login()
+        my.user = my.login.get_login()
+        my.sk = ''
+        my.seen_groups = []
+        my.bigdict = {}
+        my.indi_pct = 0.0
+        my.stat_colors = {'Pending':'#d7d7d7','In Progress':'#f5f3a4','In_Progress':'#f5f3a4','On Hold':'#e8b2b8','On_Hold':'#e8b2b8','Client Response': '#ddd5b8', 'Completed':'#b7e0a5','Need Buddy Check':'#e3701a','Ready':'#b2cee8','Internal Rejection':'#ff0000','External Rejection':'#ff0000','Fix Needed':'#c466a1','Failed QC':'#ff0000','Rejected': '#ff0000','DR In_Progress': '#d6e0a4', 'DR In Progress': '#d6e0a4','Amberfin01_In_Progress':'#D8F1A8', 'Amberfin01 In Progress':'#D8F1A8','Amberfin02_In_Progress':'#F3D291', 'Amberfin02 In Progress':'#F3D291','BATON In_Progress': '#c6e0a4', 'BATON In Progress': '#c6e0a4','Export In_Progress': '#796999','Export In Progress': '#796999', 'Buddy Check In_Progress': '#1aade3','Buddy Check In Progress': '#1aade3'}
+        my.stat_relevance = {'Pending': 0,'In Progress': 4,'In_Progress': 4,'On Hold': 1,'On_Hold': 1,'Client Response': 2, 'Completed': -1,'Need Buddy Check': 10, 'Buddy Check In_Progress': 11, 'Buddy Check In Progress': 11, 'Ready': 3,'Internal Rejection': 12,'External Rejection': 13,'Failed QC': 14,'Fix Needed': 16,'Rejected': 15,'DR In_Progress': 5, 'DR In Progress': 5,'BATON In_Progress': 8, 'BATON In Progress': 8,'Export In_Progress': 9, 'Export In Progress': 9,'Amberfin01_In_Progress': 6, 'Amberfin01 In Progress': 6, 'Amberfin02_In_Progress':7, 'Amberfin02 In Progress':7 }
+        my.ext_colors = {'Open': '#ff0000', 'Investigating': '#00ff26', 'Waiting for Source': '#eeff00', 'Needs Corrective Action': '#4c69fc', 'Closed': '#597007'}
+        my.timestamp = my.make_timestamp()
+        my.date = my.timestamp.split(' ')[0]
+        my.real_date = datetime.datetime.strptime(my.date, '%Y-%m-%d')
+        my.all_groups = []
+        my.big_user = False
+        users_s = Search('sthpw/login')
+        users_s.add_filter('location','internal')
+        users = users_s.get_sobjects()
+        my.username_lookup = {'': '', None: '', 'NOTHING': ''}
+        for user in users: 
+            login_name = user.get_value('login')
+            fname = user.get_value('first_name')
+            lname = user.get_value('last_name')
+            my.username_lookup[login_name] = '%s %s' % (fname, lname)
+
+    def make_timestamp(my):
+        import datetime
+        now = datetime.datetime.now()
+        return now.strftime("%Y-%m-%d %H:%M:%S")
+ 
+    def camel_case(my, str):
+        sp = str.split(' ')
+        new_str = ''
+        for s in sp:
+            if len(s) != 0:
+                partial = ''
+                if len(s) == 1:
+                    partial = s.upper()
+                else:
+                    partial = '%s%s' % (s[0].upper(), s[1:].lower())
+                if new_str == '':
+                    new_str = partial
+                else:
+                    new_str = '%s %s' % (new_str, partial)
+        return new_str 
+        
+    def trow_top(my):
+        table = Table()
+        table.add_attr('width','100%s' % '%')
+        table.add_attr('height','40px')
+        table.add_attr('border','1')
+        table.add_style('font-size: 12px;')
+        table.add_style('font-family: Helvetica;')
+        #table.add_style('color: #FFFFFF;')
+        table.add_style('color: #000000;')
+        table.add_style('background-color: #f2f2f2;')
+        table.add_style('border-color: #e0e0e0;')
+        table.add_class('spt_group_row')
+        table.add_row()
+        tcol = table.add_cell('&nbsp;&nbsp;&nbsp;<b>Title</b>')
+        tcol.add_attr('class','topper')
+        tcol.add_attr('group','title')
+        tpct = (my.indi_pct * 2)
+        tcol.add_attr('width','%s%s' % (tpct, '%'))
+        for sg in my.seen_groups:
+            #sgcol = table.add_cell('&nbsp;&nbsp;&nbsp;<b>%s</b>' % sg.upper())
+            sgcol = table.add_cell('&nbsp;&nbsp;&nbsp;<b>%s</b>' % my.camel_case(sg))
+            sgcol.add_attr('width','%s%s' % ((my.indi_pct), '%'))
+            sgcol.add_attr('class','topper')
+            sgcol.add_attr('group',sg)
+        t2 = Table()
+        t2.add_attr('width','100%s' % '%')
+        #t2.add_attr('border','2')
+        t2.add_style('font-size: 16px;')
+        t2.add_style('font-family: Helvetica;')
+        t2.add_style('color: #000000;')
+        t2.add_style('background-color: #f2f2f2;')
+        t2.add_row()
+        t2.add_cell(table)
+        t2c = t2.add_cell('&nbsp;&nbsp;&nbsp;&nbsp;')
+        t2c.add_attr('width','10px')
+       
+        return t2
+
+    def get_launch_note_behavior(my, sk, name):
+        behavior = {'css_class': 'clickme', 'type': 'click_up', 'cbjs_action': '''        
+                        try{
+                          var sk = '%s';
+                          var name = '%s';
+                          kwargs =  {'search_key': sk, 'append_process': 'Client Services,Redelivery/Rejection Request,Redelivery/Rejection Completed', 'chronological': true};
+                          spt.panel.load_popup('Notes for ' + name, 'tactic.ui.widget.DiscussionWdg', kwargs);
+                }
+                catch(err){
+                          spt.app_busy.hide();
+                          spt.alert(spt.exception.handler(err));
+                          //alert(err);
+                }
+         ''' % (sk, name)}
+        return behavior
+
+    def shorten_text(my, text, max_len):
+        ret_val = text
+        if len(text) > max_len - 3 :
+            ret_val = '%s...' % text[:max_len -3]
+        return ret_val
+
+    def fix_date(my, date):
+        #This is needed due to the way Tactic deals with dates (using timezone info), post v4.0
+        from pyasm.common import SPTDate
+        return_date = ''
+        date_obj = SPTDate.convert_to_local(date)
+        if date_obj not in [None,'']:
+            return_date = date_obj.strftime("%Y-%m-%d  %H:%M")
+        return return_date
+
+    def get_dates_and_colors(my, date, date_str):
+        date_time = date.split(' ')
+        sdate = date_time[0]
+        stime = ''
+        if len(date_time) > 2:
+            stime = date_time[2]
+            if stime in [None,'','00:00:00','00:00']:
+                stime = ''
+        elif len(date_time) > 1:
+            stime = date_time[1]
+            if stime in [None,'','00:00:00','00:00']:
+                stime = ''
+        stime_s = stime.split(':')
+        if len(stime_s) > 2:
+            stime = '%s:%s' % (stime_s[0],stime_s[1])
+        this_date = ''
+        better_lookin_date = date_str
+        color = '#FFFFFF'
+        if sdate not in [None,'']:
+            this_date = datetime.datetime.strptime(sdate, '%Y-%m-%d')
+            if this_date == my.real_date:
+                color = "#E0B600"
+            elif this_date < my.real_date:
+                color = "#FF0000"
+            else:
+                color = "#66CD00"
+            tdds = sdate.split('-')
+            tyear = ''
+            tmonth = ''
+            tday = ''
+            if len(tdds) == 3:
+                tyear = tdds[0]
+                tmonth = tdds[1]
+                tday = tdds[2]
+            better_lookin_date = '%s/%s/%s' % (tmonth, tday, tyear)
+            if better_lookin_date == '//':
+                better_lookin_date = date_str 
+        if stime not in [None,'']:
+            stime_s = stime.split(':')
+            hour = stime_s[0]
+            am_pm = 'AM'
+            hour_str = hour
+            if hour == '00':
+                hour_str = '12'
+            elif int(hour) < 12:
+                am_pm = 'AM'
+            else:
+                hour_str = str(int(hour) - 12)
+                am_pm = 'PM'
+            stime = '%s:%s %s' % (hour_str, stime_s[1], am_pm)
+            better_lookin_date = '%s &nbsp;&nbsp;&nbsp;%s' % (better_lookin_date, stime)
+        return [better_lookin_date, color]
+
+    def wrow(my, task, expected_delivery_date, count, client_thumbnail_clippings, platform_thumbnail_clippings, in_tbl, bgcol):
+        from order_builder.order_builder import OrderBuilderLauncherWdg
+        from order_builder.taskobjlauncher import TaskObjLauncherWdg
+        from pyasm.search import Search
+        expected_delivery_date = my.fix_date(expected_delivery_date)
+        code = task.get_value('code')
+        name = task.get_value('title')
+        episode = task.get_value('episode')
+        if episode not in [None,'']:
+            name = '%s Episode %s' % (name, episode)
+        better_lookin_dd, dd_color = my.get_dates_and_colors(expected_delivery_date, 'NO DELIVERY DATE')
+        tpct = my.indi_pct * 2
+        table = in_tbl
+        #table = Table()
+        #table.add_attr('width','100%s' % '%')
+        #table.add_attr('border','2')
+        #table.add_style('color: #000000;')
+        #table.add_style('font-family: Helvetica;')
+        trower = table.add_row()
+        trower.add_attr('class','trow')
+        trower.add_attr('num',count)
+        trower.add_attr('viz','true')
+        trower.add_attr('current_priority',task.get_value('indie_priority'))
+        trower.add_style('display: table-row;')
+        trower.add_style('background-color: %s;' % bgcol)
+        dbl = Table()
+        dbl.add_attr('width','100%s' % '%')
+        dbl.add_style('font-size: 16px;')
+        dbl.add_style('color: #000000;')
+        dbl.add_style('background-color: #d7d7d7;')
+        dbl.add_style('border-bottom-right-radius', '10px')
+        dbl.add_style('border-bottom-left-radius', '10px')
+        dbl.add_style('border-top-right-radius', '10px')
+        dbl.add_style('border-top-left-radius', '10px')
+        dbl.add_row()
+        d1 = dbl.add_cell('<b><font style="size: 36px; color: #ff0000;">%s.</font> <u>%s</u></b>' % (count, name))
+        d1.add_attr('width','100%s' % '%')
+        dbl.add_row()
+        lil_tbl = Table()
+        lil_tbl.add_attr('cellpadding','5')
+        lil_tbl.set_style('color: #000000; font-size: 14px;')
+        lil_tbl.add_row()
+        lil_tbl.add_cell(code)
+        lil_tbl.add_cell("<i>Platform: %s</i>" % task.get_value('platform'))
+        lil_tbl.add_cell("<b>Client: %s</b>" % task.get_value('client_name'))
+        lil_tbl.add_row()
+        obt = Table()
+        obt.add_attr('cellpadding','5')
+        obt.set_style('color: #000000; font-size: 14px;')
+        obt.add_row()
+        delb = obt.add_cell('<font color="%s"><b>Deliver By: %s</b></font>' % (dd_color, better_lookin_dd)) 
+        delb.add_attr('colspan','2')
+        delb.add_attr('nowrap','nowrap')
+        delb.add_style('text-shadow: 1px 1px #000000;')
+        ob = OrderBuilderLauncherWdg(code=task.get_value('order_code'))
+        obt.add_attr('width','260px')
+        obt.add_cell(ob)
+        notes = obt.add_cell('<img src="/context/icons/silk/note_add.png"/>')
+        notes.add_style('cursor: pointer;')
+        tsearch = Search('twog/title')
+        tsearch.add_filter('code',task.get_value('title_code'))
+        task_tit = tsearch.get_sobject()
+        notes.add_behavior(my.get_launch_note_behavior(task_tit.get_search_key(),name)) 
+        lil_tbl.add_cell(obt)  
+        if task_tit.get_value('no_charge') and task_tit.get_value('redo'):
+            lil_tbl.add_row()
+            lil_tbl.add_cell('<font color="#FF0000"><b>REDO - NO CHARGE</b></font>')
+        d2 = dbl.add_cell(lil_tbl)
+        d2.add_attr('width','100%s' % '%')
+        if my.big_user:
+            dbl.add_row()
+            offbutt = IndieBBSelectWdg(search_key=task.get_search_key(),title_code=task.get_value('title_code'),lookup_code=task.get_value('lookup_code'),indie_bigboard=task.get_value('indie_bigboard'))
+            dblbb = dbl.add_cell(offbutt)
+            dblbb.add_attr('width','20px')
+            #dblpr = dbl.add_cell('Priority: %s' % task.get_value('indie_priority'))
+            dblpr = dbl.add_cell('Set At #: ')
+            dblpr.add_attr('align','left')
+            prioid = 'prio_%s' % count
+            dbltxt = dbl.add_cell('<input type="text" value="%s" row_type="task" task_sk="%s" current_count="%s" current_priority="%s" class="count_order" external_rejection="false" id="%s"/>' % (count, task.get_search_key(), count, task.get_value('indie_priority'), prioid))
+            dbltxt.add_attr('align','left')
+            dbltxt.add_behavior(my.show_change(prioid))
+            prioid = 'prio_%s' % count
+        else: 
+            dbl.add_row()
+            dbl4 = dbl.add_cell('Priority: %s' % task.get_value('priority'))
+            dbl4.add_attr('align','left')
+            prioid = 'prio_%s' % count
+        tripl = Table()
+        tripl.add_attr('width','100%s' % '%')
+        tripl.add_attr('height','100%s' % '%')
+        tripl.add_row()
+        tallboy = Table()
+        tallboy.add_row()
+        ctc1 = tallboy.add_cell(client_thumbnail_clippings)
+        ctc1.add_attr('valign','top')
+        ctc1.add_attr('align','left')
+        ctc1.add_attr('width','25px')
+        tallboy.add_row()
+        ctc2 = tallboy.add_cell(platform_thumbnail_clippings)
+        ctc2.add_attr('valign','top')
+        ctc2.add_attr('align','left')
+        ctc2.add_attr('width','25px')
+
+        ctc = tripl.add_cell(tallboy)
+        ctc.add_attr('valign','top')
+        ctc.add_attr('align','left')
+        ctc.add_attr('width','25px')
+        dc = tripl.add_cell(dbl)
+        dc.add_attr('align','left')
+        #titl = table.add_cell(dbl)
+        titl = table.add_cell(tripl)
+        if count == 1:
+            titl.add_attr('class','bottom_content')
+            titl.add_attr('group','title')
+        titl.add_attr('valign','top')
+        titl.add_attr('width','%s%s' % (tpct, '%'))
+        for sg in my.seen_groups:
+            if sg != task.get_value('assigned_login_group'):
+                black = table.add_cell(' ')
+                if count == 1:
+                    black.add_attr('class','bottom_content')
+                    black.add_attr('group',sg)
+                black.add_attr('width','%s%s' % (my.indi_pct, '%'))
+                #black.add_style('background-color: #000000;')
+                black.add_style('background-color: %s;' % bgcol)
+            else:
+                tat = Table()
+                tat.add_attr('border','1')
+                tat.add_attr('width','100%s' % '%')
+                tat.add_style('border-color: #e0e0e0;')
+                tat.add_style('background-color: #0000FF;')
+                tat.add_style('color: #000000;')
+                tat.add_style('font-weight: bold;')
+                tat.add_style('font-size: 10px;')
+                wo_code = task.get_value('lookup_code')
+                status = task.get_value('status')
+                process = task.get_value('process')
+                assigned = my.username_lookup[task.get_value('assigned')]
+                due_date = my.fix_date(task.get_value('bid_end_date')).split(' ')[0]
+                tat.add_row()
+                inspect_button = TaskObjLauncherWdg(code=wo_code, name=process)
+                inspect = tat.add_cell(inspect_button)
+                pro = tat.add_cell(process)
+                pro.add_style('background-color: %s;' % my.stat_colors[status])
+                pro.add_style('color: #000000;')
+                stcell = tat.add_cell(status)
+                stcell.add_attr('width','100%s' % '%')
+                stcell.add_style('background-color: %s;' % my.stat_colors[status])
+                stcell.add_style('color: #000000;')
+                tat.add_row()
+                wcell = tat.add_cell(wo_code.split('WORK_ORDER')[1])
+                wcell.add_attr('width','100%s' % '%')
+                acell = tat.add_cell(assigned)
+                acell.add_attr('width','100%s' % '%')
+                acell.add_style('background-color: %s;' % my.stat_colors[status])
+                acell.add_style('color: #000000;')
+                dcell = tat.add_cell(due_date)
+                dcell.add_attr('width','100%s' % '%')
+                dcell.add_attr('nowrap','nowrap')
+                dcell.add_style('background-color: %s;' % my.stat_colors[status])
+                dcell.add_style('color: #000000;')
+                tatcell1 = table.add_cell(tat) 
+                if count == 1:
+                    tatcell1.add_attr('class','bottom_content')
+                    tatcell1.add_attr('group',sg)
+                tatcell1.add_attr('valign','top')
+                tatcell1.add_attr('width','%s%s' % (my.indi_pct, '%'))
+                tatcell1.add_style('background-color: #0000F0;')
+        return table
+
+    def trow(my, title, expected_delivery_date, count, client_thumbnail_clippings, platform_thumbnail_clippings, in_tbl, bgcol, ext_sk, curr_group_prio, ext_status=None, ext_assigned=None, ext_assigned_corrective=None):
+        from order_builder.order_builder import OrderBuilderLauncherWdg
+        from order_builder.taskobjlauncher import TaskObjLauncherWdg
+        due_date = my.fix_date(title.get_value('due_date'))
+        code = title.get_value('code')
+        code_str = code
+        name = title.get_value('title')
+        episode = title.get_value('episode')
+        if episode not in [None,'']:
+            name = '%s Episode %s' % (name, episode)
+        requires_mastering = False
+        if title.get_value('requires_mastering_qc') not in ['False','false','0',None,False]:
+            requires_mastering = True
+        better_lookin_ed, ed_color = my.get_dates_and_colors(expected_delivery_date, 'NO DELIVERY DATE')
+        better_lookin_dd, dd_color = my.get_dates_and_colors(due_date, 'NO DUE DATE')
+        tpct = my.indi_pct * 2
+        table = in_tbl
+
+        title_block_bgcol = '#d7d7d7'
+        if title.get_value('is_external_rejection') == 'true':
+            title_block_bgcol = '#b50000'
+
+        if requires_mastering:
+            title_block_bgcol = '#c8a2c8'
+
+        if title.get_value('redo') not in [None,False]:
+            from pyasm.search import Search
+            title_block_bgcol = '#ffcc00'
+
+            redo_title = ''
+            redo_order = ''
+            if title.get_value('redo_of_title_code') not in [None,'']:
+                redo_title = title.get_value('redo_of_title_code')
+                tsearch = Search('twog/title')
+                tsearch.add_filter('code',redo_title)
+                redone_title = tsearch.get_sobject()
+                if redone_title:
+                    redo_order = redone_title.get_value('order_code')
+            else:        
+                ext_search = Search('twog/external_rejection')
+                ext_search.add_filter('replacement_title_code',code)
+                ext_search.add_order_by('timestamp desc')
+                old_ext = ext_search.get_sobject()
+                if old_ext:
+                    redo_title = old_ext.get_value('title_code')
+                    redo_order = old_ext.get_value('order_code')
+
+            if redo_title or redo_order:
+                code_str = "%s:<b>%s</b> -- Redo of -- %s:%s" % (title.get_value('order_code'), code, redo_order, redo_title)
+
+
+        trower = table.add_row()
+        trower.add_attr('class','trow')
+        trower.add_attr('num',count)
+        trower.add_attr('viz','true')
+        trower.add_attr('current_priority',title.get_value('priority'))
+        trower.add_style('display: table-row;')
+        trower.add_style('background-color: %s;' % bgcol)
+        dbl = Table()
+        dbl.add_attr('width','100%s' % '%')
+        dbl.add_attr('height','100%s' % '%')
+        dbl.add_style('font-size: 14px;')
+        dbl.add_style('color: #000000;')
+        dbl.add_style('background-color: %s;' % title_block_bgcol)
+        dbl.add_style('border-bottom-left-radius', '10px')
+        dbl.add_style('border-top-left-radius', '10px')
+        if requires_mastering:
+            dbl.add_row()
+            lefted = dbl.add_cell('<font color="#FF0000"><b>Requires QC Mastering</b></font>')
+            lefted.add_attr('align','left')
+        dbl.add_row()
+        d1 = dbl.add_cell('<b><font style="size: 36px; color: #ff0000;">%s.</font> <u>%s</u></b>' % (count, name))
+        d1.add_attr('width','100%s' % '%')
+        dbl.add_row()
+        lil_tbl = Table()
+        lil_tbl.add_attr('height','100%s' % '%')
+        lil_tbl.set_style('color: #000000; font-size: 12px;')
+        lil_tbl.add_style('background-color: %s;' % bgcol)
+        lil_tbl.add_row()
+        
+        lil_tbl.add_cell(code_str)
+        if len(code_str) > 12:
+            lil_tbl.add_row()
+            
+        if client_thumbnail_clippings == '':
+            lil_tbl.add_cell("&nbsp;&nbsp;<b>Client: %s</b>" % title.get_value('client_name'))
+        else:
+            lil_tbl.add_cell("&nbsp;&nbsp;<b>Client:</b> %s" % client_thumbnail_clippings)
+        if platform_thumbnail_clippings == '':
+            lil_tbl.add_cell("&nbsp;&nbsp;<i>Platform: %s</i>" % title.get_value('platform'))
+        else:
+            lil_tbl.add_cell("&nbsp;&nbsp;<i>Platform:</i> %s" % platform_thumbnail_clippings)
+        lil_tbl.add_row()
+        obt = Table()
+        obt.add_attr('cellpadding','5')
+        obt.add_attr('height','100%s' % '%')
+        obt.add_style('color: #000000;')
+        obt.add_style('font-size: 14px;')
+        obt.add_row()
+        delb = obt.add_cell('<font color="%s"><b>Deliver By: %s</b></font>' % (ed_color, better_lookin_ed)) 
+        delb.add_attr('colspan','2')
+        delb.add_attr('nowrap','nowrap')
+        delb.add_style('text-shadow: 1px 1px #000000;')
+        obt.add_row()
+        delb = obt.add_cell('<font color="%s"><b>Due Date:&nbsp;&nbsp;&nbsp; %s</b></font>' % (dd_color, better_lookin_dd)) 
+        delb.add_attr('colspan','2')
+        delb.add_attr('nowrap','nowrap')
+        delb.add_style('text-shadow: 1px 1px #000000;')
+        if title.get_value('is_external_rejection') == 'true':
+            obt.add_row()
+            delb = obt.add_cell('<font color="#FF00F0"><b>Received External Rejection</b></font>') 
+            delb.add_attr('colspan','2')
+            delb.add_attr('nowrap','nowrap')
+            delb.add_style('text-shadow: 1px 1px #000000;')
+            delb.add_style('font-size: 18px;')
+        if ext_status not in [None,'']:
+            obt.add_row()
+            lefted = obt.add_cell('<font color="#FF00F0"><b>External Rejection Status: %s</b></font>' % ext_status)
+            lefted.add_attr('align','left')
+            lefted.add_attr('nowrap','nowrap')
+            lefted.add_style('text-shadow: 1px 1px #000000;')
+        if ext_assigned not in [None,'']:
+            obt.add_row()
+            lefted = obt.add_cell('<font color="#FF00F0"><b>Assigned: %s</b></font>' % ext_assigned)
+            lefted.add_attr('align','left')
+            lefted.add_attr('nowrap','nowrap')
+            lefted.add_style('text-shadow: 1px 1px #000000;')
+        if ext_assigned_corrective not in [None,'']:
+            obt.add_row()
+            lefted = obt.add_cell('<font color="#FF00F0"><b>Corrective Action Assigned: %s</b></font>' % ext_assigned_corrective)
+            lefted.add_attr('align','left')
+            lefted.add_attr('nowrap','nowrap')
+            lefted.add_style('text-shadow: 1px 1px #000000;')
+        ob = OrderBuilderLauncherWdg(code=title.get_value('order_code'))
+        obt.add_attr('width','260px')
+        obt.add_cell(ob)
+        notes = obt.add_cell('<img src="/context/icons/silk/note_add.png"/>')
+        notes.add_style('cursor: pointer;')
+        notes.add_behavior(my.get_launch_note_behavior(title.get_search_key(),name)) 
+        lil_tbl.add_cell(obt)  
+        if title.get_value('no_charge') and title.get_value('redo'):
+            lil_tbl.add_row()
+            lil_tbl.add_cell('<font color="#FF0000"><b>REDO - NO CHARGE</b></font>')
+        d2 = dbl.add_cell(lil_tbl)
+        d2.add_attr('width','100%s' % '%')
+        if my.big_user:
+            dbl.add_row()
+            smtbl = Table()
+            smtbl.add_attr('height','100%s' % '%')
+            smtbl.add_style('font-size: 16px;')
+            smtbl.add_style('color: #000000;')
+            smtbl.add_row()
+            offbutt = BigBoardSelectWdg2(search_type='twog/title',code=title.get_value('code'),in_bigboard='Yes')
+            dblbb = dbl.add_cell(offbutt)
+            dblbb.add_attr('width','20px')
+            dblpr = smtbl.add_cell('Set At #: ')
+            dblpr.add_attr('align','left')
+            prioid = 'prio_%s' % count
+            ami_extr = 'false'
+            row_priority = title.get_value('priority')
+            if ext_sk not in [None,'']:
+                ami_extr = 'true'
+                row_priority = curr_group_prio
+            dbltxt = smtbl.add_cell('<input type="text" value="%s" row_type="title" title_sk="%s" current_count="%s" current_priority="%s" class="count_order" id="%s" external_rejection="%s" ext_sk="%s" style="background-color: #FFFFFF;"/>' % (count, title.get_search_key(), count, row_priority, prioid, ami_extr, ext_sk))
+            dbltxt.add_attr('align','left')
+            dbltxt.add_behavior(my.show_change(prioid))
+            dbl.add_cell(smtbl)
+        tripl = Table()
+        tripl.add_attr('width','100%s' % '%')
+        tripl.add_attr('height','100%s' % '%')
+        tripl.add_row()
+
+        dc = tripl.add_cell(dbl)
+        dc.add_attr('align','left')
+        titl = table.add_cell(tripl)
+        if count == 1:
+            titl.add_attr('class','bottom_content')
+            titl.add_attr('group','title')
+        titl.add_attr('valign','top')
+        titl.add_attr('width','%s%s' % (tpct, '%'))
+        group_keys = my.bigdict[code]['groups'].keys()
+        for sg in my.seen_groups:
+            if sg not in group_keys:
+                black = table.add_cell(' ')
+                if count == 1:
+                    black.add_attr('class','bottom_content')
+                    black.add_attr('group',sg)
+                black.add_attr('width','%s%s' % (my.indi_pct, '%'))
+                black.add_style('background-color: %s;' % bgcol)
+            else:
+                tat = Table()
+                tat.add_attr('width','100%s' % '%')
+                tat.add_attr('height','100%s' % '%')
+                tat.add_style('border-color: #e0e0e0;')
+                tat.add_style('background-color: %s;' % my.bigdict[code]['groups'][sg]['relevant_status_color'])
+                tat.add_style('font-size: 10px;')
+                tat.add_style('border-bottom-right-radius', '10px')
+                tat.add_style('border-bottom-left-radius', '10px')
+                tat.add_style('border-top-right-radius', '10px')
+                tat.add_style('border-top-left-radius', '10px')
+                tasks = my.bigdict[code]['groups'][sg]['tasks']
+                for t in tasks:
+                    wo_code = t.get_value('lookup_code')
+                    status = t.get_value('status')
+                    process = t.get_value('process')
+                    assigned = my.username_lookup[t.get_value('assigned')]
+                    due_date = my.fix_date(t.get_value('bid_end_date')).split(' ')[0]
+                    tittat = tat.add_row()
+                    tittat.add_attr('title',wo_code)
+                    tittat.add_attr('name',wo_code)
+                    inspect_button = TaskObjLauncherWdg(code=wo_code, name=process)
+                    inspect = tat.add_cell(inspect_button)
+                    #wcell = tat.add_cell(wo_code.split('WORK_ORDER')[1])
+                    #wcell.add_attr('nowrap','nowrap')
+                    pro = tat.add_cell(my.shorten_text(process,10))
+                    pro.add_attr('nowrap','nowrap')
+                    #pro.add_attr('title',process)
+                    #pro.add_attr('name',process)
+                    pro.add_attr('title',wo_code)
+                    pro.add_attr('name',wo_code)
+                    pro.add_style('background-color: %s;' % my.stat_colors[status])
+                    stcell = tat.add_cell(my.shorten_text(status,10))
+                    #stcell.add_attr('nowrap','nowrap')
+                    #stcell.add_attr('title',status)
+                    #stcell.add_attr('name',status)
+                    stcell.add_attr('title',wo_code)
+                    stcell.add_attr('name',wo_code)
+                    stcell.add_style('background-color: %s;' % my.stat_colors[status])
+                    acell = tat.add_cell(my.shorten_text(assigned,10))
+                    #acell.add_attr('nowrap','nowrap')
+                    acell.add_style('background-color: %s;' % my.stat_colors[status])
+                    dcell = tat.add_cell(due_date)
+                    dcell.add_attr('nowrap','nowrap')
+                    dcell.add_style('background-color: %s;' % my.stat_colors[status])
+                tatcell1 = table.add_cell(tat) 
+                if count == 1:
+                    tatcell1.add_attr('class','bottom_content')
+                    tatcell1.add_attr('group',sg)
+                tatcell1.add_attr('valign','top')
+                tatcell1.add_attr('width','%s%s' % (my.indi_pct, '%'))
+                tatcell1.add_style('background-color: %s;' % bgcol)
+        return table
+
+    def get_onload(my):            
+        return r'''
+            mytimer = function(timelen){
+                setTimeout('refresh_bigboard()', timelen); // uncomment me
+            }
+            refresh_bigboard = function(){
+                board_els = document.getElementsByClassName('bigboard');     
+                auto_el = document.getElementById('auto_refresh');
+                auto = auto_el.getAttribute('auto');
+                scroll_el = document.getElementById('scroll_el');
+                scroll = scroll_el.getAttribute('scroll');
+                if(auto == 'yes'){
+                    for(var r = 0; r < 1; r++){
+                        spt.app_busy.show("Refreshing...");
+                        //alert('reloading scroll = ' + scroll);
+                        spt.api.load_panel(board_els[r], 'nighttime_hotlist.BigBoardWdg2', {'auto_refresh': auto, 'scroll': scroll});
+                        spt.app_busy.hide();
+                    }
+                }
+                //mytimer(120000);
+            }
+            mytimer(120000);
+        '''
+
+    def get_scroll_by_row(my):
+        behavior = {'type': 'load', 'cbjs_action': '''     
+            try{ 
+                hctime = 500;
+                timer2 = function(timelen, next_count, up_or_down, element, origtime){
+                    send_str = 'do_scroll(' + next_count + ', ' + up_or_down + ', ' + timelen + ', ' + origtime + ')';  
+                    if(element != ''){
+                        //element.scrollIntoView();
+                        if(element.getAttribute('viz') == 'true'){
+                            element.setAttribute('viz','false');
+                            element.style.display = 'none';
+                        }else{
+                            element.setAttribute('viz','true');
+                            element.style.display = 'table-row';
+                        }
+                    }
+                    setTimeout(send_str, timelen);
+                }
+                do_scroll = function(next_count, up_or_down, timelen, origtime){
+                    buttons = document.getElementsByClassName('auto_buttons')[0];
+                    scroll_el = buttons.getElementById('scroll_el');
+                    scroll = scroll_el.getAttribute('scroll');
+                    if(scroll == 'yes'){
+                        element = '';
+                        trs = document.getElementsByClassName('trow');
+                        trslen = trs.length;
+                        preup = up_or_down;
+                        if((trslen - 9 < next_count && up_or_down == 1) || (next_count == 1 && up_or_down == -1)){
+                            up_or_down = up_or_down * -1;
+                        } 
+                        if(preup == up_or_down){
+                            next_count = next_count + up_or_down;
+                        }
+                        for(var r = 0; r < trslen - 1; r++){
+                            if(trs[r].getAttribute('num') == next_count){
+                                element = trs[r];
+                            }
+                        }
+                        nexttime = 0;
+                        if(next_count == 1 || next_count == trslen - 8){
+                            nexttime = origtime * 8;
+                        }else{
+                            nexttime = origtime;
+                        }
+                        timer2(nexttime, next_count, up_or_down, element, origtime);
+                    }
+                }
+                timer2(hctime, 0, 1, '', hctime); 
+            }catch(err){
+                      spt.app_busy.hide();
+                      spt.alert(spt.exception.handler(err));
+            }
+         '''}
+        return behavior
+
+
+    def save_priorities(my):
+        behavior = {'css_class': 'clickme', 'type': 'click_up', 'cbjs_action': '''        
+            function do_proj_prios(title_code, new_priority){
+                    //This is for assigning the projects the same priority
+                    var server = TacticServerStub.get();
+                    projects = server.eval("@SOBJECT(twog/proj['title_code','" + title_code + "'])");
+                    for(var w = 0; w < projects.length; w++){
+                       wts_expr = "@SOBJECT(twog/work_order['proj_code','" + projects[w].code + "'].WT:sthpw/task['bigboard','True']['status','!=','Completed'])"
+                       wts = server.eval(wts_expr);
+                       if(wts.length > 0){
+                           server.update(projects[w].__search_key__, {'priority': new_priority});
+                       }
+                    }
+            }
+            try{ 
+                var server = TacticServerStub.get();
+                var buttons_el = spt.api.get_parent(bvr.src_el, '.auto_buttons');
+                auto_el = buttons_el.getElementById('auto_refresh');
+                auto = auto_el.getAttribute('auto');
+                scroll_el = buttons_el.getElementById('scroll_el');
+                scroll = scroll_el.getAttribute('scroll');
+                tbs = document.getElementsByClassName('count_order');
+                all_dict = {};
+                big_r = 0; 
+                big_val = 0;
+                for(var r = 0; r < tbs.length; r++){
+                    val = tbs[r].value;
+                    old_val = tbs[r].getAttribute('current_count');
+                    current_prio = tbs[r].getAttribute('current_priority');
+                    t_sk = '';
+                    t_code = '';
+                    indie_sk = '';
+                    row_type = tbs[r].getAttribute('row_type');
+                    if(row_type == 'title'){
+                        t_sk = tbs[r].getAttribute('title_sk');
+                        t_code = t_sk.split('code=')[1];
+                        ami_ext = tbs[r].getAttribute('external_rejection')
+                        extr = false;
+                        if(ami_ext == 'true'){
+                            extr = true;
+                            t_sk = tbs[r].getAttribute('ext_sk');
+                        }
+                    }else{
+                        t_sk = tbs[r].getAttribute('task_sk');
+                        t_code = t_sk.split('code=')[1];
+                        indie_sk = '';
+                        indie = server.eval("@SOBJECT(twog/indie_priority['task_code','" + t_code + "']['@ORDER_BY','timestamp desc'])");
+                        if(indie.length > 0){
+                            indie_sk = indie[0].__search_key__;
+                        }
+                    }
+                    changed = false;
+                    if(old_val != val){
+                       changed = true;
+                    }
+                    all_dict[old_val] = {'current_count': old_val, 'current_priority': current_prio, 'sk': t_sk, 'row_type': row_type, 'changed': changed, 'new_count': val, 'indie_sk': indie_sk, 'code': t_code};
+                    big_r = r;
+                    big_val = old_val;
+                }
+                for(var r = 1; r < tbs.length + 1; r++){
+                    if(all_dict[r]['changed']){
+                        new_count = Number(all_dict[r]['new_count']);
+                        row_type = all_dict[r]['row_type'];
+                        pre_prio = 0;
+                        post_prio = 500;
+                        if(new_count != 1){
+                            pre_prio = Number(all_dict[new_count - 1]['current_priority']);
+                        }
+                        if(new_count != tbs.length + 1){
+                            post_prio = Number(all_dict[new_count + 1]['current_priority']);
+                        }
+                        new_priority = (pre_prio + post_prio)/2;
+                        if(row_type == 'title'){
+                            server.update(all_dict[r]['sk'], {'priority': new_priority});
+                            //do_proj_prios(all_dict[r]['code']);
+                        }else{
+                            server.update(all_dict[r]['sk'], {'indie_priority': new_priority});
+                            server.update(all_dict[r]['indie_sk'], {'indie_priority': new_priority});
+                        }
+                    }
+                }
+                                
+                board_els = document.getElementsByClassName('bigboard');     
+                for(var r = 0; r < 1; r++){
+                    spt.app_busy.show("Refreshing...");
+                    spt.api.load_panel(board_els[r], 'nighttime_hotlist.BigBoardWdg2', {'auto_refresh': auto, 'auto_scroll': scroll, 'groups': 'ALL'});
+                    spt.app_busy.hide();
+                }
+            }
+            catch(err){
+                      spt.app_busy.hide();
+                      spt.alert(spt.exception.handler(err));
+            }
+         '''}
+        return behavior
+
+    def show_change(my, ider):
+        behavior = {'css_class': 'clickme', 'type': 'change', 'cbjs_action': '''        
+                try{
+                    var ider = '%s';
+                    moi = document.getElementById(ider);
+                    moi.style.backgroundColor = "#FF0000";
+                    if(moi.value != moi.getAttribute('current_count')){
+                        if(isNaN(moi.value)){
+                            moi.value = moi.getAttribute('current_count');
+                            moi.style.backgroundColor = "#ffffff";
+                        }
+                    }
+            }
+            catch(err){
+                      spt.app_busy.hide();
+                      spt.alert(spt.exception.handler(err));
+            }
+         ''' % ider}
+        return behavior
+
+    def set_scroll(my):
+        behavior = {'css_class': 'clickme', 'type': 'click_up', 'cbjs_action': '''        
+            try{ 
+                var buttons_el = spt.api.get_parent(bvr.src_el, '.auto_buttons');
+                auto_el = buttons_el.getElementById('auto_refresh');
+                auto = auto_el.getAttribute('auto');
+                scroll_el = buttons_el.getElementById('scroll_el');
+                scroll = scroll_el.getAttribute('scroll');
+                //group_el = buttons_el.getElementById('group_select');
+                //group = group_el.value;
+                if(scroll == 'no'){
+                    bvr.src_el.innerHTML = '<input type="button" value="Unset Auto-Scroll"/>';
+                    bvr.src_el.setAttribute('scroll','yes');
+                    scroll = 'yes';
+                }else{
+                    bvr.src_el.innerHTML = '<input type="button" value="Set Auto-Scroll"/>';
+                    bvr.src_el.setAttribute('scroll','no');
+                    scroll = 'no';
+                }
+                board_els = document.getElementsByClassName('bigboard');     
+                for(var r = 0; r < 1; r++){
+                    spt.app_busy.show("Refreshing...");
+                    //spt.api.load_panel(board_els[r], 'nighttime_hotlist.BigBoardWdg2', {'auto_refresh': auto, 'auto_scroll': scroll, 'groups': group});
+                    spt.api.load_panel(board_els[r], 'nighttime_hotlist.BigBoardWdg2', {'auto_refresh': auto, 'auto_scroll': scroll, 'groups': 'ALL'});
+                    spt.app_busy.hide();
+                }
+            }
+            catch(err){
+                      spt.app_busy.hide();
+                      spt.alert(spt.exception.handler(err));
+            }
+         '''}
+        return behavior
+
+    def get_reload(my):
+        behavior = {'css_class': 'clickme', 'type': 'click_up', 'cbjs_action': '''        
+            try{ 
+                var buttons_el = spt.api.get_parent(bvr.src_el, '.auto_buttons');
+                auto = bvr.src_el.get('auto');
+                scroll_el = buttons_el.getElementById('scroll_el');
+                scroll = scroll_el.getAttribute('scroll');
+                //group_el = buttons_el.getElementById('group_select');
+                //group = group_el.value;
+                if(auto == 'no'){
+                    bvr.src_el.innerHTML = '<input type="button" value="Unset Auto-Refresh"/>';
+                    bvr.src_el.setAttribute('auto','yes');
+                    auto = 'yes';
+                }else{
+                    bvr.src_el.innerHTML = '<input type="button" value="Set Auto-Refresh"/>';
+                    bvr.src_el.setAttribute('auto','no');
+                    auto = 'no';
+                }
+                board_els = document.getElementsByClassName('bigboard');     
+                for(var r = 0; r < 1; r++){
+                    spt.app_busy.show("Refreshing...");
+                    //spt.api.load_panel(board_els[r], 'nighttime_hotlist.BigBoardWdg2', {'auto_refresh': auto, 'auto_scroll': scroll, 'groups': group});
+                    spt.api.load_panel(board_els[r], 'nighttime_hotlist.BigBoardWdg2', {'auto_refresh': auto, 'auto_scroll': scroll, 'groups': 'ALL'});
+                    spt.app_busy.hide();
+                }
+            }
+            catch(err){
+                      spt.app_busy.hide();
+                      spt.alert(spt.exception.handler(err));
+            }
+         '''}
+        return behavior
+
+    def change_group(my):
+        behavior = {'css_class': 'clickme', 'type': 'change', 'cbjs_action': '''        
+                try{
+                var buttons_el = spt.api.get_parent(bvr.src_el, '.auto_buttons');
+                auto = bvr.src_el.get('auto');
+                scroll_el = buttons_el.getElementById('scroll_el');
+                scroll = scroll_el.getAttribute('scroll');
+                //group_el = buttons_el.getElementById('group_select');
+                //group = group_el.value;
+                group = 'ALL';
+                board_els = document.getElementsByClassName('bigboard');     
+                for(var r = 0; r < 1; r++){
+                    spt.app_busy.show("Refreshing...");
+                    spt.api.load_panel(board_els[r], 'nighttime_hotlist.BigBoardWdg2', {'auto_refresh': auto, 'auto_scroll': scroll, 'groups': group});
+                    spt.app_busy.hide();
+                }
+            }
+            catch(err){
+                      spt.app_busy.hide();
+                      spt.alert(spt.exception.handler(err));
+            }
+         '''}
+        return behavior
+
+    def bring_to_top(my):
+        behavior = {'css_class': 'clickme', 'type': 'click_up', 'cbjs_action': '''        
+                try{
+                    body = document.getElementById('title_body');
+                    body.scrollTop = 0;
+            }
+            catch(err){
+                      spt.app_busy.hide();
+                      spt.alert(spt.exception.handler(err));
+            }
+         '''}
+        return behavior
+
+    def toggle_groupings(my):
+        behavior = {'css_class': 'clickme', 'type': 'click_up', 'cbjs_action': '''        
+                try{
+                    prio = bvr.src_el.getAttribute('current_priority');
+                    state = bvr.src_el.getAttribute('state');
+                    if(state == 'opened'){
+                        bvr.src_el.setAttribute('state','closed');
+                        state = 'closed';
+                    }else{
+                        bvr.src_el.setAttribute('state','opened');
+                        state = 'opened';
+                    }
+                    
+                    top_el = document.getElementById('title_body');
+                    rows = top_el.getElementsByClassName('trow');
+                    for(var r = 0; r < rows.length; r++){ 
+                        if(rows[r].getAttribute('current_priority') == prio){
+                            if(state == 'closed'){
+                                //rows[r].setAttribute('viz','false');
+                                rows[r].style.display = 'none';
+                            }else{
+                                //rows[r].setAttribute('viz','true');
+                                rows[r].style.display = 'table-row';
+                            }
+                        }
+                    }
+                    
+                    
+            }
+            catch(err){
+                      spt.app_busy.hide();
+                      spt.alert(spt.exception.handler(err));
+            }
+         '''}
+        return behavior
+
+    
+
+    def get_buttons(my, auto_refresh, auto_scroll, kgroups):
+        from pyasm.widget import SelectWdg
+        btns = Table()
+        btns.add_attr('class','auto_buttons')
+        btns.add_row()
+        auto_text = "Set Auto-Refresh"
+        if auto_refresh == 'yes':
+            auto_text = "Unset Auto-Refresh"
+        auto = btns.add_cell('<input type="button" value="%s"/>' % auto_text)
+        auto.add_attr('id','auto_refresh')
+        auto.add_attr('name','auto_refresh')
+        auto.add_attr('auto',auto_refresh)
+        auto.add_behavior(my.get_reload())
+        scroll_text = "Set Auto-Scroll"
+        if auto_scroll == 'yes':
+            scroll_text = "Unset Auto-Scroll"
+        scroll = btns.add_cell('<input type="button" value="%s"/>' % scroll_text)
+        scroll.add_attr('id','scroll_el')
+        scroll.add_attr('name','scroll_el')
+        scroll.add_attr('scroll',auto_scroll)
+        scroll.add_behavior(my.set_scroll())
+        to_top = btns.add_cell('<input type="button" value="Go To Top"/>')
+        to_top.add_behavior(my.bring_to_top())
+        if my.big_user:
+            saveit = btns.add_cell('<input type="button" value="Save Priorities"/>')
+            saveit.add_behavior(my.save_priorities())
+#        group_sel = SelectWdg('group_select')
+#        group_sel.add_attr('id','group_select')
+#        group_sel.append_option('ALL','ALL')
+#        for g in my.all_groups:
+#            group_sel.append_option(g,g)
+#        group_sel.set_value(kgroups[0])
+#        group_sel.add_behavior(my.change_group())
+#        btns.add_cell(group_sel)
+        return btns
+
+    def get_platform_img(my, platform):
+        from pyasm.search import Search
+        img_path = ''
+        platform_search = Search("twog/platform")
+        platform_search.add_filter('name',platform)
+        platform = platform_search.get_sobject()
+        platform_id = platform.get_id()
+        snaps_s = Search("sthpw/snapshot")
+        snaps_s.add_filter('search_id',platform_id)
+        snaps_s.add_filter('search_type','twog/platform?project=twog')
+        snaps_s.add_filter('is_current','1')
+        snaps_s.add_filter('version','0',op='>')
+        snaps_s.add_where("\"context\" in ('publish','icon','MISC')")
+        snaps_s.add_order_by('timestamp desc')
+        snaps = snaps_s.get_sobjects()
+        if len(snaps) > 0:
+            from tactic_client_lib import TacticServerStub
+            server = TacticServerStub.get()
+            snap = snaps[0]
+            img_path = server.get_path_from_snapshot(snap.get_code(), mode="web")
+            if img_path not in [None,'']:
+                img_path = 'http://tactic01%s' % img_path
+        return img_path
+
+    def get_client_img(my, client_code):
+        from pyasm.search import Search
+        img_path = ''
+        client_search = Search("twog/client")
+        client_search.add_filter('code',client_code)
+        client = client_search.get_sobject()
+        client_id = client.get_id()
+        snaps_s = Search("sthpw/snapshot")
+        snaps_s.add_filter('search_id',client_id)
+        snaps_s.add_filter('search_type','twog/client?project=twog')
+        snaps_s.add_filter('is_current','1')
+        snaps_s.add_filter('version','0',op='>')
+        snaps_s.add_where("\"context\" in ('publish','icon','MISC')")
+        snaps_s.add_order_by('timestamp desc')
+        snaps = snaps_s.get_sobjects()
+        if len(snaps) > 0:
+            from tactic_client_lib import TacticServerStub
+            server = TacticServerStub.get()
+            snap = snaps[0]
+            img_path = server.get_path_from_snapshot(snap.get_code(), mode="web")
+            if img_path not in [None,'']:
+                img_path = 'http://tactic01%s' % img_path
+        return img_path
+
+
+    
+    def get_display(my):   
+        from operator import itemgetter
+        from pyasm.search import Search
+        my.big_user = False
+        search = Search("twog/global_resource")
+        search.add_filter('name','Usernames Allowed Hot Today Changes')
+        allowed = search.get_sobjects()
+        if allowed:
+            allowed = allowed[0].get_value('description').split(',')
+            if my.user in allowed:
+                my.big_user = True
+
+        auto_refresh = 'no'
+        auto_scroll = 'no'
+        kgroups = ['ALL']
+        if 'auto_refresh' in my.kwargs.keys():
+            auto_refresh = my.kwargs.get('auto_refresh')
+        if 'auto_scroll' in my.kwargs.keys():
+            auto_scroll = my.kwargs.get('auto_scroll')
+        divvy = DivWdg()
+        if auto_refresh == 'yes':
+            beh = {'type': 'load', 'cbjs_action': my.get_onload()}
+            divvy.add_behavior(beh)
+        if 'groups' in my.kwargs.keys():
+            kgroups = my.kwargs.get('groups').split(',')
+        search = Search("sthpw/login_group")
+        search.add_where("\"login_group\" not in ('client','default','user')")
+        all_groups1 = search.get_sobjects()
+        my.all_groups = []
+        for ag1 in my.all_groups:
+            ag = ag1.get_value('login_group')
+            if 'supervisor' not in ag:
+                my.all_groups.append(ag)
+
+        thumbnail_clippings = {}
+
+        divvy2 = DivWdg()
+        divvy2.add_behavior(my.get_scroll_by_row())
+        table = Table()
+        table.add_attr('class','bigboard')
+        table.add_attr('width','100%s' % '%')
+        table.add_attr('bgcolor','#fcfcfc')
+        table.add_style('color: #000000;')
+        table.add_style('font-family: Helvetica;')
+        inorder = []
+        bigbox = {}
+        bigbox_prios = []
+        search = Search("twog/title")
+        search.add_filter('bigboard',True)
+        search.add_order_by("priority")
+        search.add_order_by("expected_delivery_date")
+        bigboarders = search.get_sobjects()
+
+         #This is for mastering even if no red ribbon
+#        masterings = Search('twog/title')
+#        masterings.add_filter('requires_mastering_qc',True)
+#        masterings.add_order_by("priority")
+#        masterings.add_order_by("expected_delivery_date")
+#        masteringers = masterings.get_sobjects()
+#        
+#        if len(masteringers) > 0:
+#            tempo = []
+#            for m in masteringers:
+#                for b in bigboarders:
+#                    if m.get_value('priority') < b.get_value('priority') and m not in tempo:
+#                        tempo.append(m)
+#                    elif m.get_value('priority') ==  b.get_value('priority'):
+#                        if m.get_value('expected_delivery_date') <= b.get_value('expected_delivery_date') and m not in tempo:
+#                            tempo.append(m)
+#                        elif b not in tempo:
+#                            tempo.append(b)
+#                    elif b not in tempo:
+#                         tempo.append(b)
+#            bigboarders = tempo
+
+        extr_s = Search("twog/external_rejection")
+        extr_s.add_filter('status','Closed',op='!=')
+        extr_s.add_order_by("priority")
+        extr_s.add_order_by("expected_delivery_date")
+        extrs = extr_s.get_sobjects()
+        ext_2tit_dict = {}
+        tit_2ext_dict = {}
+        if len(extrs) > 0:
+            tempo = []
+            for m in extrs:
+                mtitle_s = Search("twog/title")
+                mtitle_s.add_filter('code',m.get_value('title_code'))
+                mtitle = mtitle_s.get_sobject()
+
+                mtitle_code = mtitle.get_code()
+                mcode = m.get_code()
+                if mcode not in ext_2tit_dict.keys():
+                    ext_2tit_dict[mcode] = mtitle 
+                if mtitle_code not in tit_2ext_dict:
+                    tit_2ext_dict[mtitle_code] = m
+
+                for b in bigboarders:
+                    if m.get_value('priority') < b.get_value('priority') and m not in tempo:
+                        tempo.append(m)
+                    elif m.get_value('priority') == b.get_value('priority'):
+                        if m.get_value('expected_delivery_date') <= b.get_value('expected_delivery_date') and m not in tempo:
+                            tempo.append(m)
+                        elif b not in tempo:
+                            tempo.append(b)
+                    elif b not in tempo:
+                         tempo.append(b)
+            bigboarders = tempo
+        
+        
+        
+        
+
+
+        search2 = Search("twog/indie_bigboard")
+        search2.add_filter('indie_bigboard',True)
+        search2.add_order_by("indie_priority")
+        bigboarders2 = search2.get_sobjects()
+
+        for b2 in bigboarders2:
+            task_code = b2.get_value('task_code')
+            ts = Search("sthpw/task")
+            ts.add_filter('code',task_code)
+            ts.add_filter('search_type','twog/proj?project=twog')
+            b2_task = ts.get_sobject()
+            alg = b2_task.get_value('assigned_login_group')
+            if kgroups[0] == 'ALL' or kgroups[0] in alg:
+                bigbox[task_code] = b2_task
+                bigbox_prios.append({'code': task_code, 'priority': b2.get_value('indie_priority')}) 
+                if alg not in my.seen_groups and 'supervisor' not in alg:
+                    my.seen_groups.append(alg)
+
+        tit_to_task = {}
+        in_str = ''
+        for bb in bigboarders:
+            code = bb.get_value('code')
+            if in_str == '':
+                in_str = "('%s'" % code
+            else:
+                in_str = "%s,'%s'"% (in_str, code)
+        in_str = "%s)" % in_str    
+        tq = Search("sthpw/task")
+        tq.add_filter('bigboard',True)
+        tq.add_filter('active','1')
+        tq.add_filter('search_type','twog/proj?project=twog')
+        tq.add_filter('status','Completed', op="!=")
+        if kgroups[0] != 'ALL':
+            tq.add_where("\"assigned_login_group\" in ('%s','%s')" % (kgroups[0], kgroups[0]))
+        tq.add_where("\"title_code\" in %s" % in_str)
+        bigkids4 = tq.get_sobjects()
+        for bk in bigkids4:
+            titcode = bk.get_value('title_code')
+            ord = bk.get_value('order_in_pipe')
+            asslg = bk.get_value('assigned_login_group')
+            proj_code_linked = bk.get('proj_code')
+            ord_name = '%s_%s_%s' % (ord, proj_code_linked, asslg) 
+            try:
+                tit_to_task[titcode][ord_name] = bk        
+            except:
+                tit_to_task[titcode] = {ord_name: bk}        
+                pass
+        
+        gorder = ['machine room','media vault','compression','edit','audio','qc','streamz','vault','edeliveries']
+        bbc = 0
+        for bb in bigboarders:
+            code = bb.get_value('code') 
+
+            as_ext = False
+            real_title = None
+            real_ext = None
+            if 'EXTERNAL_REJECTION' in code:
+                as_ext = True
+                real_title = ext_2tit_dict[code]
+                real_ext = bb
+                code = real_title.get_code()
+            else:
+                real_title = bb
+
+            tobs = None
+            if code in tit_to_task.keys():
+                tobs = tit_to_task[code]
+            else:
+                tobs = {}
+            tob_keys = tobs.keys()
+            tob_keys.sort()
+
+            bigkids = []
+            for tk in tob_keys:
+                bigkids.append(tobs[tk])
+            if len(bigkids) > 0:
+                my.bigdict[code] = {'title_obj': real_title, 'groups': {}}
+                for bigkid in bigkids:
+                    alg = bigkid.get_value('assigned_login_group')
+                    status = bigkid.get_value('status')
+                    if kgroups[0] == 'ALL':
+                        if alg not in my.bigdict[code]['groups'].keys() and 'supervisor' not in alg:
+                            my.bigdict[code]['groups'][alg] = {'tasks': [], 'relevant_status': 0, 'relevant_status_color': ''}
+                        if alg not in my.seen_groups and 'supervisor' not in alg:
+                            my.seen_groups.append(alg)
+                        if my.stat_relevance[status] >= my.bigdict[code]['groups'][alg]['relevant_status']:
+                            my.bigdict[code]['groups'][alg]['relevant_status'] = my.stat_relevance[status]
+                            my.bigdict[code]['groups'][alg]['relevant_status_color'] = my.stat_colors[status]
+                        my.bigdict[code]['groups'][alg]['tasks'].append(bigkid)
+                        if code not in inorder:
+                            inorder.append(code)
+                            bigbox[code] = bb
+                            bigbox_prios.append({'code': code, 'priority': bb.get_value('priority')}) 
+                    else:
+                        if kgroups[0] in alg:
+                            if alg not in my.bigdict[code]['groups'].keys() and 'supervisor' not in alg:
+                                my.bigdict[code]['groups'][alg] = {'tasks': [], 'relevant_status': 0, 'relevant_status_color': ''}
+                            if alg not in my.seen_groups and 'supervisor' not in alg:
+                                my.seen_groups.append(alg)
+                            if my.stat_relevance[status] >= my.bigdict[code]['groups'][alg]['relevant_status']:
+                                my.bigdict[code]['groups'][alg]['relevant_status'] = my.stat_relevance[status]
+                                my.bigdict[code]['groups'][alg]['relevant_status_color'] = my.stat_colors[status]
+                            my.bigdict[code]['groups'][alg]['tasks'].append(bigkid)
+                            if code not in inorder:
+                                inorder.append(code)
+                                bigbox[code] = bb
+                                bigbox_prios.append({'code': code, 'priority': bb.get_value('priority')}) 
+            elif as_ext:
+                my.bigdict[code] = {'title_obj': real_title, 'groups': {}, 'is_ext': 'true'}
+                if code not in inorder:
+                    inorder.append(code)
+                    bigbox[code] = real_title
+                    ext_priority = bb.get_value('priority')
+                    if ext_priority in [None,'']:
+                        ext_priority = 0
+                    bigbox_prios.append({'code': code, 'priority': ext_priority, 'is_ext': 'true'}) 
+            elif bb.get_value('requires_mastering_qc') not in ['False','false','0',None,False]:
+                my.bigdict[code] = {'title_obj': real_title, 'groups': {}}
+                if code not in inorder:
+                    inorder.append(code)
+                    bigbox[code] = bb
+                    bigbox_prios.append({'code': code, 'priority': bb.get_value('priority')}) 
+            bbc = bbc + 1
+
+        tmparr = my.seen_groups
+        my.seen_groups = []
+        for g in gorder:
+            if g in tmparr:
+                my.seen_groups.append(g)
+        for guy in tmparr:
+            if guy not in gorder:
+                my.seen_groups.append(guy)
+   
+        if len(kgroups) > 0 and kgroups[0] != 'ALL':
+            my.seen_groups = kgroups
+        sg_len = len(my.seen_groups)
+        col_len = sg_len + 2
+        my.indi_pct = float(100/col_len)
+        btns = my.get_buttons(auto_refresh, auto_scroll, kgroups) 
+        button_top = table.add_row()
+        table.add_cell(btns)
+        toprow = table.add_row()
+        toprow.add_attr('class','trow_nomove')
+        table.add_cell(my.trow_top())
+
+        t2div = DivWdg()
+        t2div.add_attr('id','title_body')
+        t2div.add_attr('width','100%s' % '%')
+        t2div.add_attr('bgcolor','#fcfcfc')
+        t2div.add_style('color: #000000;')
+        t2div.add_style('font-family: Helvetica;')
+        t2div.add_style('overflow-y: scroll;')
+        t2div.add_style('height: 900px;')
+
+        t2 = Table()
+        t2.add_attr('width','100%s' % '%')
+        t2.add_attr('bgcolor','#fcfcfc')
+        t2.add_attr('border','1')
+        t2.add_style('border-color: #eeeeee;')
+        #t2.add_style('border-color: #ff0000;')
+        #t2.add_style('border-color: #ff0000;')
+        t2.add_style('color: #000000;')
+        t2.add_style('font-family: Helvetica;')
+        #Need to alternate row colors starting at fcfcfc, then going to ffffff
+        if my.seen_groups not in [None,'',[]]:
+            new_ordering = sorted(bigbox_prios, key=itemgetter('priority')) 
+            count = 1
+            grouping_prio = -1
+            for bp in new_ordering:
+                is_ext = False
+                external_r = None
+                ext_prio = 0
+                if 'is_ext' in bp.keys():
+                    is_ext = True
+                    external_r = tit_2ext_dict[bp.get('code')]
+                    ext_prio = external_r.get_value('priority')
+                    if ext_prio in [None,'']:
+                        ext_prio = 0
+                code = bp.get('code')
+                client_thumbnail_clippings = ''
+                platform_thumbnail_clippings = ''
+                bgcol = '#fcfcfc'
+                if count % 2 == 0:
+                    bgcol = '#ffffff'
+                if 'TITLE' in code:
+                    bb = my.bigdict[code]['title_obj']
+                    curr_group_prio = bb.get_value('priority')
+                    if 'is_ext' in my.bigdict[code].keys():
+                        curr_group_prio = ext_prio
+                    if curr_group_prio != grouping_prio:
+                        grouping_prio = curr_group_prio
+                        grouping_row = t2.add_row()
+                        grouping_cell = t2.add_cell(grouping_prio)
+                        grouping_cell.add_attr('colspan',len(my.seen_groups) + 1)
+                        grouping_row.add_attr('current_priority',grouping_prio)
+                        grouping_row.add_attr('state','opened')
+                        grouping_row.add_style('background-color: #dce3ee;')
+                        grouping_row.add_behavior(my.toggle_groupings())
+                        
+                    client_code = bb.get_value('client_code')
+                    client_name = bb.get_value('client_name')
+                    if client_code not in thumbnail_clippings.keys():
+                        img_path = my.get_client_img(client_code)
+                        if img_path not in [None,'']:
+                            img_str = '<img src="%s" alt="%s" title="%s" style="width: 32px; height: 32px;"/>' % (img_path, client_name, client_name)
+                            thumbnail_clippings[client_code] = img_str      
+                            client_thumbnail_clippings = img_str
+                    else:
+                        client_thumbnail_clippings = thumbnail_clippings[client_code]
+                    platform = bb.get_value('platform')
+                    if platform not in thumbnail_clippings.keys():
+                        img_path = my.get_platform_img(platform)
+                        if img_path not in [None,'']:
+                            img_str = '<img src="%s" alt="%s" title="%s" style="width: 32px; height: 32px;"/> &nbsp; %s' % (img_path, platform, platform, platform)
+                            thumbnail_clippings[platform] = img_str      
+                            platform_thumbnail_clippings = img_str
+                    else:
+                        platform_thumbnail_clippings = thumbnail_clippings[platform]
+                    expected_delivery_date = bb.get_value('expected_delivery_date')
+                    #WE WERE showing the order's expected_delivery_date instead of the title's edd, per someone's request...but that's been a dumb idea that never made any sense, so I'm taking it off now...
+                    #search = Search("twog/order")
+                    #search.add_filter('code',bb.get_value('order_code'))
+                    #title_order = search.get_sobjects()
+                    #if title_order:
+                    #    title_order = title_order[0]
+                    #    expected_delivery_date = title_order.get_value('expected_delivery_date')
+                    ext_status = None
+                    ext_sk = None
+                    ext_assigned = None
+                    ext_assigned_corrective = None
+                    if is_ext:
+                        expected_delivery_date = external_r.get_value('expected_delivery_date')
+                        #bgcol = my.ext_colors[external_r.get_value('status')]
+                        ext_status = external_r.get_value('status')
+                        ext_sk = external_r.get_search_key()
+                        ext_assigned = external_r.get_value('assigned')
+                        ext_assigned_corrective = external_r.get_value('corrective_action_assigned')
+                        if ext_assigned == '--Select--':
+                            ext_assigned = None
+                        if ext_assigned_corrective == '--Select--':
+                            ext_assigned_corrective = None
+                    t2 = my.trow(bb, expected_delivery_date, count, client_thumbnail_clippings, platform_thumbnail_clippings, t2, bgcol, ext_sk, curr_group_prio, ext_status, ext_assigned, ext_assigned_corrective)
+                    count = count + 1
+                else:
+                    bb = bigbox[code]
+                    curr_group_prio = bb.get_value('indie_priority')
+                    if curr_group_prio != grouping_prio:
+                        grouping_prio = curr_group_prio
+                        grouping_row = t2.add_row()
+                        grouping_cell = t2.add_cell(grouping_prio)
+                        grouping_cell.add_attr('colspan',len(my.seen_groups) + 1)
+                        grouping_row.add_attr('current_priority',grouping_prio)
+                        grouping_row.add_attr('state','opened')
+                        grouping_row.add_style('background-color: #dce3ee;')
+                        grouping_row.add_behavior(my.toggle_groupings())
+                    client_code = bb.get_value('client_code')
+                    if client_code not in thumbnail_clippings.keys():
+                        img_path = my.get_client_img(client_code)
+                        if img_path not in [None,'']:
+                            img_str = '<img src="%s" style="width: 32px; height: 32px;"/>' % img_path
+                            thumbnail_clippings[client_code] = img_str      
+                            client_thumbnail_clippings = img_str
+                    else:
+                        client_thumbnail_clippings = thumbnail_clippings[client_code]
+                    platform = bb.get_value('platform')
+                    if platform not in thumbnail_clippings.keys():
+                        img_path = my.get_platform_img(platform)
+                        if img_path not in [None,'']:
+                            img_str = '<img src="%s" style="width: 32px; height: 32px;"/>' % img_path
+                            thumbnail_clippings[platform] = img_str      
+                            platform_thumbnail_clippings = img_str
+                    else:
+                        platform_thumbnail_clippings = thumbnail_clippings[platform]
+                    search = Search("twog/order")
+                    search.add_filter('code',bb.get_value('order_code'))
+                    task_order = search.get_sobjects()
+                    expected_delivery_date = bb.get_value('bid_end_date')
+                    if task_order:
+                        task_order = task_order[0]
+                        expected_delivery_date = task_order.get_value('expected_delivery_date')
+                    t2 = my.wrow(bb, expected_delivery_date, count, client_thumbnail_clippings, platform_thumbnail_clippings, t2, bgcol)
+                    count = count + 1
+        t2.add_behavior( {
+                'type': 'load',
+                'cbjs_action': '''
+                realign_timer = function(timelen){
+                    setTimeout('realign_headers()', timelen);
+                }
+                realign_headers = function(){
+                    tops = document.getElementsByClassName('topper');
+                    bottoms = document.getElementsByClassName('bottom_content');
+                    for(var r = 0; r < tops.length; r++){
+                        top_group = tops[r].getAttribute('group');
+                        for(var y = 0; y < bottoms.length; y++){
+                            bottom_group = bottoms[y].getAttribute('group');
+                            if(bottom_group == top_group){
+                                bottom_size = bottoms[y].getSize();
+                                //tops[r].setStyle('width',bottom_size.x - 1);
+                                tops[r].setStyle('width',bottom_size.x + 1);
+                            }
+                        }
+                    } 
+                }
+                window.onresize = function() {
+                    realign_headers();
+                }
+                realign_headers();
+                realign_timer(1000);
+
+                '''
+        } )
+        t2div.add(t2)
+        table.add_row()
+        table.add_cell(t2div)
+        table.add_row() 
+        btns = my.get_buttons(auto_refresh, auto_scroll, kgroups) 
+        table.add_row()
+        table.add_cell(btns)
+        divvy2.add(table)
+        divvy.add(divvy2)
+        return divvy
+
+
+

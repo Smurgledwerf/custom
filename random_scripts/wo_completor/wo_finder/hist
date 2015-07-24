@@ -1,0 +1,1000 @@
+  130  ssh matt@tactic02
+  131  cd /opt/spt/tactic/src
+  132  grep -R "License expired" *
+  133  vim pyasm/security/security.py
+  134  service tactic restart
+  135  exit
+  136  cd /opt/spt/
+  137  psql -U postgres sthpw
+  138  psql -U postgres twog
+  139  psql -U postgres sthpw
+  140  psql -U postgres twog
+  141  psql -U postgres sthpw
+  142  psql -U postgres twog
+  143  ssh matt@tactic02
+  144  cd ../cu
+  145  cd /opt/spt/custom/
+  146  vim note_query
+  147  psql -U postgres sthpw < note_query > notesfound
+  148  vim notesfound 
+  149  vim note_query 
+  150  psql -U postgres sthpw < note_query > notesfound
+  151  vim notesfound 
+  152  vim internal_query
+  153  psql -U postgres sthpw < internal_query > internalfound
+  154  vim internalfound 
+  155  psql -U postgres sthpw < internalfound 
+  156  psql -U postgres sthpw
+  157  ls
+  158  cd operator_view/
+  159  ls
+  160  cd operator_view.py 
+  161  vim operator_view.py 
+  162  cd /opt/spt/tactic/src
+  163  grep -R "class DiscussionWdg"*
+  164  grep -R "class DiscussionWdg" *
+  165  vim tactic/ui/widget/discussion_wdg.py
+  166  cd /opt/spt/custom/operator_view/
+  167  vim operator_view.py 
+  168  cd ..
+  169  cd order_builder/
+  170  grep -R "DiscussionWdg" *
+  171  rm -rf BAK_order_builder.py 
+  172  vim order_builder.py 
+  173  cd /opy/spt/tactic/src
+  174  vim tactic/ui/widget/discussion_wdg.py
+  175  cd /opt/spt/tactic/src
+  176  vim tactic/ui/widget/discussion_wdg.py
+  177  cd /opt/spt/custom/
+  178  cd order_builder/
+  179  grep -R "Hungary" *
+  180  vim order_builder.py 
+  181  service tactic restart
+  182  cd ..
+  183  cd tactic/src
+  184  grep -R "Billing" *
+  185  cd ..
+  186  vim user_query
+  187  psql -U postgres sthpw < user_query > user_list
+  188  vim user_list
+  189  cd tactic/src
+  190  grep -R "changeme" *
+  191  grep -R "changeme" * > chme
+  192  vim chme 
+  193  rm -rf chme 
+  194  grep -R "retired" *
+  195  grep -R "server.*retired" *
+  196  service tactic restart
+  197  vim -d tactic/ui/panel/panel_wdg.py /home/matt/panel_wdg.py 
+  198  psql -U postgres twog
+  199  exit
+  200  cd /opt/spt/custom/order_builder/
+  201  vim order_builder.py 
+  202  cd /home/matt
+  203  ls
+  204  ssh matt@tactic02
+  205  exit
+  206  cd /opt/spt
+  207  psql -U postgres sthpw
+  208  psql -U postgres twog
+  209  cd tactic/src
+  210  grep -R "class SimpleSearchWdg" *
+  211  vim tactic/ui/app/simple_search_wdg.py 
+  212  vim -d tactic/ui/table/table_element_wdg.py /home/matt/table_element_wdg.py 
+  213  vim -d tactic/ui/widget/discussion_wdg.py /home/matt/discussion_wdg.py 
+  214  vim -d tactic/ui/input/html5_upload_wdg.py /home/matt/html5_upload_wdg.py 
+  215  vim -d tactic/ui/widget/discussion_wdg.py /home/matt/discussion_wdg.py
+  216  service tactic restart
+  217  psql -U postgres twog
+  218  psql -U postgres sthpw
+  219  grep -R "class DiscussionWdg" *
+  220  vim tactic/ui/widget/discussion_wdg.py
+  221  ssh matt@tactic02
+  222  psql -U postgres twog
+  223  cd /opt/spt/tactic/src/
+  224  grep -R "UploadButtonWdg" *
+  225  cd tactic/ui/input/
+  226  vim html5_upload_wdg.py 
+  227  service tactic restart
+  228  ssh matt@tactic02
+  229  exit
+  230  cd /opt/spt/tactic/src
+  231  grep -R "=.*XMLHttpRequest" *
+  232  grep -R "=.*XMLHttpRequest" * > httpr
+  233  vim httpr
+  234  rm -rf httpr 
+  235  exit
+  236  cd /var/www/html/source_labels
+  237  ls
+  238  vim HDCAM_label.html
+  239  grep -R "logo" *
+  240  grep "logo" *
+  241  ls
+  242  exit
+  243  cd /var/www/html/checker_errors/
+  244  ls
+  245  ll
+  246  vim 20130517_error_log 
+  247  rm -rf *_error_log
+  248  ls
+  249  cd ..
+  250  cd /opt/spt/tactic/src
+  251  grep -R "onreadystatechange" *
+  252  grep -R "setTimeout" *
+  253  ssh matt@tactic02
+  254  exit
+  255  cd /opt/spt/
+  256  psql -U postgres twog
+  257  cd custom/order_builder/
+  258  vim order_builder.py 
+  259  service tactic restart
+  260  top
+  261  cd order_checker.py 
+  262  vim order_checker.py 
+  263  cd ..
+  264  cd random_scripts/
+  265  ls
+  266  cd get_task_codes/
+  267  ls
+  268  ls *.py
+  269  vim get_task_codes_by_order.py 
+  270  python get_task_codes_by_order.py ORDER04463 > order04463
+  271  vim order04463 
+  272  psql -U postgres sthpw < order04463 
+  273  psql -U postgres twog
+  274  ssh matt@tactic02
+  275  exit
+  276  cd /opt/spt/custom/
+  277  grep -R "addressed_to" * > addto
+  278  vim addto 
+  279  cd /opt/spt/tactic/src
+  280  grep -R "addressed_to" * > addto
+  281  vim addto 
+  282  rm -rf addto 
+  283  exit
+  284  ls
+  285  exit
+  286  asctl all:status
+  287  cd /etc/init.d/tactic status
+  288  history
+  289  service tactic stop
+  290  kill 16017
+  291  service tactic stop
+  292  init 6
+  293  cd /opt/spt/tactic/src
+  294  grep -R "add_option" *
+  295  cd tactic/ui/widget/
+  296  vim checkin_wdg.py 
+  297  service tactic restart
+  298  ssh matt@tactic02
+  299  ping 192.168.52.1
+  300  cd /opt/spt/
+  301  psql -U postgres sthpw
+  302  cd custom/order_builder/
+  303  vim order_builder.py 
+  304  service tactic restart
+  305  vim order_builder.py 
+  306  cd ..
+  307  cd ../
+  308  ll
+  309  psql -U postgres sthpw
+  310  exit
+  311  psql -U postgres twog
+  312  ls
+  313  cd /opt/spt/custom/order_builder/
+  314  vim order_builder.py 
+  315  psql -U postgres twog
+  316  xit
+  317  exit
+  318  cd /opt/spt/custom/order_builder/
+  319  vim order_builder.py 
+  320  service tactic restart
+  321  ssh matt@tactic02
+  322  ls
+  323  pwd
+  324  cd /
+  325  ls -al
+  326  cd opt/spt/
+  327  ls -al
+  328  cd /mnt/tactic01/
+  329  ls -ltr
+  330  ls -al
+  331  cd daily_backups/
+  332  ls -al 
+  333  pwd
+  334  ls
+  335  ls -al
+  336  pwd
+  337  cd result 
+  338  cat result 
+  339  ..
+  340  ls
+  341  rm result 
+  342  ls -al
+  343  rm -r result 
+  344  ls -al
+  345  top
+  346  cd..
+  347  cd ..
+  348  ls
+  349  cd ..
+  350  ls
+  351  cd /
+  352  ls
+  353  cd cd opt/spt/
+  354  ls
+  355  cd tmp/
+  356  ls
+  357  ..
+  358  cd ..
+  359  ls
+  360  cd opt/spt/
+  361  ls -al
+  362  rm -r result 
+  363  ls
+  364  ls -al
+  365  ls
+  366  pwd
+  367  ssh matt@tactic02
+  368  cd /home/matt
+  369  ;s
+  370  ls
+  371  cd /
+  372  find . -name 'midnight_script'
+  373  pwd
+  374  cd home/matt/
+  375  cp /usr/backup/midnight_script .
+  376  ls
+  377  vim midnight_script 
+  378  mkdir /opt/spt/backup2
+  379  cp midnight_script /opt/spt/backup2
+  380  cd /opt/spt/backup2
+  381  ls
+  382  cd ..
+  383  ls
+  384  cd backup2
+  385  ls
+  386  ./midnight_script 
+  387  ls
+  388  scp midnight_script matt@tactic02:/home/matt/
+  389  ssh matt@tactic02
+  390  cd /opt/spt/
+  391  psql -U postgres twog
+  392  cd custom/order_builder/
+  393  vim order_builder.py 
+  394  psql -U postgres twog
+  395  service tactic restart
+  396  exit
+  397  psql -U postgres sthpw
+  398  xit
+  399  exit
+  400  cd /opt/spt/tactic/src
+  401  grep -R "Compression" * > ../compressions
+  402  cd ..
+  403  vim compressions 
+  404  pwd
+  405  cd src
+  406  cd pyasm/widget/
+  407  vim discussion_wdg.py 
+  408  cd ..
+  409  grep -R "Internal:" * > ../internals
+  410  cd ..
+  411  vim internals 
+  412  cd ..
+  413  ssh matt@tacti02
+  414  ssh matt@tactic02
+  415  psql -U postgres sthpw
+  416  cd /opt/spt/tactic/src/
+  417  find -name . panel_wdg.py
+  418  find . -name panel_wdg.py
+  419  vim tactic/ui/panel/panel_wdg.py
+  420  cd ../tactic_temp/log
+  421  cd ../../tactic_temp/log
+  422  vim stdout.log
+  423  cd /opt/spt/tactic/src/tactic/ui/panel/panel_wdg.py 
+  424  cd /opt/spt/tactic/src/tactic/ui/panel/
+  425  vim panel_wdg.py 
+  426  service tactic restart
+  427  xit
+  428  exit
+  429  cd /opt/spt/
+  430  ls
+  431  cd backup2
+  432  ls
+  433  ssh matt@tactic02
+  434  cd ..
+  435  mkdir opener
+  436  cd opener/
+  437  cp /home/matt/20130528.16.CODE.tar.gz .
+  438  tar -zxvf 20130528.16.CODE.tar.gz 
+  439  ls
+  440  rm -rf opt/
+  441  rm -rf 20130528.16.CODE.tar.gz 
+  442  cd /opt/spt/custom/random_scripts/fremantle_strat2g_import/
+  443  ls
+  444  mv Strat2G_Attached_Files /opt/spt/backup2/Strat2G_Attached_Files
+  445  ll
+  446  cd FremantleMedia61119/
+  447  ls
+  448  cd Operations51245/
+  449  ls
+  450  cd ..
+  451  ls
+  452  mv FremantleMedia61119 /opt/spt/backup2/FremantleMedia61119
+  453  cd ../..
+  454  ls
+  455  cd ..
+  456  ls
+  457  cd opener/
+  458  mv /home/matt/20130528.17.CODE.tar.gz .
+  459  tar -zxvf 20130528.17.CODE.tar.gz 
+  460  ls
+  461  cd opt/spt/
+  462  ls
+  463  mv custom ../../custom_528
+  464  mv tactic-3.9.0.v02 ../../tactic_528
+  465  cd ..
+  466  ls
+  467  cd ..
+  468  ls
+  469  rm -rf opt
+  470  mv custom_528 ..
+  471  mv tactic_528 ..
+  472  ls
+  473  cd ..
+  474  rm -rf opener/
+  475  ls
+  476  python merger_md5s.py tactic-3.9.0.v02 tactic_528
+  477  python merger_md5s.py tactic tactic_528
+  478  python merger_md5s.py tactic_528 tactic
+  479  python merger_md5s.py custom custom_528 ignore_exts="jpg,xcf,png,pdf,xls,xml,conf,css,js,"
+  480  ls
+  481  cd custom_528/
+  482  ls
+  483  mv note_manager ../custom/
+  484  cd ../custom/
+  485  pwd
+  486  ls
+  487  cd note_manager/
+  488  ls
+  489  cd ..
+  490  rm -rf custom_528
+  491  cd tactic_528/
+  492  ls
+  493  mv src src_528
+  494  mv src_528 ../tactic
+  495  cd ..
+  496  rm -rf tactic_528
+  497  ls
+  498  vim merger_md5s.py 
+  499  cp merger_md5s.py tactic
+  500  cd tactic
+  501  python merger_md5s.py src src_528 ignore_exts="pyc,jpg,bmp,gif,png,pdf,xml,xls,xss,css,new,bak,xls,doc,txt"
+  502  service tactic restart
+  503  ls
+  504  cd src
+  505  ls
+  506  cd ..
+  507  ls
+  508  rm -rf src_528/
+  509  cd src
+  510  cd pyasm/biz/
+  511  vim expression.py
+  512  sercice tactic restart
+  513  service tactic restart
+  514  psql -U postgres sthpw
+  515  vim expression.py
+  516  cd /opt/spt/tactic
+  517  cd src
+  518  grep -R "billing and accounts receivable" * > bills
+  519  vim bills
+  520  exit
+  521  ls
+  522  pwd
+  523  cd /
+  524  ls
+  525  cd tmp/
+  526  ls -ltr
+  527  ..
+  528  cd ..
+  529  ls
+  530  history
+  531  ls
+  532  cd etc/
+  533  ld
+  534  ls
+  535  cd opt/
+  536  ls
+  537  ls -al
+  538  ..
+  539  cd /var/tmp/
+  540  ls
+  541  ls -al
+  542  ..
+  543  cd ..
+  544  ls
+  545  cd lo
+  546  cd log
+  547  ls -al
+  548  ls -ltr
+  549  cd tactic
+  550  cat tactic
+  551   ls
+  552  cat messages
+  553  cd messages
+  554  view messages
+  555  ls -ltr
+  556  cd maillog
+  557  view maillog
+  558  cat maillog
+  559  ls
+  560  cd btmp
+  561  cd mcelog 
+  562  view mcelog 
+  563  ls -al
+  564  ls
+  565  exit
+  566  su
+  567  cd /opt/spt/tactic/src
+  568  cd pyasm/biz'
+  569  cd pyasm/biz
+  570  vim expression
+  571  vim expression.py
+  572  cd ..
+  573  grep -R "scheduling scheduler" *
+  574  cd tactic/ui/panel/
+  575  vim panel_wdg.py 
+  576  cd ../..
+  577  cd ..
+  578  cd pyasm/biz/
+  579  vim expression.py
+  580  service tactic restart
+  581  cd ..
+  582  find . -name "discussion_wdg.py"
+  583  vim tactic/ui/widget/discussion_wdg.py 
+  584  exit
+  585  cd /opt/spt/custom/
+  586  cd order_builder/
+  587  ls
+  588  ls *.py
+  589  grep -R "ErrorEntryLauncherWdg" *
+  590  vim order_builder.py 
+  591  cd /opt/spt/tactic/src
+  592  grep -R "class Environment" *
+  593  cd /opt/spt/custom/order_builder/
+  594  vim order_builder.py 
+  595  service tactic restart
+  596  exit
+  597  psql -U postgres sthpw
+  598  exit
+  599  cd /etc/sysconfig/network-scripts/ifcfg-em*
+  600  cd /etc/sysconfig/network-scripts/
+  601  ls -al
+  602  cd ifcfg-em1 
+  603  cd /
+  604  ls
+  605  cd dev/
+  606  ls
+  607  df -h
+  608  cd /opt/spt/
+  609  ls
+  610  man mnt
+  611  cd backup2
+  612  ls
+  613  ./midnight_script 
+  614  ls
+  615  cd ..
+  616  ls
+  617  vim backup2/midnight_script 
+  618  tar cvzf py_spt.tar.gz *.py
+  619  ls
+  620  mv py_spt.tar.gz backup2
+  621  cd /var/www
+  622  ls
+  623  cd html
+  624  ls
+  625  ll
+  626  ll -h
+  627  cd source_labels
+  628  ll -h
+  629  cd ..
+  630  tar cvzf var_www_html.tar.gz html/
+  631  ls
+  632  mv var_www_html.tar.gz /opt/spt/backup2/
+  633  cd /opt/spt/backup2/
+  634  ls
+  635  cd ..
+  636  ls
+  637  tar cvzf opt_spt_folders.tar.gz assets/ client/ newrelic-1.4.0.137/ php_mailer_ex/ projects/ tactic_plugin/ tactic_data/
+  638  ls
+  639  mv opt_spt_folders.tar.gz backup2
+  640  cd backup2
+  641  ls
+  642  ll -h
+  643  dmesg
+  644  df-h
+  645  df -
+  646  df -h
+  647  mkdir /dev/ssd
+  648  df -h
+  649  dmesg
+  650  mkdir /mnt/ssd
+  651  cd /mnt/ssd/
+  652  ls
+  653  df -h
+  654  cd /etc/sysconfig/network-scripts/
+  655  ls
+  656  ls -al
+  657  vim ifcfg-em1
+  658  vim ifcfg-em2
+  659  vim ifcfg-em3
+  660  vim ifcfg-em4
+  661  service network restart
+  662  cd /tmp
+  663  ls
+  664  ll -h
+  665  cd pulse-6Brq6XTvjB3W/
+  666  ls
+  667  cd ../pulse-nZKOEypKz9vh/
+  668  ls
+  669  ll
+  670  cd native 
+  671  vijm native 
+  672  vim native 
+  673  cd ..
+  674  ls
+  675  cd orbit-matt/
+  676  ls
+  677  ll -h
+  678  cd ..
+  679  psql -U postgres sthpw
+  680  psql -U postgres twog
+  681  psql -U postgres sthpw
+  682  cd /opt/spt/tactic/src
+  683  cd ../..
+  684  ls
+  685  ps -ax | grep timed_
+  686  ps -ax | grep python
+  687  ps -ax | grep timed_*
+  688  cd /etc
+  689  ls
+  690  cd init.d/
+  691  ld
+  692  ls
+  693  cd ../init
+  694  ls
+  695  vim control-alt-delete.conf 
+  696  vim rc.conf 
+  697  cd ..
+  698  cd rc.d
+  699  ls
+  700  cd init.d/
+  701  ls
+  702  cd ..
+  703  ls
+  704  vim rc.local 
+  705  df -h
+  706  psql -U postgres sthpw
+  707  ls
+  708  vim rc.local 
+  709  cd /opt/spt/backup2
+  710  ls
+  711  vim timed_script_launcher
+  712  ls
+  713  chmod +x timed_script_launcher 
+  714  cat timed_script_launcher 
+  715  vim active_backup_log
+  716  vim midnight_script 
+  717  ls
+  718  vim confirmed_backups
+  719  vim timed_script_launcher 
+  720  df -h
+  721  cd /tmp
+  722  ks
+  723  ls
+  724  cp /opt/spt/backup2/20130524.18.CODE.tar.gz .
+  725  ls
+  726  ll
+  727  ll -g
+  728  ll -h
+  729  rm -rf 20130524.18.CODE.tar.gz 
+  730  cd /opt/spt/backup2
+  731  ls
+  732  vim midnight_script 
+  733  cd ..
+  734  cd tactic_temp/
+  735  cd log
+  736  vim stdout.log
+  737  lsd
+  738  ls
+  739  grep -R ORDER04513 > forest_order
+  740  grep ORDER04513 * > forest_order
+  741  vim forest_order 
+  742  psql -U postgres twog
+  743  cd /opt/spt
+  744  vim forest_file
+  745  psql -U postgres twog
+  746  vim forest_file 
+  747  rm -rf forest_file 
+  748  vim forest_file
+  749  psql -U postgres
+  750  vim forest_file 
+  751  psql -U postgres twog
+  752  cd /opt/spt/custom/
+  753  ls
+  754  cd ..
+  755  ls
+  756  cd tactic/src/tactic/ui/widget/
+  757  vim discussion_wdg.py 
+  758  cd ..
+  759  grep -R "FIX.*@2gdigital" *
+  760  vim pyasm/biz/expression.py
+  761  cd /opt/spt/custom/random_scripts/
+  762  cp /home/matt/wos_to_close .
+  763  ls
+  764  cd order_completor/
+  765  ls
+  766  vim order_completor.py 
+  767  cd ..
+  768  mkdir wo_completor
+  769  cp get_task_codes/* wo_completor/
+  770  cd wo_completor/
+  771  ls
+  772  rm -rf 13*
+  773  rm -rf 3640 
+  774  rm -rf bidder 
+  775  vim davinci 
+  776  rm -rf davinci 
+  777  rm -rf GTC 
+  778  rm -rf Martha 
+  779  rm -rf order04463 
+  780  rm -rf query_result 
+  781  rm -rf task_codes 
+  782  rm -rf toon
+  783  rm -rf update_tasks 
+  784  ls
+  785  mv get_task_codes_by_order.py wo_completor.py
+  786  rm -rf task_query 
+  787  ls
+  788  vim wo_completor.py 
+  789  cd ..
+  790  ls
+  791  cd synerg_import/
+  792  ls
+  793  cp syn_source_importer.py ../wo_completor/
+  794  cd ../wo_completor/
+  795  vim wo_completor.py 
+  796  ls
+  797  rm -rf syn_source_importer.py 
+  798  python wo_completor.py filename.file '[Process="Spot QC",Group="QC",Hours=.25,Assign_to="me@me.com;you@you.com",Status="Completed"][Process="Fart"]'
+  799  vim wo_completor.py 
+  800  python wo_completor.py filename.file '[Process="Spot QC",Group="QC",Hours=.25,Assign_to="me@me.com;you@you.com",Status="Completed"][Process="Fart"]'
+  801  vim wo_completor.py 
+  802  python wo_completor.py 
+  803  vim wo_completor.py 
+  804  python wo_completor.py wos_to_close '[Process=Spot QC[B
+  805  ls
+  806  cd ..
+  807  ls
+  808  cd ..
+  809  ls
+  810  cd random_scripts/
+  811  ls
+  812  cp wos_to_close wo_completor/
+  813  ls
+  814  cd wo_completor/
+  815  ls
+  816  vim wo_completor.py 
+  817  python wo_completor.py wos_to_close [Process=Spot QC,Status_from=Ready,Group=qc,Status=Completed,Hour_min=.25,Assign_to=luis.barajas,tiago.jacinto]
+  818  vim wo_completor.py 
+  819  python wo_completor.py wos_to_close [Process=Spot QC,Status_from=Ready,Group=qc,Status=Completed,Hour_min=.25,Assign_to=luis.barajas,tiago.jacinto]
+  820  python wo_completor.py wos_to_close '[Process=Spot QC,Status_from=Ready,Group=qc,Status=Completed,Hour_min=.25,Assign_to=luis.barajas,tiago.jacinto]'
+  821  vim wo_completor.py 
+  822  python wo_completor.py wos_to_close '[Process=Spot QC,Status_from=Ready,Group=qc,Status=Completed,Hour_min=.25,Assign_to=luis.barajas,tiago.jacinto]'
+  823  vim wo_completor.py 
+  824  python wo_completor.py wos_to_close '[Process=Spot QC,Status_from=Ready,Group=qc,Status=Completed,Hour_min=.25,Assign_to=luis.barajas,tiago.jacinto]'
+  825  vim wo_completor.py 
+  826  python wo_completor.py wos_to_close '[Process=Spot QC,Status_from=Ready,Group=qc,Status=Completed,Hour_min=.25,Assign_to=luis.barajas,tiago.jacinto]'
+  827  vim wo_completor.py 
+  828  python wo_completor.py wos_to_close '[Process=Spot QC,Status_from=Ready,Group=qc,Status=Completed,Hour_min=.25,Assign_to=luis.barajas,tiago.jacinto]'
+  829  vim wo_completor.py 
+  830  python wo_completor.py wos_to_close '[Process=Spot QC,Status_from=Ready,Group=qc,Status=Completed,Hour_min=.25,Assign_to=luis.barajas,tiago.jacinto]'
+  831  vim wo_completor.py 
+  832  python wo_completor.py wos_to_close '[Process=Spot QC,Status_from=Ready,Group=qc,Status=Completed,Hour_min=.25,Assign_to=luis.barajas,tiago.jacinto]'
+  833  vim wo_completor.py 
+  834  python wo_completor.py wos_to_close '[Process=Spot QC,Status_from=Ready,Group=qc,Status=Completed,Hour_min=.25,Assign_to=luis.barajas,tiago.jacinto]'
+  835  vim wo_completor.py 
+  836  python wo_completor.py wos_to_close '[Process=Spot QC,Status_from=Ready,Group=qc,Status=Completed,Hour_min=.25,Assign_to=luis.barajas,tiago.jacinto]'
+  837  vim wo_completor.py 
+  838  python wo_completor.py wos_to_close '[Process=Spot QC,Status_from=Ready,Group=qc,Status=Completed,Hour_min=.25,Assign_to=luis.barajas,tiago.jacinto]'
+  839  vim wo_completor.py 
+  840  python wo_completor.py wos_to_close '[Process=Spot QC,Status_from=Ready,Group=qc,Status=Completed,Hour_min=.25,Assign_to=luis.barajas,tiago.jacinto]'
+  841  vim wo_completor.py 
+  842  python wo_completor.py wos_to_close '[Process=Spot QC,Status_from=Ready,Group=qc,Status=Completed,Hour_min=.25,Assign_to=luis.barajas,tiago.jacinto]'
+  843  python wo_completor.py wos_to_close '[Process=Spot QC,Status_from=Ready,Group=qc,Status=Completed,Hour_min=.25,Assign_to=luis.barajas;tiago.jacinto]'
+  844  vim wo_completor.py 
+  845  python wo_completor.py wos_to_close '[Process=Spot QC,Status_from=Ready,Group=qc,Status=Completed,Hour_min=.25,Assign_to=luis.barajas;tiago.jacinto]'
+  846  vim wo_completor.py 
+  847  python wo_completor.py wos_to_close '[Process=Spot QC,Status_from=Ready,Group=qc,Status=Completed,Hour_min=.25,Assign_to=luis.barajas;tiago.jacinto]'
+  848  vim wo_completor.py 
+  849  python wo_completor.py wos_to_close '[Process=Spot QC,Status_from=Ready,Group=qc,Status=Completed,Hour_min=.25,Assign_to=luis.barajas;tiago.jacinto]'
+  850  vim wo_completor.py 
+  851  python wo_completor.py wos_to_close '[Process=Spot QC,Status_from=Ready,Group=qc,Status=Completed,Hour_min=.25,Assign_to=luis.barajas;tiago.jacinto]'
+  852  vim wo_completor.py 
+  853  python wo_completor.py wos_to_close '[Process=Spot QC,Status_from=Ready,Group=qc,Status=Completed,Hour_min=.25,Assign_to=luis.barajas;tiago.jacinto]'
+  854  vim wo_completor.py 
+  855  python wo_completor.py wos_to_close '[Process=Spot QC,Status_from=Ready,Group=qc,Status=Completed,Hour_min=.25,Assign_to=luis.barajas;tiago.jacinto]'
+  856  vim wo_completor.py 
+  857  python wo_completor.py wos_to_close '[Process=Spot QC,Status_from=Ready,Group=qc,Status=Completed,Hour_min=.25,Assign_to=luis.barajas;tiago.jacinto]'
+  858  vim wo_completor.py 
+  859  python wo_completor.py wos_to_close '[Process=Spot QC,Status_from=Ready,Group=qc,Status=Completed,Hour_min=.25,Assign_to=luis.barajas;tiago.jacinto]'
+  860  vim wo_completor.py 
+  861  python wo_completor.py wos_to_close '[Process=Spot QC,Status_from=Ready,Group=qc,Status=Completed,Hour_min=.25,Assign_to=luis.barajas;tiago.jacinto]'
+  862  vim wo_completor.py 
+  863  python wo_completor.py wos_to_close '[Process=Spot QC,Status_from=Ready,Group=qc,Status=Completed,Hour_min=.25,Assign_to=luis.barajas;tiago.jacinto]'
+  864  vim wo_completor.py 
+  865  python wo_completor.py wos_to_close '[Process=Spot QC,Status_from=Ready,Group=qc,Status=Completed,Hour_min=.25,Assign_to=luis.barajas;tiago.jacinto]' > spit_result
+  866  vim spit_result 
+  867  vim wo_completor.py 
+  868  cp wos_to_close wos_to_close_updater
+  869  vim wos_to_close_updater 
+  870  psql -U postgres sthpw < wos_to_close_updater 
+  871  vim ../get_task_codes/update_tasks 
+  872  vim wos_to_close_updater 
+  873  psql -U postgres sthpw < wos_to_close_updater 
+  874  ls
+  875  rm -rf wos_to_close_updater 
+  876  history
+  877  service tactic stop
+  878  shut
+  879  sgutdown
+  880  SHUTDOWN
+  881  shutdown -h now
+  882  top
+  883  exit
+  884  top
+  885  kill 28632
+  886  top
+  887  top'
+  888  ls
+  889  history
+  890  service tactic restart
+  891  service tactic stop
+  892  kill all python
+  893  kill python
+  894  top
+  895  service tactic start
+  896  service tactic restart
+  897  cd /
+  898  exit
+  899  history
+  900  shutdown -h now
+  901  cd /opt/spt/custom/order_builder/order_builder.py 
+  902  cd /opt/spt/custom/order_builder/
+  903  vim order_builder.py 
+  904  service tactic restart
+  905  vim order_builder.py 
+  906  grep -R "ErrorDetailEditLauncherWdg" *
+  907  vim error_viewer.py 
+  908  service tactic restart
+  909  cd /opt/spt/backup2
+  910  ls
+  911  ll
+  912  rm -rf 20130524.18.*
+  913  cd /opt/spt
+  914  ssh matt@tactic02
+  915  psql -U postgres sthpw
+  916  cd /opt/spt/custom/random_scripts/
+  917  ls
+  918  cd wo_completor/
+  919  ls
+  920  cp wo_completor.py wo_info.py
+  921  vim wo_info.py 
+  922  python wo_info.py > qc_completed_info
+  923  vim wo_info.py 
+  924  python wo_info.py > qc_completed_info
+  925  vim wo_info.py 
+  926  vim qc_completed_info 
+  927  python wo_info.py > qc_completed_info
+  928  vim qc_completed_info 
+  929  vim wo_info.py 
+  930  python wo_info.py > qc_completed_info
+  931  psql -U postgres twog
+  932  cd /opt/spt/custom/formatted_emailer/
+  933  vim fill_in_template_from_js.py 
+  934  psql -U postgres twog
+  935  psql -U postgres sthpw
+  936  ls
+  937  cp internal_email_template.html error_msg.html
+  938  vim error_msg.html 
+  939  ll
+  940  cd ..
+  941  cd random_scripts/
+  942  ls
+  943  cd wo_completor/
+  944  ls
+  945  vim qc_completed_info 
+  946  vim wo_info.py 
+  947  python wo_info.py > qc_hours
+  948  psql -U postgres sthpw < "select login_group from login_group" > login_gs
+  949  vim login_group_query
+  950  psql -U postgres sthpw < login_group_query > login_gs
+  951  vim login_gs
+  952  vim login_group_query
+  953  psql -U postgres sthpw < login_group_query > login_gs
+  954  vim login_gs
+  955  rm -rf login_gs 
+  956  rm -rf login_group_query \
+  957  rm -rf login_group_query 
+  958  cd /opt/spt/
+  959  cd tactic/src/pyasm/widget/
+  960  vim icon_wdg.py 
+  961  cd ..
+  962  find . -name *.png > pngs
+  963  vim pngs
+  964  cd ../cu
+  965  cd ../../custom/
+  966  cd wo_
+  967  ls
+  968  cd random_scripts/wo_completor/
+  969  ls
+  970  vim qc_completed_info 
+  971  ll
+  972  vim qc_hours 
+  973  vim wo_info.py 
+  974  rm -rf qc_hours 
+  975  rm -rf qc_completed_info 
+  976  ls
+  977  python wo_info.py > QC_CHEATCOMPLETE
+  978  vim QC_CHEATCOMPLETE 
+  979  vim wo_info.py 
+  980  python wo_info.py > QC_CHEATCOMPLETE
+  981  vim QC_CHEATCOMPLETE 
+  982  vim wo_info.py 
+  983  python wo_info.py > QC_CHEATCOMPLETE
+  984  vim QC_CHEATCOMPLETE 
+  985  vim wo_info.py 
+  986  python wo_info.py > QC_CHEATCOMPLETE
+  987  vim QC_CHEATCOMPLETE 
+  988  ls
+  989  service tactic status
+  990  service tactic restart
+  991  ls
+  992  ps
+  993  top
+  994  kill 2913
+  995  top
+  996  cd /opt/spt/custom/order_builder/
+  997  vim order_builder.py
+  998  exit
+  999  cd /opt/spt/tactic_temp/log
+ 1000  vim stdout.log
+ 1001  cd /opt/spt/tactic_temp/log
+ 1002  vim stdout.log
+ 1003  cd /opt/spt/custom/
+ 1004  cd random_scripts/
+ 1005  ls
+ 1006  find . -name work_order_query
+ 1007  cd note_relink/
+ 1008  ls
+ 1009  cd ..
+ 1010  cd wo_completor/
+ 1011  ls
+ 1012  mkdir wo_finder
+ 1013  cd wo_finder/
+ 1014  cp /opt/spt/custom/random_scripts/note_relink/* .
+ 1015  ls
+ 1016  vim work_order_query 
+ 1017  vim relink_notes.py 
+ 1018  ls
+ 1019  mv note_query task_query
+ 1020  vim task_query 
+ 1021  cat *_query
+ 1022  vim order_query 
+ 1023  vim queries 
+ 1024  ./queries 
+ 1025  ls
+ 1026  vim relink_notes.py 
+ 1027  mv relink_notes.py get_non_completed_task_codes_by_dept_and_order_classification.py
+ 1028  python get_non_completed_task_codes_by_dept_and_order_classification.py task_file work_order_file proj_file title_file order_file qc completed
+ 1029  cd ..
+ 1030  ls
+ 1031  cd ..
+ 1032  ls
+ 1033  cd reports
+ 1034  ls
+ 1035  mkdir order_reports
+ 1036  cd order_reports/
+ 1037  cp /opt/spt/custom/random_scripts/wo_completor/wo_finder/* .
+ 1038  ls
+ 1039  mv get_non_completed_task_codes_by_dept_and_order_classification.py get_costs_and_prices_report_by_time_frame.py
+ 1040  vim get_costs_and_prices_report_by_time_frame.py 
+ 1041  cd ../..
+ 1042  grep -R "os.s" *
+ 1043  grep -R "os.system" *
+ 1044  cd reports/
+ 1045  ls
+ 1046  cd order_reports/
+ 1047  vim get_costs_and_prices_report_by_time_frame.py 
+ 1048  cd /opt/spt/custom/order_builder/
+ 1049  grep -R "sort" *
+ 1050  ls
+ 1051  cd ..
+ 1052  ls
+ 1053  cd note_manager/
+ 1054  grep -R "sort" *
+ 1055  cd ../random_scripts/
+ 1056  grep -R ".sort" *
+ 1057  cd ..
+ 1058  ls
+ 1059  grep -R ".sort" *
+ 1060  grep -R ".sort" * | grep lambda
+ 1061  cd reports/
+ 1062  cd order_reports/
+ 1063  ls
+ 1064  vim get_costs_and_prices_report_by_time_frame.py 
+ 1065  vim client_query
+ 1066  vim person_query
+ 1067  vim order_query 
+ 1068  vim get_costs_and_prices_report_by_time_frame.py 
+ 1069  python get_costs_and_prices_report_by_time_frame.py completion_date 2013-04-01 2013-04-30 master,cancelled,in_production id scheduler
+ 1070  vim get_costs_and_prices_report_by_time_frame.py 
+ 1071  python get_costs_and_prices_report_by_time_frame.py completion_date 2013-04-01 2013-04-30 master,cancelled,in_production id scheduler
+ 1072  vim get_costs_and_prices_report_by_time_frame.py 
+ 1073  python get_costs_and_prices_report_by_time_frame.py completion_date 2013-04-01 2013-04-30 master,cancelled,in_production id scheduler
+ 1074  vim get_costs_and_prices_report_by_time_frame.py 
+ 1075  python get_costs_and_prices_report_by_time_frame.py completion_date 2013-04-01 2013-04-30 master,cancelled,in_production id scheduler
+ 1076  vim get_costs_and_prices_report_by_time_frame.py 
+ 1077  python get_costs_and_prices_report_by_time_frame.py completion_date 2013-04-01 2013-04-30 master,cancelled,in_production id scheduler
+ 1078  vim get_costs_and_prices_report_by_time_frame.py 
+ 1079  python get_costs_and_prices_report_by_time_frame.py completion_date 2013-04-01 2013-04-30 master,cancelled,in_production id scheduler
+ 1080  ls
+ 1081  vim order_report_completion_date_2013-04-01_to_2013-04-30 
+ 1082  vim get_costs_and_prices_report_by_time_frame.py 
+ 1083  python get_costs_and_prices_report_by_time_frame.py completion_date 2013-04-01 2013-04-30 master,cancelled,in_production id scheduler
+ 1084  vim order_report_completion_date_2013-04-01_to_2013-04-30 
+ 1085  vim get_costs_and_prices_report_by_time_frame.py 
+ 1086  python get_costs_and_prices_report_by_time_frame.py completion_date 2013-04-01 2013-04-30 master,cancelled,in_production id scheduler
+ 1087  vim get_costs_and_prices_report_by_time_frame.py 
+ 1088  python get_costs_and_prices_report_by_time_frame.py completion_date 2013-04-01 2013-04-30 master,cancelled,in_production id scheduler
+ 1089  vim get_costs_and_prices_report_by_time_frame.py 
+ 1090  python get_costs_and_prices_report_by_time_frame.py completion_date 2013-04-01 2013-04-30 master,cancelled,in_production id scheduler
+ 1091  vim get_costs_and_prices_report_by_time_frame.py 
+ 1092  python get_costs_and_prices_report_by_time_frame.py completion_date 2013-04-01 2013-04-30 master,cancelled,in_production id scheduler
+ 1093  vim get_costs_and_prices_report_by_time_frame.py 
+ 1094  python get_costs_and_prices_report_by_time_frame.py completion_date 2013-04-01 2013-04-30 master,cancelled,in_production id scheduler
+ 1095  vim get_costs_and_prices_report_by_time_frame.py 
+ 1096  python get_costs_and_prices_report_by_time_frame.py completion_date 2013-04-01 2013-04-30 master,cancelled,in_production id scheduler
+ 1097  cat order_report_completion_date_2013-04-01_to_2013-04-30 
+ 1098  vim get_costs_and_prices_report_by_time_frame.py 
+ 1099  cat order_report_completion_date_2013-04-01_to_2013-04-30 
+ 1100  python get_costs_and_prices_report_by_time_frame.py completion_date 2013-04-01 2013-04-30 master,cancelled,in_production id scheduler
+ 1101  vim get_costs_and_prices_report_by_time_frame.py 
+ 1102  python get_costs_and_prices_report_by_time_frame.py completion_date 2013-04-01 2013-04-30 master,cancelled,in_production id scheduler
+ 1103  vim get_costs_and_prices_report_by_time_frame.py 
+ 1104  python get_costs_and_prices_report_by_time_frame.py completion_date 2013-04-01 2013-04-30 master,cancelled,in_production id scheduler
+ 1105  cat order_report_completion_date_2013-04-01_to_2013-04-30 
+ 1106  vim order_report_completion_date_2013-04-01_to_2013-04-30 
+ 1107  vim get_costs_and_prices_report_by_time_frame.py 
+ 1108  python get_costs_and_prices_report_by_time_frame.py completion_date 2013-04-01 2013-04-30 master,cancelled,in_production id scheduler
+ 1109  vim order_report_completion_date_2013-04-01_to_2013-04-30 
+ 1110  vim get_costs_and_prices_report_by_time_frame.py 
+ 1111  vim order_report_completion_date_2013-04-01_to_2013-04-30 
+ 1112  python get_costs_and_prices_report_by_time_frame.py completion_date 2013-04-01 2013-04-30 master,cancelled,in_production id scheduler
+ 1113  vim get_costs_and_prices_report_by_time_frame.py 
+ 1114  python get_costs_and_prices_report_by_time_frame.py completion_date 2013-04-01 2013-04-30 master,cancelled,in_production id scheduler
+ 1115  vim order_report_completion_date_2013-04-01_to_2013-04-30 
+ 1116  vim get_costs_and_prices_report_by_time_frame.py 
+ 1117  python get_costs_and_prices_report_by_time_frame.py completion_date 2013-04-01 2013-04-30 master,cancelled,in_production id scheduler
+ 1118  vim order_report_completion_date_2013-04-01_to_2013-04-30 
+ 1119  vim get_costs_and_prices_report_by_time_frame.py 
+ 1120  python get_costs_and_prices_report_by_time_frame.py completion_date 2013-04-01 2013-04-30 master,cancelled,in_production id scheduler
+ 1121  vim get_costs_and_prices_report_by_time_frame.py 
+ 1122  python get_costs_and_prices_report_by_time_frame.py completion_date 2013-04-01 2013-04-30 master,cancelled,in_production id scheduler
+ 1123  cd ..
+ 1124  cd random_scripts/wo_completor/
+ 1125  cd wo_finder/
+ 1126  ls
+ 1127  vim qc_task_not_completed_order_class_is_completed 
+ 1128  vim get_non_completed_task_codes_by_dept_and_order_classification.py 
+ 1129  history > hist

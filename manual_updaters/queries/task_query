@@ -1,0 +1,1 @@
+select code, assigned, assigned_login_group, status, bid_end_date, lookup_code, search_id, active, title_code from task where s_status is NULL and active is not NULL and status != 'Completed' and (active = '1' or active = 'true');

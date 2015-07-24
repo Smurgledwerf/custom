@@ -1,0 +1,1 @@
+select id, login, login_group from login_in_group;  

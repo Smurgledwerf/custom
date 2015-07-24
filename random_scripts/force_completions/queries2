@@ -1,0 +1,4 @@
+psql -U postgres twog < order_query > order_file
+psql -U postgres twog < title_query > title_file
+psql -U postgres sthpw < proj_task_query > proj_task_file
+psql -U postgres sthpw < wo_task_query > wo_task_file

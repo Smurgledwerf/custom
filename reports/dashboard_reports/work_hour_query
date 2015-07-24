@@ -1,0 +1,1 @@
+select code, login, category, day, straight_time, task_code, client_code, is_billable, order_code, title_code, scheduler from work_hour order by day;

@@ -1,0 +1,1 @@
+select code, strat2g_aka from source where strat2g_aka is not NULL and strat2g_aka != '';

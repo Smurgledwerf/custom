@@ -1,0 +1,11 @@
+proj_task_file = proj_tasks_completed
+title_file = title_file2
+proj_tasks_completed
+--------------+-----------+-------------+------------+------------
+END OF FILE
+File = proj_tasks_completed FIELDS = ['code', 'status', 'lookup_code', 'title_code', 'order_code']
+title_file2
+------------+-------------------------+-----------------------------
+END OF FILE
+File = title_file2 FIELDS = ['code', 'status', 'client_status']
+{}

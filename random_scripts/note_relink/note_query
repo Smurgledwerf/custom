@@ -1,0 +1,1 @@
+select code, search_type, search_id, order_code, title_code, proj_code, work_order_code from note;

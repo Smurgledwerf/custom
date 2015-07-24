@@ -1,0 +1,1 @@
+select code, work_group, proj_code from work_order where s_status is Null;

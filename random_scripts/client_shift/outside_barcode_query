@@ -1,0 +1,1 @@
+select code, client_code, login from outside_barcode; 

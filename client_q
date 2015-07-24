@@ -1,0 +1,1 @@
+select code, name, country, state, city, street_address, s_status from client order by name asc;

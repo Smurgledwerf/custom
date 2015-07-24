@@ -1,0 +1,29 @@
+update company set client_code='' where code = 'COMPANY03932';
+update company set client_code='' where code = 'COMPANY04318';
+update company set client_code='' where code = 'COMPANY04426';
+update company set client_code='' where code = 'COMPANY04879';
+update company set client_code='' where code = 'COMPANY04883';
+update company set client_code='' where code = 'COMPANY04884';
+update company set client_code='' where code = 'COMPANY04889';
+update company set client_code='' where code = 'COMPANY04890';
+update company set client_code='' where code = 'COMPANY04892';
+update company set client_code='' where code = 'COMPANY04893';
+update company set client_code='' where code = 'COMPANY04896';
+update company set client_code='' where code = 'COMPANY04897';
+update company set client_code='' where code = 'COMPANY04898';
+update company set client_code='' where code = 'COMPANY04902';
+update company set client_code='' where code = 'COMPANY04903';
+update company set client_code='' where code = 'COMPANY04904';
+update company set client_code='' where code = 'COMPANY04905';
+update company set client_code='' where code = 'COMPANY04906';
+update company set client_code='' where code = 'COMPANY04908';
+update company set client_code='' where code = 'COMPANY04909';
+update company set client_code='' where code = 'COMPANY04910';
+update company set client_code='' where code = 'COMPANY04911';
+update company set client_code='' where code = 'COMPANY04912';
+update company set client_code='' where code = 'COMPANY04913';
+update company set client_code='' where code = 'COMPANY04914';
+update company set client_code='' where code = 'COMPANY04915';
+update company set client_code='' where code = 'COMPANY04918';
+
+

@@ -1,0 +1,2 @@
+SELECT pg_catalog.setval('order_report_id_seq', 1, true);
+SELECT pg_catalog.setval('wo_report_id_seq', 1, true);

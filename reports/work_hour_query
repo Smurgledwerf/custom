@@ -1,0 +1,1 @@
+select code, login, day, straight_time, task_code from work_hour order by day;

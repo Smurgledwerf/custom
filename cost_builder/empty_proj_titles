@@ -1,0 +1,90 @@
+ s_status |           pipeline_code           | order_code 
+----------+-----------------------------------+------------
+ retired  | Warner Brothers_Televisa_Capture1 | ORDER00312
+(1 row)
+
+ s_status |           pipeline_code           | order_code 
+----------+-----------------------------------+------------
+ retired  | Warner Brothers_Televisa_Capture1 | ORDER00312
+(1 row)
+
+ s_status |           pipeline_code           | order_code 
+----------+-----------------------------------+------------
+ retired  | Warner Brothers_Televisa_Capture1 | ORDER00312
+(1 row)
+
+ s_status |           pipeline_code           | order_code 
+----------+-----------------------------------+------------
+ retired  | Warner Brothers_Televisa_Capture1 | ORDER00312
+(1 row)
+
+ s_status | pipeline_code | order_code 
+----------+---------------+------------
+ retired  | WB_ iTunes_   | ORDER00320
+(1 row)
+
+ s_status | pipeline_code | order_code 
+----------+---------------+------------
+ retired  | WB_ iTunes_   | ORDER00320
+(1 row)
+
+ s_status | pipeline_code | order_code 
+----------+---------------+------------
+ retired  | WB_ iTunes_   | ORDER00368
+(1 row)
+
+ s_status |     pipeline_code     | order_code 
+----------+-----------------------+------------
+ retired  | Fox Esprit_HD Feature | ORDER00479
+(1 row)
+
+ s_status |     pipeline_code     | order_code 
+----------+-----------------------+------------
+ retired  | Fox iTunes_TV Celeste | ORDER00522
+(1 row)
+
+ s_status |     pipeline_code     | order_code 
+----------+-----------------------+------------
+ retired  | Fox iTunes_TV Celeste | ORDER00522
+(1 row)
+
+ s_status |     pipeline_code     | order_code 
+----------+-----------------------+------------
+ retired  | Fox iTunes_TV Celeste | ORDER00522
+(1 row)
+
+ s_status |     pipeline_code     | order_code 
+----------+-----------------------+------------
+ retired  | Fox iTunes_TV Celeste | ORDER00522
+(1 row)
+
+ s_status |     pipeline_code     | order_code 
+----------+-----------------------+------------
+ retired  | Fox iTunes_TV Celeste | ORDER00522
+(1 row)
+
+ s_status |    pipeline_code    | order_code 
+----------+---------------------+------------
+ retired  | Fox Xbox_New Source | ORDER00526
+(1 row)
+
+ s_status |     pipeline_code     | order_code 
+----------+-----------------------+------------
+ retired  | Fox iTunes_TV Celeste | ORDER00522
+(1 row)
+
+ s_status |     pipeline_code     | order_code 
+----------+-----------------------+------------
+ retired  | Fox iTunes_TV Celeste | ORDER00522
+(1 row)
+
+ s_status |     pipeline_code     | order_code 
+----------+-----------------------+------------
+ retired  | Fox iTunes_TV Celeste | ORDER00522
+(1 row)
+
+ s_status |  pipeline_code   | order_code 
+----------+------------------+------------
+ retired  | Fox Xbox_Restore | ORDER00335
+(1 row)
+
