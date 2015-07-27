@@ -2312,7 +2312,25 @@ class ElementEvalWdg(BaseTableElementWdg):
         my.frame_rates = ['23.98fps','59.94i','50i','29.97fps','59.94p','DFTC','NDFTC','PAL/EBU','-']
         my.machines = ['VTR221','VTR222','VTR223','VTR224','VTR225','VTR231','VTR232','VTR233','VTR234','VTR235','VTR251','VTR252','VTR253','VTR254','VTR255','VTR261','VTR262','VTR263','VTR264','VTR265','VTR281','VTR282','VTR283','VTR284','VTR285','FCP01','FCP02','FCP03','FCP04','FCP05','FCP06','FCP07','FCP08','FCP09','FCP10','FCP11','FCP12','Amberfin','Clipster','Stradis']
         my.styles = ['Technical','Spot QC','Mastering']
-        my.aspect_ratios = ['16x9 1.33','16x9 1.33 Pan & Scan','16x9 1.78 Anamorphic','16x9 1.78 Full Frame','16x9 1.85 Letterbox','16x9 1.85 Matted','16x9 1.85 Matted Anamorphic','16x9 2.20','16x9 2.20 Letterbox','16x9 2.35 Anamorphic','16x9 2.35 Letterbox','16x9 2.40 Letterbox','16x9 2.55 Letterbox','4x3 1.33 Full Frame','4x3 1.78 Letterbox','4x3 1.85 Letterbox','4x3 2.35 Letterbox','4x3 2.40 Letterbox']
+        my.aspect_ratios = ['16x9 1.33',
+                            '16x9 1.33 Pan & Scan',
+                            '16x9 1.78 Anamorphic',
+                            '16x9 1.78 Full Frame',
+                            '16x9 1.85 Letterbox',
+                            '16x9 1.85 Matted',
+                            '16x9 1.85 Matted Anamorphic',
+                            '16x9 2.00 Letterbox',
+                            '16x9 2.10 Letterbox',
+                            '16x9 2.20 Letterbox',
+                            '16x9 2.35 Anamorphic',
+                            '16x9 2.35 Letterbox',
+                            '16x9 2.40 Letterbox',
+                            '16x9 2.55 Letterbox',
+                            '4x3 1.33 Full Frame',
+                            '4x3 1.78 Letterbox',
+                            '4x3 1.85 Letterbox',
+                            '4x3 2.35 Letterbox',
+                            '4x3 2.40 Letterbox']
         my.standards = ['625','525','720','1080 (4:4:4)','1080','PAL','NTSC','-']
         my.element = None
         my.element_lines = None
