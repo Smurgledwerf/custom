@@ -17,9 +17,7 @@ class TicketingLauncherWdg(BaseTableElementWdg):
     def get_launch_behavior(my):
         behavior = {'css_class': 'clickme', 'type': 'click_up', 'cbjs_action': '''        
                         try{
-                          var class_name = 'ticketing.ticketing.TicketingWdg';
-                          kwargs = {};
-                          spt.panel.load_popup('Report An Issue', class_name, kwargs);
+                            window.open("http://support.2g.local:8080/secure/CreateIssue!default.jspa");
                 }
                 catch(err){
                           spt.app_busy.hide();
@@ -31,7 +29,7 @@ class TicketingLauncherWdg(BaseTableElementWdg):
     def get_display(my):
         widget = DivWdg()
         from tactic.ui.widget import SingleButtonWdg
-        button = SingleButtonWdg(title='Report An Issue', icon=IconWdg.TAG_ORANGE, show_arrow=False)
+        button = SingleButtonWdg(title='Report a Bug or Request a Feature', icon=IconWdg.TAG_ORANGE, show_arrow=False)
         button.add_behavior(my.get_launch_behavior())
         widget.add(button)
         return widget
