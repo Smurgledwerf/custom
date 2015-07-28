@@ -4164,6 +4164,7 @@ class PreReqWdg(BaseRefreshWdg):
             my.prereq_field = 'work_order_code'
 
         user_group_names = Environment.get_group_names()
+        groups_str = ''
         for mg in user_group_names:
             if groups_str == '':
                 groups_str = mg
@@ -5874,6 +5875,7 @@ class OutFilesWdg(BaseRefreshWdg):
         inters = inter_search.get_sobjects()
 
         user_group_names = Environment.get_group_names()
+        groups_str = ''
         for mg in user_group_names:
             if groups_str == '':
                 groups_str = mg
