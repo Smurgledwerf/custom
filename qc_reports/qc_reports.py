@@ -356,7 +356,7 @@ class QCReportClonerWdg(BaseTableElementWdg):
                                             }
                                             cloned_some = true;
                                             out_lines.push('Cloned WO: ' + wo.process + '(' + wo.code + ') from Title: ' + title.title + ' ' + title.episode + ' (' + title.code + ') Report Type: ' + type.toUpperCase()); 
-                                            ele_dict = {'description': kill_nothing(the_report.description),'login': login_name,'operator': login_name,'type': kill_nothing(the_report.type),'bay': kill_nothing(the_report.bay),'machine_number': kill_nothing(the_report.machine_number),'client_code': kill_nothing(title.client_code),'client_name': kill_nothing(title.client_name),'title': kill_nothing(title.title),'episode': kill_nothing(title.episode),'version': kill_nothing(the_report.version),'title_type': kill_nothing(the_report.title_type),'format': kill_nothing(the_report.format),'standard': kill_nothing(the_report.standard),'timecode': kill_nothing(the_report.timecode),'po_number': kill_nothing(title.po_number),'style': kill_nothing(the_report.style),'order_code': kill_nothing(title.order_code),'title_code': kill_nothing(title.code),'work_order_code': kill_nothing(wo.code),'conclusion': kill_nothing(the_report.conclusion),'source_code': kill_nothing(source_codes),'wo_name': kill_nothing(wo.process),'aspect_ratio': kill_nothing(the_report.aspect_ratio),'frame_rate': kill_nothing(the_report.frame_rate),'roll_up': kill_nothing(the_report.roll_up),'bars_tone': kill_nothing(the_report.bars_tone),'black_silence_1': kill_nothing(the_report.black_silence_1),'slate_silence': kill_nothing(the_report.slate_silence),'black_silence_2': kill_nothing(the_report.black_silence_2),'video_mod_disclaimer': kill_nothing(the_report.video_mod_disclaimer),'start_of_program': kill_nothing(the_report.start_of_program),'end_of_program': kill_nothing(the_report.end_of_program),'active_video_begins': kill_nothing(the_report.active_video_begins),'active_video_ends': kill_nothing(the_report.active_video_ends),'horizontal_blanking': kill_nothing(the_report.horizontal_blanking),'vertical_blanking': kill_nothing(the_report.vertical_blanking),'video_average': kill_nothing(the_report.video_average),'video_peak': kill_nothing(the_report.video_peak),'chroma_average': kill_nothing(the_report.chroma_average),'chroma_peak': kill_nothing(the_report.chroma_peak),'video_sync': kill_nothing(the_report.video_sync),'chroma_burst': kill_nothing(the_report.chroma_burst),'setup': kill_nothing(the_report.setup),'control_track': kill_nothing(the_report.control_track),'video_rf': kill_nothing(the_report.video_rf),'front_porch': kill_nothing(the_report.front_porch),'sync_duration': kill_nothing(the_report.sync_duration),'burst_duration': kill_nothing(the_report.burst_duration),'total_runtime': kill_nothing(the_report.total_runtime),'tv_feature_trailer': kill_nothing(the_report.tv_feature_trailer),'video_aspect_ratio': kill_nothing(the_report.video_aspect_ratio),'textless_at_tail': kill_nothing(the_report.textless_at_tail),'cc_subtitles': kill_nothing(the_report.cc_subtitles),'timecodes': kill_nothing(the_report.timecodes),'vitc': kill_nothing(the_report.vitc),'ltc': kill_nothing(the_report.ltc),'record_vendor': kill_nothing(the_report.record_vendor),'record_date': kill_nothing(the_report.record_date),'language': kill_nothing(the_report.language),'comp_mne_sync': kill_nothing(the_report.comp_mne_sync),'comp_mne_phase': kill_nothing(the_report.comp_mne_phase),'missing_mne': kill_nothing(the_report.missing_mne),'average_dialogue': kill_nothing(the_report.average_dialogue),'dec_a1': kill_nothing(the_report.dec_a1),'dec_a2': kill_nothing(the_report.dec_a2),'dec_a3': kill_nothing(the_report.dec_a3),'dec_a4': kill_nothing(the_report.dec_a4),'dec_b1': kill_nothing(the_report.dec_b1),'dec_b2': kill_nothing(the_report.dec_b2),'dec_b3': kill_nothing(the_report.dec_b3),'dec_b4': kill_nothing(the_report.dec_b4),'dec_c1': kill_nothing(the_report.dec_c1),'dec_c2': kill_nothing(the_report.dec_c2),'dec_c3': kill_nothing(the_report.dec_c3),'dec_c4': kill_nothing(the_report.dec_c4),'dec_d1': kill_nothing(the_report.dec_d1),'dec_d2': kill_nothing(the_report.dec_d2),'dec_d3': kill_nothing(the_report.dec_d3),'dec_d4': kill_nothing(the_report.dec_d4),'tape_pack': kill_nothing(the_report.tape_pack),'stickers': kill_nothing(the_report.stickers),'label': kill_nothing(the_report.label),'head_logo': kill_nothing(the_report.head_logo),'tail_logo': kill_nothing(the_report.tail_logo),'notices': kill_nothing(the_report.notices),'record_machine': kill_nothing(the_report.record_machine),'vendor_id': kill_nothing(the_report.vendor_id),'roll_up_f': kill_nothing(the_report.roll_up_f),'bars_tone_f': kill_nothing(the_report.bars_tone_f),'black_silence_1_f': kill_nothing(the_report.black_silence_1_f),'black_silence_2_f': kill_nothing(the_report.black_silence_2_f),'slate_silence_f': kill_nothing(the_report.slate_silence_f),'video_mod_disclaimer_f': kill_nothing(the_report.video_mod_disclaimer_f),'start_of_program_f': kill_nothing(the_report.start_of_program_f),'end_of_program_f': kill_nothing(the_report.end_of_program_f)}
+                                            ele_dict = {'description': kill_nothing(the_report.description),'login': login_name,'operator': login_name,'type': kill_nothing(the_report.type),'bay': kill_nothing(the_report.bay),'machine_number': kill_nothing(the_report.machine_number),'client_code': kill_nothing(title.client_code),'client_name': kill_nothing(title.client_name),'title': kill_nothing(title.title),'episode': kill_nothing(title.episode),'version': kill_nothing(the_report.version),'title_type': kill_nothing(the_report.title_type),'format': kill_nothing(the_report.format),'standard': kill_nothing(the_report.standard),'timecode': kill_nothing(the_report.timecode),'po_number': kill_nothing(title.po_number),'style': kill_nothing(the_report.style),'order_code': kill_nothing(title.order_code),'title_code': kill_nothing(title.code),'work_order_code': kill_nothing(wo.code),'conclusion': kill_nothing(the_report.conclusion),'source_code': kill_nothing(source_codes),'wo_name': kill_nothing(wo.process),'aspect_ratio': kill_nothing(the_report.aspect_ratio),'frame_rate': kill_nothing(the_report.frame_rate),'roll_up': kill_nothing(the_report.roll_up),'bars_tone': kill_nothing(the_report.bars_tone),'black_silence_1': kill_nothing(the_report.black_silence_1),'slate_silence': kill_nothing(the_report.slate_silence),'black_silence_2': kill_nothing(the_report.black_silence_2),'video_mod_disclaimer': kill_nothing(the_report.video_mod_disclaimer),'start_of_program': kill_nothing(the_report.start_of_program),'end_of_program': kill_nothing(the_report.end_of_program),'active_video_begins': kill_nothing(the_report.active_video_begins),'active_video_ends': kill_nothing(the_report.active_video_ends),'horizontal_blanking': kill_nothing(the_report.horizontal_blanking),'vertical_blanking': kill_nothing(the_report.vertical_blanking),'video_average': kill_nothing(the_report.video_average),'video_peak': kill_nothing(the_report.video_peak),'chroma_average': kill_nothing(the_report.chroma_average),'chroma_peak': kill_nothing(the_report.chroma_peak),'video_sync': kill_nothing(the_report.video_sync),'chroma_burst': kill_nothing(the_report.chroma_burst),'setup': kill_nothing(the_report.setup),'control_track': kill_nothing(the_report.control_track),'video_rf': kill_nothing(the_report.video_rf),'front_porch': kill_nothing(the_report.front_porch),'sync_duration': kill_nothing(the_report.sync_duration),'burst_duration': kill_nothing(the_report.burst_duration),'total_runtime': kill_nothing(the_report.total_runtime),'tv_feature_trailer': kill_nothing(the_report.tv_feature_trailer),'video_aspect_ratio': kill_nothing(the_report.video_aspect_ratio),'textless_at_tail': kill_nothing(the_report.textless_at_tail),'cc_subtitles': kill_nothing(the_report.cc_subtitles),'timecodes': kill_nothing(the_report.timecodes),'vitc': kill_nothing(the_report.vitc),'ltc': kill_nothing(the_report.ltc),'source_barcode': kill_nothing(the_report.source_barcode),'record_date': kill_nothing(the_report.record_date),'language': kill_nothing(the_report.language),'comp_mne_sync': kill_nothing(the_report.comp_mne_sync),'comp_mne_phase': kill_nothing(the_report.comp_mne_phase),'missing_mne': kill_nothing(the_report.missing_mne),'average_dialogue': kill_nothing(the_report.average_dialogue),'dec_a1': kill_nothing(the_report.dec_a1),'dec_a2': kill_nothing(the_report.dec_a2),'dec_a3': kill_nothing(the_report.dec_a3),'dec_a4': kill_nothing(the_report.dec_a4),'dec_b1': kill_nothing(the_report.dec_b1),'dec_b2': kill_nothing(the_report.dec_b2),'dec_b3': kill_nothing(the_report.dec_b3),'dec_b4': kill_nothing(the_report.dec_b4),'dec_c1': kill_nothing(the_report.dec_c1),'dec_c2': kill_nothing(the_report.dec_c2),'dec_c3': kill_nothing(the_report.dec_c3),'dec_c4': kill_nothing(the_report.dec_c4),'dec_d1': kill_nothing(the_report.dec_d1),'dec_d2': kill_nothing(the_report.dec_d2),'dec_d3': kill_nothing(the_report.dec_d3),'dec_d4': kill_nothing(the_report.dec_d4),'tape_pack': kill_nothing(the_report.tape_pack),'stickers': kill_nothing(the_report.stickers),'label': kill_nothing(the_report.label),'head_logo': kill_nothing(the_report.head_logo),'tail_logo': kill_nothing(the_report.tail_logo),'notices': kill_nothing(the_report.notices),'record_machine': kill_nothing(the_report.record_machine),'element_qc_barcode': kill_nothing(the_report.element_qc_barcode),'roll_up_f': kill_nothing(the_report.roll_up_f),'bars_tone_f': kill_nothing(the_report.bars_tone_f),'black_silence_1_f': kill_nothing(the_report.black_silence_1_f),'black_silence_2_f': kill_nothing(the_report.black_silence_2_f),'slate_silence_f': kill_nothing(the_report.slate_silence_f),'video_mod_disclaimer_f': kill_nothing(the_report.video_mod_disclaimer_f),'start_of_program_f': kill_nothing(the_report.start_of_program_f),'end_of_program_f': kill_nothing(the_report.end_of_program_f)}
                                             new_ele = server.insert('twog/element_eval', ele_dict); 
                                             for(var f = 0; f < the_lines.length; f++){
                                                 server.insert('twog/element_eval_lines', {'element_eval_code': new_ele.code, 'description': kill_nothing(the_lines[f].description), 'login': login_name, 'order_code': title.order_code, 'title_code': title.code, 'work_order_code': wo.code, 'timecode_in': kill_nothing(the_lines[f].timecode_in), 'timecode_out': kill_nothing(the_lines[f].timecode_out), 'field_out': kill_nothing(the_lines[f].field_out), 'field_in': kill_nothing(the_lines[f].field_in), 'media_type': kill_nothing(the_lines[f].media_type), 'type_code': kill_nothing(the_lines[f].type_code), 'scale': kill_nothing(the_lines[f].scale), 'sector_or_channel': kill_nothing(the_lines[f].sector_or_channel), 'in_source': kill_nothing(the_lines[f].in_source), 'source_code': kill_nothing(source_codes), 'in_safe': kill_nothing(the_lines[f].in_safe)});
@@ -2137,7 +2137,8 @@ class ElementEvalLinesWdg(BaseTableElementWdg):
         #descriptions = server.eval("@SOBJECT(twog/qc_report_vars['type','element']['@ORDER_BY','description'])")
         type_codes = ['F','A','T','V']
         scales = ['1','2','3','FYI']
-        insrc = ['No','Yes']
+        in_safe = ['No', 'Yes']
+        insrc = ['No','Yes', 'Approved', 'Fixed', 'Not Fixed']
         wo_code = str(my.kwargs.get('wo_code'))
         reloaded = False
         if 'reload' in my.kwargs.keys():
@@ -2204,7 +2205,7 @@ class ElementEvalLinesWdg(BaseTableElementWdg):
                     mm1 = linestbl.add_cell(my.txtbox('description-%s' % rowct,el.get('description'),width='450px',js='no',style=el.get('description_style')))
                     insafe_select = SelectWdg('in_safe')
                     insafe_select.append_option('-','')
-                    for i in insrc:
+                    for i in in_safe:
                         insafe_select.append_option(i,i)
                     insafe_select.set_value(el.get('in_safe'))
                     insafe_select.add_attr('id','in_safe-%s' % rowct)
@@ -2266,7 +2267,7 @@ class ElementEvalLinesWdg(BaseTableElementWdg):
         mm1 = linestbl.add_cell(my.txtbox('description-%s' % rowct,'',width='450px',js='no'))
         insafe_select = SelectWdg('in_safe')
         insafe_select.append_option('-','')
-        for i in insrc:
+        for i in in_safe:
             insafe_select.append_option(i,i)
         insafe_select.add_attr('id','in_safe-%s' % rowct)
         mm2 = linestbl.add_cell(insafe_select)
@@ -2411,7 +2412,7 @@ class ElementEvalWdg(BaseTableElementWdg):
                                       source_codes = source_codes + ',' + sources[r].source_code;
                                   }
                               }
-                              new_data_fields = ['description','timestamp','operator','bay','machine_number','client_name','title','episode','version','style','format','standard','po_number','style','aspect_ratio','frame_rate','roll_up','bars_tone','black_silence_1','slate_silence','black_silence_2','start_of_program','end_of_program','roll_up_f','bars_tone_f','black_silence_1_f','slate_silence_f','black_silence_2_f','start_of_program_f','end_of_program_f','active_video_begins','active_video_ends','horizontal_blanking','video_peak','chroma_peak','total_runtime','tv_feature_trailer','textless_at_tail','cc_subtitles','vitc','record_date','language','stickers','label','head_logo','tail_logo','notices','record_machine','record_vendor','vendor_id','file_name'];
+                              new_data_fields = ['description','timestamp','operator','bay','machine_number','client_name','title','episode','version','style','format','standard','po_number','style','aspect_ratio','frame_rate','roll_up','bars_tone','black_silence_1','slate_silence','black_silence_2','start_of_program','end_of_program','roll_up_f','bars_tone_f','black_silence_1_f','slate_silence_f','black_silence_2_f','start_of_program_f','end_of_program_f','active_video_begins','active_video_ends','horizontal_blanking','video_peak','chroma_peak','total_runtime','tv_feature_trailer','textless_at_tail','cc_subtitles','vitc','record_date','language','stickers','label','head_logo','tail_logo','notices','record_machine','source_barcode','element_qc_barcode','file_name'];
                               new_data = {};
                               for(var r = 0; r < new_data_fields.length; r++){
                                   the_field = new_data_fields[r];
@@ -2880,12 +2881,13 @@ class ElementEvalWdg(BaseTableElementWdg):
         if this_user == 'admin': 
             show_save = True
         this_timestamp = str(datetime.datetime.now()).split('.')[0]
-        code = my.kwargs.get('code');
+        code = my.kwargs.get('code')
         channels = 21
         if 'channels' in my.kwargs.keys():
             channels = my.kwargs.get('channels')
         original_code = code
         server = TacticServerStub.get()
+        widget = DivWdg()
         if 'TITLE' in code:
             wos = server.eval("@GET(twog/work_order['title_code','%s'].code)" % code)
             if len(wos) > 0:
@@ -2904,7 +2906,7 @@ class ElementEvalWdg(BaseTableElementWdg):
         tframe_rate = my.kill_nothing(title.get('frame_rate'))
         tformat = my.kill_nothing(title.get('format'))
         
-        my.element = {'code': '', 'description': '', 'timestamp': this_timestamp, 'login': this_user, 'operator': this_user, 'type': '', 'bay': '', 'machine_number': '', 'client_code': title.get('client_code'), 'client_name': title.get('client_name'), 'title': title.get('title'), 'episode': title.get('episode'), 'version': '', 'title_type': '', 'timecode': '', 'po_number': title.get('po_number'), 'style': '', 'title_code': work_order.get('title_code'), 'order_code': work_order.get('order_code'), 'work_order_code': code, 'conclusion': '', 'source_code': '', 'standard': my.kill_nothing(title.get('deliverable_standard')), 'aspect_ratio': my.kill_nothing(title.get('deliverable_aspect_ratio')), 'frame_rate': my.kill_nothing(title.get('deliverable_frame_rate')), 'format': my.kill_nothing(title.get('deliverable_format')), 'wo_name': work_order.get('process'), 'roll_up': '', 'bars_tone': '', 'black_silence_1': '', 'slate_silence': '', 'black_silence_2': '', 'video_mod_disclaimer': '', 'start_of_program': '', 'end_of_program': '','roll_up_f': '', 'bars_tone_f': '', 'black_silence_1_f': '', 'slate_silence_f': '', 'black_silence_2_f': '', 'video_mod_disclaimer_f': '', 'start_of_program_f': '', 'end_of_program_f': '', 'active_video_begins': '', 'active_video_ends': '', 'horizontal_blanking': '', 'vertical_blanking': '', 'video_average': '', 'video_peak': '', 'chroma_average': '', 'chroma_peak': '', 'video_sync': '', 'chroma_burst': '', 'setup': '', 'control_track': '', 'video_rf': '', 'front_porch': '', 'sync_duration': '', 'burst_duration': '', 'total_runtime': '', 'tv_feature_trailer': '', 'textless_at_tail': '', 'cc_subtitles': '', 'timecodes': '', 'vitc': '', 'ltc': '', 'record_vendor': '', 'record_date': '', 'language': '', 'comp_mne_sync': '', 'comp_mne_phase': '', 'missing_mne': '', 'average_dialogue': '', 'dec_a1': '', 'dec_a2': '', 'dec_a3': '', 'dec_a4': '', 'dec_b1': '', 'dec_b2': '', 'dec_b3': '', 'dec_b4': '', 'dec_c1': '', 'dec_c2': '', 'dec_c3': '', 'dec_c4': '', 'dec_d1': '', 'dec_d2': '', 'dec_d3': '', 'dec_d4': '', 'tape_pack': '', 'stickers': '', 'label': '', 'head_logo': '', 'tail_logo': '', 'notices': '', 'record_machine': '', 'vendor_id': '', 'file_name': ''}
+        my.element = {'code': '', 'description': '', 'timestamp': this_timestamp, 'login': this_user, 'operator': this_user, 'type': '', 'bay': '', 'machine_number': '', 'client_code': title.get('client_code'), 'client_name': title.get('client_name'), 'title': title.get('title'), 'episode': title.get('episode'), 'version': '', 'title_type': '', 'timecode': '', 'po_number': title.get('po_number'), 'style': '', 'title_code': work_order.get('title_code'), 'order_code': work_order.get('order_code'), 'work_order_code': code, 'conclusion': '', 'source_code': '', 'standard': my.kill_nothing(title.get('deliverable_standard')), 'aspect_ratio': my.kill_nothing(title.get('deliverable_aspect_ratio')), 'frame_rate': my.kill_nothing(title.get('deliverable_frame_rate')), 'format': my.kill_nothing(title.get('deliverable_format')), 'wo_name': work_order.get('process'), 'roll_up': '', 'bars_tone': '', 'black_silence_1': '', 'slate_silence': '', 'black_silence_2': '', 'video_mod_disclaimer': '', 'start_of_program': '', 'end_of_program': '','roll_up_f': '', 'bars_tone_f': '', 'black_silence_1_f': '', 'slate_silence_f': '', 'black_silence_2_f': '', 'video_mod_disclaimer_f': '', 'start_of_program_f': '', 'end_of_program_f': '', 'active_video_begins': '', 'active_video_ends': '', 'horizontal_blanking': '', 'vertical_blanking': '', 'video_average': '', 'video_peak': '', 'chroma_average': '', 'chroma_peak': '', 'video_sync': '', 'chroma_burst': '', 'setup': '', 'control_track': '', 'video_rf': '', 'front_porch': '', 'sync_duration': '', 'burst_duration': '', 'total_runtime': '', 'tv_feature_trailer': '', 'textless_at_tail': '', 'cc_subtitles': '', 'timecodes': '', 'vitc': '', 'ltc': '', 'source_barcode': '', 'record_date': '', 'language': '', 'comp_mne_sync': '', 'comp_mne_phase': '', 'missing_mne': '', 'average_dialogue': '', 'dec_a1': '', 'dec_a2': '', 'dec_a3': '', 'dec_a4': '', 'dec_b1': '', 'dec_b2': '', 'dec_b3': '', 'dec_b4': '', 'dec_c1': '', 'dec_c2': '', 'dec_c3': '', 'dec_c4': '', 'dec_d1': '', 'dec_d2': '', 'dec_d3': '', 'dec_d4': '', 'tape_pack': '', 'stickers': '', 'label': '', 'head_logo': '', 'tail_logo': '', 'notices': '', 'record_machine': '', 'element_qc_barcode': '', 'file_name': ''}
         my.element_lines = [{'code': '', 'description': '', 'timestamp': this_timestamp, 's_status': '', 'keywords': '', 'login': this_user, 'id': '', 'name': '', 'element_eval_code': '', 'order_code': work_order.get('order_code'), 'title_code': work_order.get('title_code'), 'work_order_code': code, 'timecode_in': '', 'field_in': '', 'timecode_out': '', 'field_out': '', 'media_type': '', 'type_code': '', 'scale': '', 'sector_or_channel': '', 'in_safe': '', 'in_source': '', 'source_code': ''}]
         if 'element_code' in my.kwargs.keys():
             element_code = str(my.kwargs.get('element_code'))
@@ -2914,7 +2916,7 @@ class ElementEvalWdg(BaseTableElementWdg):
         wo_pevals = server.eval("@SOBJECT(twog/element_eval['work_order_code','%s']['code','!=','%s'])" % (code, element_code))
         title_pevals = server.eval("@SOBJECT(twog/element_eval['title_code','%s']['work_order_code','!=','%s']['code','!=','%s'])" % (work_order.get('title_code'), work_order.get('code'), element_code))
         others = Table()
-        others.add_style('background-color: #528B8B; width: 100%s;' % '%');
+        others.add_style('background-color: #528B8B; width: 100%s;' % '%')
         cols = ['#537072','#518A1A']
         colsct = 0
         if len(title_pevals) > 0:
@@ -2951,9 +2953,7 @@ class ElementEvalWdg(BaseTableElementWdg):
                 others.add_cell('<b>CONCLUSION:</b> %s' % w.get('conclusion'))
                 others.add_cell('<b>DATETIME:</b> %s' % w.get('timestamp'))
                 colsct = colsct + 1
-            
-        
-        widget = DivWdg()
+
         widget.add_attr('class','big_ol_element_wdg_%s' % code)
         widget.add_attr('element_code',my.element.get('code'))
         widget.add_attr('id','big_ol_element_wdg_%s' % code)
@@ -2978,7 +2978,6 @@ class ElementEvalWdg(BaseTableElementWdg):
         for mark in acr_s:
             acr.add_row()
             acr1 = CheckboxWdg('marked_%s' % mark)
-            #acr1.set_persistence()
             if mark in my.element.get('conclusion'):
                 acr1.set_value(True)
             else:
@@ -3033,7 +3032,6 @@ class ElementEvalWdg(BaseTableElementWdg):
             format_sel.append_option(f,f)
         if my.element.get('format') not in [None,'']:
             format_sel.set_value(my.element.get('format'))
-
 
         frame_rate_sel = SelectWdg('frame_rate_select')
         frame_rate_sel.add_attr('id','frame_rate')
@@ -3109,19 +3107,11 @@ class ElementEvalWdg(BaseTableElementWdg):
         mm7.add_attr('nowrap','nowrap')
         mm8 = tittbl.add_cell(my.txtbox('file_name',width='635px'))
         mm8.add_attr('colspan','3')
-        #tittbl.add_row()
-        #tittbl.add_cell('TYPE:')
-        #tittbl.add_cell(my.txtbox('title_type',width='400px'))
-        #tittbl.add_cell('&nbsp;&nbsp;&nbsp;STYLE:')
-        #tittbl.add_cell(my.txtbox('style',width='151px'))
- 
+
         tt2 = Table()
         tt2.add_attr('width','85%s' % '%')
         tt2.add_row()
         tt2.add_cell(tittbl)
-        #tt22 = tt2.add_cell(my.key_tbl)
-        #tt22.add_attr('valign','bottom')
-        #tt22.add_attr('align','right')
 
         pgf = Table()
         pgf.add_attr('class','pgf')
@@ -3152,7 +3142,6 @@ class ElementEvalWdg(BaseTableElementWdg):
         pf.add_row()
         pf2 = pf.add_cell('Bars/Tone')
         pf2.add_attr('nowrap','nowrap')
-        #pf.add_cell('<input type="text" id="bars_tone" value="%s" style="width: 200px;"/>' % element.get('bars_tone'))
         pf.add_cell(my.txtbox('bars_tone',width='399px',js='yes'))
         pf.add_cell(my.txtbox('bars_tone_f',width='20px'))
         pf.add_row()
@@ -3171,11 +3160,6 @@ class ElementEvalWdg(BaseTableElementWdg):
         pf.add_cell(my.txtbox('black_silence_2',width='399px',js='yes'))
         pf.add_cell(my.txtbox('black_silence_2_f',width='20px'))
         pf.add_row()
-        #pf6 = pf.add_cell('Video Mod. Disclaimer')
-        #pf6.add_attr('nowrap','nowrap')
-        #pf.add_cell(my.txtbox('video_mod_disclaimer',width='180px',js='yes'))
-        #pf.add_cell(my.txtbox('video_mod_disclaimer_f',width='20px'))
-        #pf.add_row()
         pf7 = pf.add_cell('Start of Program')
         pf7.add_attr('nowrap','nowrap')
         pf.add_cell(my.txtbox('start_of_program',width='399px',js='yes'))
@@ -3195,162 +3179,23 @@ class ElementEvalWdg(BaseTableElementWdg):
         vm.add_cell(my.txtbox('active_video_begins',width="400px"))
 
         gng = ['Good','No Good']
-        #vr_select = SelectWdg('video_rf')
-        #vr_select.add_attr('id','video_rf')
-        #vr_select.add_style('width: 200px;')
-        #vr_select.append_option('--Select--','')
-        #for g in gng:
-        #    vr_select.append_option(g,g)
-        #vr_select.append_option('-','-')
-
-        #if my.element.get('video_rf') not in [None,'']:
-        #    vr_select.set_value(my.element.get('video_rf'))
-        #vm6 = vm.add_cell('Video RF')
-        #vm6.add_attr('nowrap','nowrap')
-        #mm7 = vm.add_cell(vr_select)
-        #mm7.add_attr('class','select_cell')
-
-#        c_select = SelectWdg('control_track')
-#        c_select.add_attr('id','control_track')
-#        c_select.add_style('width: 200px;')
-#        c_select.append_option('--Select--','')
-#        for g in gng:
-#            c_select.append_option(g,g)
-#        if my.element.get('control_track') not in [None,'']:
-#            c_select.set_value(my.element.get('control_track'))
-
-
         gng2 = ['Good','Fair','Poor']
-        #tp_select = SelectWdg('tape_pack')
-        #tp_select.add_attr('id','tape_pack')
-        #tp_select.add_style('width: 200px;')
-        #tp_select.append_option('--Select--','')
-        #for g in gng2:
-        #    tp_select.append_option(g,g)
-        #tp_select.append_option('-','-')
-        #if my.element.get('tape_pack') not in [None,'']:
-        #    tp_select.set_value(my.element.get('tape_pack'))
-
-        #vm2z = vm.add_cell('Setup')
-        #vm2z.add_attr('nowrap','nowrap')
-        #vm.add_cell(my.txtbox('setup'))
         vm.add_row()
         vm3 = vm.add_cell('Active Video Ends')
         vm3.add_attr('nowrap','nowrap')
         vm.add_cell(my.txtbox('active_video_ends',width="400px"))
-        #vm4 = vm.add_cell('Control Track')
-        #vm4.add_attr('nowrap','nowrap')
-        #mm8 = vm.add_cell(c_select)
-        #mm8.add_attr('class','select_cell')
-        #vm8 = vm.add_cell('Tape Pack')
-        #vm8.add_attr('nowrap','nowrap')
-        #mm88 = vm.add_cell(tp_select)
-        #mm88.add_attr('class','select_cell')
 
         vm.add_row()
         vm5 = vm.add_cell('Horizontal Blanking')
         vm5.add_attr('nowrap','nowrap')
         vm.add_cell(my.txtbox('horizontal_blanking',width="400px"))
-
-
-#        inner2 = Table()
-#        inner2.add_attr('border','1')
-#        inner2.add_row()
-# 
-#        vin2 = vm.add_cell(inner2)
-#        vin2.add_attr('colspan','2')
-
         vm.add_row()
-        #vm7 = vm.add_cell('Vertical Blanking')
-        #vm7.add_attr('nowrap','nowrap')
-        #vm.add_cell(my.txtbox('vertical_blanking'))
-
-#        dec2 = Table()
-#        dec2.add_attr('border','1')
-#        dnums = ['1','2','3','4']
-#        dlets = ['A','B','C','D']
-#        choices = ['Green','Yellow','Red']
-#        choice_cols = {'Green': '#00FF00', 'Yellow': '#FFFF00', 'Red': '#FF0000'}
-#        for dl in dlets:
-#            dec2.add_row()
-#            for dn in dnums:
-#                fieldname = 'dec_%s%s' % (dl.lower(), dn) 
-#                beh = {'css_class': 'clickme', 'type': 'change', 'cbjs_action': '''        
-#                    try{ 
-#                        colors={'Green':'#00FF00','Yellow': '#FFFF00','Red': '#FF0000','':'#FFFFFF'};
-#                        top_el=document.getElementById('big_ol_element_wdg_%s');
-#                        me_stat=top_el.getElementById('%s');
-#                        me_stat.style.backgroundColor=colors[me_stat.value];
-#                        me_stat.style.dropShadow='0px 0px 0px';
-#                    }catch(err){
-#                        spt.app_busy.hide(); 
-#                        spt.alert(spt.exception_handler(err));
-#                    }''' % (code, fieldname)}
-##                this_sel = '''<select id="%s" name="%s" style="width: 63px;" onChange="colors={'Green':'#00FF00','Yellow': '#FFFF00','Red': '#FF0000','':'#FFFFFF'};top_el=document.getElementById('big_ol_element_wdg_%s');me_stat=top_el.getElementById('%s');me_stat.style.backgroundColor=colors[me_stat.value];me_stat.style.dropShadow='0px 0px 0px';"><option value="">-Select-</option>''' % (fieldname, fieldname, code, fieldname)
-##                selected = ''
-##                for choice in choices:
-##                    if my.element.get(fieldname) == choice:
-##                        selected = 'selected'
-##                    this_sel = '%s<option value="%s" style="background-color: %s;" %s>%s</option>' % (this_sel, choice, choice_cols[choice], selected, choice)
-#                dnl_sel = SelectWdg(fieldname) 
-#                dnl_sel.add_attr('id',fieldname)
-#                dnl_sel.add_style('width: 63px;')
-#                dnl_sel.append_option('-Select-','')
-#                for choice in choices:
-#                    guy2 = dnl_sel.append_option(choice,choice)
-#                if my.element.get(fieldname) not in [None,'']:
-#                    dnl_sel.set_value(my.element.get(fieldname))
-#                    dnl_sel.add_style('background-color: %s;' % choice_cols[my.element.get(fieldname)])
-#                dnl_sel.add_behavior(beh)
-#                dnlc = dec2.add_cell(dnl_sel) 
-#                dnlc.add_attr('class','select_cell')
-#                
-#        dec2.add_row()
-        #add here
-
-#        dectbl = Table()
-#        dectbl.add_attr('width','100%s' % '%')
-#        dectbl.add_row()
-#        d1 = dectbl.add_cell('<font color="#FFFFFF"><b>Digital Error Correction - Four Intervals</b></font>')
-#        d1.add_attr('align','center')
-#        d1.add_attr('colspan','5')
-#        d1.add_style('background-color: #4a4a4a; width: 100%s;' % '%')
-#        dectbl.add_row()
-#        dectbl.add_cell(' ')
-#        ddd1 = dectbl.add_cell('1')
-#        ddd1.add_attr('align','center')
-#        ddd2 = dectbl.add_cell('2')
-#        ddd2.add_attr('align','center')
-#        ddd3 = dectbl.add_cell('3')
-#        ddd3.add_attr('align','center')
-#        ddd4 = dectbl.add_cell('4')
-#        ddd4.add_attr('align','center')
-#        dectbl.add_row()
-#        dectbl.add_cell('A')
-#        shooter = dectbl.add_cell(dec2)
-#        shooter.add_attr('colspan','4')
-#        shooter.add_attr('rowspan','4')
-#        dectbl.add_row()
-#        dectbl.add_cell('B')
-#        dectbl.add_row()
-#        dectbl.add_cell('C')
-#        dectbl.add_row()
-#        dectbl.add_cell('D')
-#        weird = vm.add_cell(dectbl)
-#        weird.add_attr('colspan','2')
-#        weird.add_attr('rowspan','5')
-        
-       
-
 
         vm.add_row()
         vm11 = vm.add_cell('Luminance Peak')
         vm11.add_attr('nowrap','nowrap')
         vm.add_cell(my.txtbox('video_peak',width="400px"))
         vm.add_row()
-        #vm13 = vm.add_cell('Chroma Average')
-        #vm13.add_attr('nowrap','nowrap')
-        #vm.add_cell(my.txtbox('chroma_average'))
         vm.add_row()
         vm15 = vm.add_cell('Chroma Peak')
         vm15.add_attr('nowrap','nowrap')
@@ -3362,20 +3207,15 @@ class ElementEvalWdg(BaseTableElementWdg):
         vm.add_cell(my.txtbox('head_logo',width="400px"))
 
         vm.add_row()
-        #vm9 = vm.add_cell('Luminance Average')
-        #vm9.add_attr('nowrap','nowrap')
-        #vm.add_cell(my.txtbox('video_average'))
-
         tm55 = vm.add_cell('Tail Logo')
         tm55.add_attr('nowrap','nowrap')
         vm.add_cell(my.txtbox('tail_logo',width="400px"))
-        
 
         pfc1 = pgf.add_cell(pf)
         pfc1.add_attr('valign','top')
         pgf.add_cell('&nbsp;')
         pgf.add_cell(vm)
-         
+
         epro = Table()
         epro.add_attr('class','epro')
         head2 = Table()
@@ -3415,20 +3255,12 @@ class ElementEvalWdg(BaseTableElementWdg):
         ef2.add_attr('nowrap','nowrap')
         ef.add_cell(my.txtbox('textless_at_tail',width="400px"))
         ef.add_row()
-        ef2 = ef.add_cell('(CC)/Subtitles')
-        ef2.add_attr('nowrap','nowrap')
-        ef.add_cell(my.txtbox('cc_subtitles',width="400px"))
-        ef.add_row()
         ef2 = ef.add_cell('Notices')
         ef2.add_attr('nowrap','nowrap')
         ef.add_cell(my.txtbox('notices',width="400px"))
         ef.add_row()
-        #inner1 = Table()
-        #inner1.add_attr('border','1')
-        #inner1.add_row()
         ef.add_cell('Label')
-        
-        
+
         gng2 = ['Good','Fair','Poor','-']
         lab_sel = SelectWdg('label')
         lab_sel.add_attr('id','label')
@@ -3442,75 +3274,33 @@ class ElementEvalWdg(BaseTableElementWdg):
         in1 = ef.add_cell(lab_sel)
         in1.add_attr('class','select_cell')
 
-
-        #incell = ef.add_cell(inner1)
-        #incell.add_attr('colspan','2')
-
- 
         tm = Table()
         tm.add_attr('border','1')
         tm.add_attr('nowrap','nowrap')
         tm.add_row()
-        #tm1 = tm.add_cell('Timecodes')
-        #tm1.add_attr('nowrap','nowrap')
-        #tm.add_cell(my.txtbox('timecodes', js='yes'))
         tm2 = tm.add_cell('Language')
         tm2.add_attr('nowrap','nowrap')
         tm.add_cell(my.txtbox('language',width="424px"))
+        tm.add_row()
+        ef2 = tm.add_cell('(CC)/Subtitles')
+        ef2.add_attr('nowrap','nowrap')
+        tm.add_cell(my.txtbox('cc_subtitles',width="424px"))
         tm.add_row()
         tm3 = tm.add_cell('VITC')
         tm3.add_attr('nowrap','nowrap')
         tm.add_cell(my.txtbox('vitc',width="424px"))
 
-        #cmnes_select = SelectWdg('comp_mne_sync')
-        #cmnes_select.add_attr('id','comp_mne_sync')
-        #cmnes_select.add_style('width: 200px;')
-        #cmnes_select.append_option('--Select--','')
-        #for g in gng:
-        #    cmnes_select.append_option(g,g)
-        #if my.element.get('comp_mne_sync') not in [None,'']:
-        #    cmnes_select.set_value(my.element.get('comp_mne_sync'))
-
-        #tm4 = tm.add_cell('Comp/M&E Sync')
-        #tm4.add_attr('nowrap','nowrap')
-        #mm11 = tm.add_cell(cmnes_select)
-        #mm11.add_attr('class','select_cell')
-        #tm.add_row()
-        #tm3 = tm.add_cell('LTC')
-        #tm3.add_attr('nowrap','nowrap')
-        #tm.add_cell(my.txtbox('ltc'))
-
-        #cmnep_select = SelectWdg('comp_mne_phase')
-        #cmnep_select.add_attr('id','comp_mne_phase')
-        #cmnep_select.add_style('width: 200px;')
-        #cmnep_select.append_option('--Select--','')
-        #for g in gng:
-        #    cmnep_select.append_option(g,g)
-        #if my.element.get('comp_mne_phase') not in [None,'']:
-        #    cmnep_select.set_value(my.element.get('comp_mne_phase'))
-
-        #tm4 = tm.add_cell('Comp/M&E Phase')
-        #tm4.add_attr('nowrap','nowrap')
-        #mm12 = tm.add_cell(cmnep_select)
-        #mm12.add_attr('class','select_cell')
         tm.add_row()
-        tm3 = tm.add_cell('Record Vendor')
+        tm3 = tm.add_cell('Source Barcode')
         tm3.add_attr('nowrap','nowrap')
-        tm.add_cell(my.txtbox('record_vendor',width="424px"))
-        #tm4 = tm.add_cell('Missing M&E')
-        #tm4.add_attr('nowrap','nowrap')
-        #tm.add_cell(my.txtbox('missing_mne'))
+        tm.add_cell(my.txtbox('source_barcode',width="424px"))
         tm.add_row()
-        tm33 = tm.add_cell('Vendor Src Id')
+        tm33 = tm.add_cell('Element QC Barcode')
         tm33.add_attr('nowrap','nowrap')
-        tm.add_cell(my.txtbox('vendor_id',width="424px"))
-        #tm35 = tm.add_cell('Average Dialogue')
-        #tm35.add_attr('nowrap','nowrap')
-        #tm.add_cell(my.txtbox('average_dialogue'))
+        tm.add_cell(my.txtbox('element_qc_barcode',width="424px"))
         tm.add_row()
         tm3 = tm.add_cell('Record Date')
         tm3.add_attr('nowrap','nowrap')
-
 
         from tactic.ui.widget import CalendarInputWdg
         rcrd = CalendarInputWdg("record_date")
@@ -3528,38 +3318,10 @@ class ElementEvalWdg(BaseTableElementWdg):
         rcrd_date = tm.add_cell(rcrd)
         rcrd_date.add_attr('nowrap','nowrap')
 
-#        tm4 = tm.add_cell('Head Logo')
-#        tm4.add_attr('nowrap','nowrap')
-#        tm.add_cell(my.txtbox('head_logo'))
-        
-        tm.add_row()
-        tm55 = tm.add_cell('Record Machine')
-        tm55.add_attr('nowrap','nowrap')
-        tm.add_cell(my.txtbox('record_machine',width="424px"))
-#        tm55 = tm.add_cell('Tail Logo')
-#        tm55.add_attr('nowrap','nowrap')
-#        tm.add_cell(my.txtbox('tail_logo'))
-        tm.add_row()
-
-        sti_sel = SelectWdg('stickers')
-        sti_sel.add_attr('id','stickers')
-        sti_sel.add_style('width: 412px;')
-        sti_sel.append_option('--Select--','')
-        for sti in gng2:
-            sti_sel.append_option(sti, sti)
-        if my.element.get('stickers') not in [None,'']:
-            sti_sel.set_value(my.element.get('stickers'))
-
-        tm.add_cell('Stickers')
-        in2 = tm.add_cell(sti_sel)
-        in2.add_attr('class','select_cell')
-        
-         
         epro.add_cell(ef)
         epro.add_cell('&nbsp;')
         epro.add_cell(tm)
 
-       
         ktbl = Table()
         ktbl.add_row()
         k1 = ktbl.add_cell('<i>Code Definitions: F=Film V=Video T=Telecine A=Audio</i>')
@@ -3575,8 +3337,7 @@ class ElementEvalWdg(BaseTableElementWdg):
         k3.add_style('cursor: pointer;')
         k3.add_behavior(my.launch_tc_shifter(code, my.element.get('code')))
 
-        linestbl = ElementEvalLinesWdg(code=my.element.get('code'),wo_code=code) 
-        bcstbl = ElementEvalBarcodesWdg(code=my.element.get('code'),wo_code=code) 
+        linestbl = ElementEvalLinesWdg(code=my.element.get('code'),wo_code=code)
         audtbl = ElementEvalAudioWdg(code=my.element.get('code'),wo_code=code,channels=channels) 
 
         fulllines = Table()
@@ -3585,9 +3346,7 @@ class ElementEvalWdg(BaseTableElementWdg):
         fulllines.add_cell(ktbl)
         fulllines.add_row()
         fulllines.add_cell(linestbl)
- 
-        
-             
+
         table.add_row()
         table.add_cell(toptbl)
         table.add_row()
@@ -3599,8 +3358,6 @@ class ElementEvalWdg(BaseTableElementWdg):
         table.add_cell(pgf)
         table.add_row()
         table.add_cell(epro)
-        table.add_row()
-        table.add_cell(bcstbl)
         table.add_row()
         aud2 = table.add_cell('<font color="#FFFFFF"><b>AUDIO CONFIGURATION - click to change number of channels</b></font>')
         aud2.add_attr('align','left')
