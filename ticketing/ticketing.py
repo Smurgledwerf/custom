@@ -17,7 +17,7 @@ class TicketingLauncherWdg(BaseTableElementWdg):
     def get_launch_behavior(my):
         behavior = {'css_class': 'clickme', 'type': 'click_up', 'cbjs_action': '''        
                         try{
-                            window.open("http://support.2g.local:8080/secure/CreateIssue!default.jspa");
+                            window.open("http://support.2g.local/secure/CreateIssue!default.jspa");
                 }
                 catch(err){
                           spt.app_busy.hide();
