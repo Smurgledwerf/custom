@@ -10,6 +10,7 @@ from tactic.ui.common import BaseRefreshWdg
 #from tactic.ui.widget import DiscussionWdg
 #from operator import itemgetter
 
+
 class IndieBBSelectWdg(BaseTableElementWdg):
 
     def init(my):
@@ -122,6 +123,7 @@ class IndieBBSelectWdg(BaseTableElementWdg):
         widget.add(table)
         return widget
 
+
 class BigBoardSingleWOSelectWdg2(BaseTableElementWdg):
 
     def init(my):
@@ -218,6 +220,7 @@ class BigBoardSingleWOSelectWdg2(BaseTableElementWdg):
         widget.add(table)
         return widget
 
+
 class BigBoardViewWdg2(BaseTableElementWdg):
 
     def init(my):
@@ -236,6 +239,7 @@ class BigBoardViewWdg2(BaseTableElementWdg):
         cell1 =  table.add_cell('<img border="0" style="vertical-align: middle" title="" src="%s">' % img)
         widget.add(table)
         return widget
+
 
 class BigBoardSelectWdg2(BaseTableElementWdg):
 
@@ -375,7 +379,6 @@ class BigBoardSelectWdg2(BaseTableElementWdg):
             if bigboard == True:
                 img = '/context/icons/silk/rosette.png'
                 state = 'checked'
-            #table.add_attr('width', '50px')
             table.add_row()
             cell1 =  table.add_cell('<img border="0" style="vertical-align: middle" title="" src="%s">' % img)
             cell1.add_attr('id', 'title_bigboard_%s' % code)
@@ -387,7 +390,9 @@ class BigBoardSelectWdg2(BaseTableElementWdg):
         widget.add(table)
         return widget
 
+
 class BigBoardWOSelect4MultiTitlesWdg2(BaseRefreshWdg):
+
     def init(my):
         from tactic_client_lib import TacticServerStub
         my.server = TacticServerStub.get()
@@ -475,10 +480,9 @@ class BigBoardWOSelect4MultiTitlesWdg2(BaseRefreshWdg):
         for code in arr:
             sk = my.server.build_search_key('twog/title',code)
             my.server.update(sk, dict)
-        
-    
-    def get_display(my):   
-        #THE SEARCH KEY BEING PASSED IN SHOULD BELONG TO A TITLE
+
+    def get_display(my):
+        # THE SEARCH KEY BEING PASSED IN SHOULD BELONG TO A TITLE
         from pyasm.search import Search
         from pyasm.widget import CheckboxWdg
         my.title_codes = str(my.kwargs.get('title_codes'))
@@ -535,14 +539,10 @@ class BigBoardWOSelect4MultiTitlesWdg2(BaseRefreshWdg):
         cover_table.add_cell(buttont)
         return cover_table
 
+
 class BigBoardWOSelectWdg2(BaseRefreshWdg):
+
     def init(my):
-        #from client.tactic_client_lib import TacticServerStub
-        #from pyasm.common import Environment
-        #from pyasm.search import Search
-        #my.server = TacticServerStub.get()
-        #my.login = Environment.get_login()
-        #my.user = my.login.get_login()
         my.sk = ''
 
     def get_switcher_behavior(my, title_sk):
@@ -610,12 +610,11 @@ class BigBoardWOSelectWdg2(BaseRefreshWdg):
         return behavior
     
     def get_display(my):   
-        #THE SEARCH KEY BEING PASSED IN SHOULD BELONG TO A TITLE
+        # THE SEARCH KEY BEING PASSED IN SHOULD BELONG TO A TITLE
         from pyasm.search import Search
         from pyasm.widget import CheckboxWdg
         my.sk = str(my.kwargs.get('sk'))
         code = my.sk.split('code=')[1]
-        #tasks = my.server.eval("@SOBJECT(sthpw/task['title_code','%s']['search_type','twog/proj?project=twog']['status','!=','Completed']['active','1'])" % code)
         search = Search("sthpw/task")
         search.add_filter('title_code',code)
         search.add_filter('status', 'Completed', op="!=")
@@ -630,26 +629,19 @@ class BigBoardWOSelectWdg2(BaseRefreshWdg):
             switcher.add_behavior(my.get_switcher_behavior(my.sk))
             for task in tasks:
                 table.add_row()
-                #checkbox = CheckboxWdg('bigboard_wo_select_%s' % task.get('__search_key__'))
                 checkbox = CheckboxWdg('bigboard_wo_select_%s' % task.get_search_key())
-                #checkbox.set_persistence()
-                #if task.get('bigboard'):
                 if task.get_value('bigboard'):
                     checkbox.set_value(True) 
                 else:
-                    checkbox.set_value(False) 
-                #checkbox.add_attr('sk',task.get('__search_key__'))
+                    checkbox.set_value(False)
                 checkbox.add_attr('sk',task.get_search_key())
                 table.add_cell(checkbox)
-                #assigned_login_group = task.get('assigned_login_group')
                 assigned_login_group = task.get_value('assigned_login_group')
-                #assigned = task.get('assigned')
                 assigned = task.get_value('assigned')
                 if assigned_login_group in [None,'']:
                     assigned_login_group = 'No Group?'
                 if assigned in [None,'']:
                     assigned = 'Unassigned'
-                #t1 = table.add_cell('[%s]: %s, %s, %s, %s' % (task.get('lookup_code'), task.get('process'), assigned_login_group, assigned, task.get('status')))
                 t1 = table.add_cell('[%s]: %s, %s, %s, %s' % (task.get_value('lookup_code'), task.get_value('process'), assigned_login_group, assigned, task.get_value('status')))
                 t1.add_attr('nowrap','nowrap')
         cover_table = Table()
@@ -668,7 +660,9 @@ class BigBoardWOSelectWdg2(BaseRefreshWdg):
         cover_table.add_cell(buttont)
         return cover_table
 
+
 class BigBoardWdg2(BaseRefreshWdg):
+
     def init(my):
         from pyasm.common import Environment
         from pyasm.search import Search
@@ -724,7 +718,6 @@ class BigBoardWdg2(BaseRefreshWdg):
         table.add_attr('border','1')
         table.add_style('font-size: 12px;')
         table.add_style('font-family: Helvetica;')
-        #table.add_style('color: #FFFFFF;')
         table.add_style('color: #000000;')
         table.add_style('background-color: #f2f2f2;')
         table.add_style('border-color: #e0e0e0;')
@@ -736,14 +729,12 @@ class BigBoardWdg2(BaseRefreshWdg):
         tpct = (my.indi_pct * 2)
         tcol.add_attr('width','%s%s' % (tpct, '%'))
         for sg in my.seen_groups:
-            #sgcol = table.add_cell('&nbsp;&nbsp;&nbsp;<b>%s</b>' % sg.upper())
             sgcol = table.add_cell('&nbsp;&nbsp;&nbsp;<b>%s</b>' % my.camel_case(sg))
             sgcol.add_attr('width','%s%s' % ((my.indi_pct), '%'))
             sgcol.add_attr('class','topper')
             sgcol.add_attr('group',sg)
         t2 = Table()
         t2.add_attr('width','100%s' % '%')
-        #t2.add_attr('border','2')
         t2.add_style('font-size: 16px;')
         t2.add_style('font-family: Helvetica;')
         t2.add_style('color: #000000;')
@@ -778,7 +769,7 @@ class BigBoardWdg2(BaseRefreshWdg):
         return ret_val
 
     def fix_date(my, date):
-        #This is needed due to the way Tactic deals with dates (using timezone info), post v4.0
+        # This is needed due to the way Tactic deals with dates (using timezone info), post v4.0
         from pyasm.common import SPTDate
         return_date = ''
         date_obj = SPTDate.convert_to_local(date)
@@ -852,11 +843,6 @@ class BigBoardWdg2(BaseRefreshWdg):
         better_lookin_dd, dd_color = my.get_dates_and_colors(expected_delivery_date, 'NO DELIVERY DATE')
         tpct = my.indi_pct * 2
         table = in_tbl
-        #table = Table()
-        #table.add_attr('width','100%s' % '%')
-        #table.add_attr('border','2')
-        #table.add_style('color: #000000;')
-        #table.add_style('font-family: Helvetica;')
         trower = table.add_row()
         trower.add_attr('class','trow')
         trower.add_attr('num',count)
@@ -913,7 +899,6 @@ class BigBoardWdg2(BaseRefreshWdg):
             offbutt = IndieBBSelectWdg(search_key=task.get_search_key(),title_code=task.get_value('title_code'),lookup_code=task.get_value('lookup_code'),indie_bigboard=task.get_value('indie_bigboard'))
             dblbb = dbl.add_cell(offbutt)
             dblbb.add_attr('width','20px')
-            #dblpr = dbl.add_cell('Priority: %s' % task.get_value('indie_priority'))
             dblpr = dbl.add_cell('Set At #: ')
             dblpr.add_attr('align','left')
             prioid = 'prio_%s' % count
@@ -948,7 +933,6 @@ class BigBoardWdg2(BaseRefreshWdg):
         ctc.add_attr('width','25px')
         dc = tripl.add_cell(dbl)
         dc.add_attr('align','left')
-        #titl = table.add_cell(dbl)
         titl = table.add_cell(tripl)
         if count == 1:
             titl.add_attr('class','bottom_content')
@@ -962,7 +946,6 @@ class BigBoardWdg2(BaseRefreshWdg):
                     black.add_attr('class','bottom_content')
                     black.add_attr('group',sg)
                 black.add_attr('width','%s%s' % (my.indi_pct, '%'))
-                #black.add_style('background-color: #000000;')
                 black.add_style('background-color: %s;' % bgcol)
             else:
                 tat = Table()
@@ -1059,7 +1042,6 @@ class BigBoardWdg2(BaseRefreshWdg):
 
             if redo_title or redo_order:
                 code_str = "%s:<b>%s</b> -- Redo of -- %s:%s" % (title.get_value('order_code'), code, redo_order, redo_title)
-
 
         trower = table.add_row()
         trower.add_attr('class','trow')
@@ -1222,24 +1204,16 @@ class BigBoardWdg2(BaseRefreshWdg):
                     tittat.add_attr('name',wo_code)
                     inspect_button = TaskObjLauncherWdg(code=wo_code, name=process)
                     inspect = tat.add_cell(inspect_button)
-                    #wcell = tat.add_cell(wo_code.split('WORK_ORDER')[1])
-                    #wcell.add_attr('nowrap','nowrap')
                     pro = tat.add_cell(my.shorten_text(process,10))
                     pro.add_attr('nowrap','nowrap')
-                    #pro.add_attr('title',process)
-                    #pro.add_attr('name',process)
                     pro.add_attr('title',wo_code)
                     pro.add_attr('name',wo_code)
                     pro.add_style('background-color: %s;' % my.stat_colors[status])
                     stcell = tat.add_cell(my.shorten_text(status,10))
-                    #stcell.add_attr('nowrap','nowrap')
-                    #stcell.add_attr('title',status)
-                    #stcell.add_attr('name',status)
                     stcell.add_attr('title',wo_code)
                     stcell.add_attr('name',wo_code)
                     stcell.add_style('background-color: %s;' % my.stat_colors[status])
                     acell = tat.add_cell(my.shorten_text(assigned,10))
-                    #acell.add_attr('nowrap','nowrap')
                     acell.add_style('background-color: %s;' % my.stat_colors[status])
                     dcell = tat.add_cell(due_date)
                     dcell.add_attr('nowrap','nowrap')
@@ -1331,7 +1305,6 @@ class BigBoardWdg2(BaseRefreshWdg):
             }
          '''}
         return behavior
-
 
     def save_priorities(my):
         behavior = {'css_class': 'clickme', 'type': 'click_up', 'cbjs_action': '''        
@@ -1589,8 +1562,6 @@ class BigBoardWdg2(BaseRefreshWdg):
          '''}
         return behavior
 
-    
-
     def get_buttons(my, auto_refresh, auto_scroll, kgroups):
         from pyasm.widget import SelectWdg
         btns = Table()
@@ -1617,14 +1588,6 @@ class BigBoardWdg2(BaseRefreshWdg):
         if my.big_user:
             saveit = btns.add_cell('<input type="button" value="Save Priorities"/>')
             saveit.add_behavior(my.save_priorities())
-#        group_sel = SelectWdg('group_select')
-#        group_sel.add_attr('id','group_select')
-#        group_sel.append_option('ALL','ALL')
-#        for g in my.all_groups:
-#            group_sel.append_option(g,g)
-#        group_sel.set_value(kgroups[0])
-#        group_sel.add_behavior(my.change_group())
-#        btns.add_cell(group_sel)
         return btns
 
     def get_platform_img(my, platform):
@@ -1675,8 +1638,6 @@ class BigBoardWdg2(BaseRefreshWdg):
                 img_path = 'http://tactic01%s' % img_path
         return img_path
 
-
-    
     def get_display(my):   
         from operator import itemgetter
         from pyasm.search import Search
@@ -1731,30 +1692,7 @@ class BigBoardWdg2(BaseRefreshWdg):
         search.add_order_by("expected_delivery_date")
         bigboarders = search.get_sobjects()
 
-         #This is for mastering even if no red ribbon
-#        masterings = Search('twog/title')
-#        masterings.add_filter('requires_mastering_qc',True)
-#        masterings.add_order_by("priority")
-#        masterings.add_order_by("expected_delivery_date")
-#        masteringers = masterings.get_sobjects()
-#        
-#        if len(masteringers) > 0:
-#            tempo = []
-#            for m in masteringers:
-#                for b in bigboarders:
-#                    if m.get_value('priority') < b.get_value('priority') and m not in tempo:
-#                        tempo.append(m)
-#                    elif m.get_value('priority') ==  b.get_value('priority'):
-#                        if m.get_value('expected_delivery_date') <= b.get_value('expected_delivery_date') and m not in tempo:
-#                            tempo.append(m)
-#                        elif b not in tempo:
-#                            tempo.append(b)
-#                    elif b not in tempo:
-#                         tempo.append(b)
-#            bigboarders = tempo
-
         extr_s = Search("twog/external_rejection")
-        #extr_s.add_filter('status','Closed',op='!=')
         extr_s.add_where("\"status\" not in ('Closed','Waiting for Source')")
         extr_s.add_order_by("priority")
         extr_s.add_order_by("expected_delivery_date")
@@ -1788,11 +1726,6 @@ class BigBoardWdg2(BaseRefreshWdg):
                                 tempo.append(b)
             if len(tempo) > 0:
                 bigboarders = tempo
-        
-        
-        
-        
-
 
         search2 = Search("twog/indie_bigboard")
         search2.add_filter('indie_bigboard',True)
@@ -1844,7 +1777,8 @@ class BigBoardWdg2(BaseRefreshWdg):
                 tit_to_task[titcode] = {ord_name: bk}        
                 pass
             bkcounter = bkcounter + 1
-        gorder = ['machine room','media vault','compression','edit','audio','qc','streamz','vault','edeliveries']
+        gorder = ['machine room', 'media vault', 'compression', 'edit', 'audio',
+                  'localization', 'qc', 'streamz', 'vault', 'edeliveries']
         bbc = 0
         for bb in bigboarders:
             code = bb.get_value('code') 
@@ -1954,11 +1888,9 @@ class BigBoardWdg2(BaseRefreshWdg):
         t2.add_attr('bgcolor','#fcfcfc')
         t2.add_attr('border','1')
         t2.add_style('border-color: #eeeeee;')
-        #t2.add_style('border-color: #ff0000;')
-        #t2.add_style('border-color: #ff0000;')
         t2.add_style('color: #000000;')
         t2.add_style('font-family: Helvetica;')
-        #Need to alternate row colors starting at fcfcfc, then going to ffffff
+        # Need to alternate row colors starting at fcfcfc, then going to ffffff
         if my.seen_groups not in [None,'',[]]:
             new_ordering = sorted(bigbox_prios, key=itemgetter('priority')) 
             count = 1
@@ -2014,20 +1946,12 @@ class BigBoardWdg2(BaseRefreshWdg):
                     else:
                         platform_thumbnail_clippings = thumbnail_clippings[platform]
                     expected_delivery_date = bb.get_value('expected_delivery_date')
-                    #WE WERE showing the order's expected_delivery_date instead of the title's edd, per someone's request...but that's been a dumb idea that never made any sense, so I'm taking it off now...
-                    #search = Search("twog/order")
-                    #search.add_filter('code',bb.get_value('order_code'))
-                    #title_order = search.get_sobjects()
-                    #if title_order:
-                    #    title_order = title_order[0]
-                    #    expected_delivery_date = title_order.get_value('expected_delivery_date')
                     ext_status = None
                     ext_sk = None
                     ext_assigned = None
                     ext_assigned_corrective = None
                     if is_ext:
                         expected_delivery_date = external_r.get_value('expected_delivery_date')
-                        #bgcol = my.ext_colors[external_r.get_value('status')]
                         ext_status = external_r.get_value('status')
                         ext_sk = external_r.get_search_key()
                         ext_assigned = external_r.get_value('assigned')
@@ -2105,7 +2029,7 @@ class BigBoardWdg2(BaseRefreshWdg):
                 realign_timer(1000);
 
                 '''
-        } )
+        })
         t2div.add(t2)
         table.add_row()
         table.add_cell(t2div)
@@ -2116,6 +2040,3 @@ class BigBoardWdg2(BaseRefreshWdg):
         divvy2.add(table)
         divvy.add(divvy2)
         return divvy
-
-
-
