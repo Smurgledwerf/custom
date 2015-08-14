@@ -165,6 +165,8 @@ def main(server=None, input=None):
                         if 'status' in ukeys:
                             if update_data['status'] == 'Closed':
                                 head_message = '%s<br/><br/>THIS EXTERNAL REJECTION IS NOW CLOSED' % head_message
+                            else:
+                                return
                     main_message = '%s<tr><td colspan="2"><br/><br/><hr></td><td> </td></tr>' % (main_message)
                     main_message = '%s<tr><td valign="top"><b><u>Reported Issue:</u></b></td><td valign="top">%s</td></tr>' % (main_message, reported_issue)
                     main_message = '%s<tr><td valign="top"><b><u>Root Cause:</u></b></td><td valign="top">%s</td></tr>' % (main_message, root_cause)

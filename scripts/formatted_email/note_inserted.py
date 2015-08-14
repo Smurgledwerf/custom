@@ -84,6 +84,10 @@ def main(server=None, input=None):
         login = note_dict.get('login')
         process = note_dict.get('process')
         note = note_dict.get('note')
+
+        if 'Corrective Action' in process or 'Root Cause' in process:
+            return
+
         # If there are no attached files, then send the note
         # If there are attached files, the file insertion trigger will email the note
         if 'HASATTACHEDFILES' not in note and process not in ['Billing','Closed']:
