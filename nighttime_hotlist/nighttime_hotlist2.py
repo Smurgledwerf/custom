@@ -1777,8 +1777,8 @@ class BigBoardWdg2(BaseRefreshWdg):
                 tit_to_task[titcode] = {ord_name: bk}        
                 pass
             bkcounter = bkcounter + 1
-        gorder = ['machine room', 'media vault', 'compression', 'edit', 'audio',
-                  'localization', 'qc', 'streamz', 'vault', 'edeliveries']
+        gorder = ['machine room', 'media vault', 'onboarding', 'compression', 'edit',
+                  'audio', 'localization', 'qc', 'streamz', 'vault', 'edeliveries']
         bbc = 0
         for bb in bigboarders:
             code = bb.get_value('code') 
