@@ -200,9 +200,9 @@ def main(server=None, input=None):
                                         if sales_rep_email not in [None,'',[]]:
                                             sales_rep_email = sales_rep_email[0]
                                             if int_data['ccs'] not in [None,'']:
-                                                int_data['ccs'] = '%s;%s;%s' % (int_data['ccs'], sales_rep_email, 'matt.misenhimer@2gdigital.com')
+                                                int_data['ccs'] = '%s;%s' % (int_data['ccs'], sales_rep_email)
                                             else:
-                                                int_data['ccs'] = '%s;%s' % (sales_rep_email, 'matt.misenhimer@2gdigital.com')
+                                                int_data['ccs'] = '%s' % sales_rep_email
                                     int_data['ccs'] = int_data['ccs'].replace(';%s' % sched_email, '').replace('%s;' % sched_email, '')
                                     template = open(internal_template_file, 'r')
                                     filled = ''
@@ -230,11 +230,6 @@ def main(server=None, input=None):
                                     filler = open(filled_in_email, 'w')
                                     filler.write(filled)
                                     filler.close()
-                                    #MTM this is for testing emails
-                                    int_data['from_email'] = 'matt.misenhimer@2gdigital.com'
-                                    int_data['to_email'] = 'matt.misenhimer@2gdigital.com'
-                                    int_data['int_ccs'] = 'matt.misenhimer@2gdigital.com'
-                                    #MTM END
                                     the_command = "php /opt/spt/custom/formatted_emailer/trusty_emailer.php '''%s''' '''%s''' '''%s''' '''%s''' '''%s''' '''%s'''" % (filled_in_email, int_data['to_email'], int_data['from_email'], int_data['from_name'], subject, int_data['ccs'].replace(';','#Xs*'))
                                     os.system(the_command)
                                     #If the location of the user is external, and we allow this client to receive emails, then send them an email as well
@@ -394,11 +389,6 @@ def main(server=None, input=None):
                                                 ext_data['ext_ccs'] = adta
                                             else:
                                                 ext_data['ext_ccs'] = '%s;%s' % (ext_data['ext_ccs'], adta)
-                                #MTM this is for testing emails
-                                int_data['from_email'] = 'matt.misenhimer@2gdigital.com'
-                                int_data['to_email'] = 'matt.misenhimer@2gdigital.com'
-                                int_data['int_ccs'] = 'matt.misenhimer@2gdigital.com'
-                                #MTM END
                                 the_command = "php /opt/spt/custom/formatted_emailer/trusty_emailer.php '''%s''' '''%s''' '''%s''' '''%s''' '''%s''' '''%s'''" % (filled_in_email, ext_data['to_email'], ext_data['from_email'], ext_data['from_name'], subject, ext_data['ext_ccs'].replace(';','#Xs*'))
                                 if ext_data['to_email'] not in [None,''] and ext_data['ext_ccs'] not in [None,'',';']:
                                     os.system(the_command)
@@ -447,12 +437,7 @@ def main(server=None, input=None):
                                             int_data['int_ccs'] = '%s;%s' % (int_data['int_ccs'], adta)
                             login_email = server.eval("@GET(sthpw/login['login','%s'].email)" % login)
                             if login_email:
-                                int_data['from_email'] = login_email[0] 
-                            #MTM this is for testing emails
-                            int_data['from_email'] = 'matt.misenhimer@2gdigital.com'
-                            int_data['to_email'] = 'matt.misenhimer@2gdigital.com'
-                            int_data['int_ccs'] = 'matt.misenhimer@2gdigital.com'
-                            #MTM END
+                                int_data['from_email'] = login_email[0]
                             the_command = "php /opt/spt/custom/formatted_emailer/trusty_emailer.php '''%s''' '''%s''' '''%s''' '''%s''' '''%s''' '''%s'''" % (filled_in_email, int_data['to_email'], int_data['from_email'], int_data['from_name'], subject, int_data['int_ccs'].replace(';','#Xs*'))
                             if int_data['to_email'] not in [None,''] and int_data['int_ccs'] not in [None,'',';']:
                                 #Do it. Send the email

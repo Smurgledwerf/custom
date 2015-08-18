@@ -36,13 +36,13 @@ def main(server=None, input=None):
         #The name "UNKNOWN SOURCE" is set by the location tracker
         if source_name == 'UNKNOWN SOURCE':
             #Recipients 
-            all_ccs = 'matt.misenhimer@2gdigital.com%s2GArrivals@2gdigital.com' % (delim)
+            all_ccs = '2GArrivals@2gdigital.com'
             email_expr = "@GET(sthpw/login['login','%s']['location','internal']['license_type','user'].email)" % user_name
             email_address = server.eval(email_expr)
             if email_address:
                 email_address = email_address[0]
             else:
-                email_address = "matt.misenhimer@2gdigital.com"
+                email_address = "tacticIT@2gdigital.com"
             barcode = sobject.get('source_barcode')
             location = sobject.get('location_name')
             

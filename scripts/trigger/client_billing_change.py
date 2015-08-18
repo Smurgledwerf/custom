@@ -45,8 +45,8 @@ def main(server=None, input=None):
         server.execute_cmd('manual_updaters.commander.ClientBillingTaskVisibilityCmd', {'client_code': client_code, 'new_task_str': new_task_str})
         client_sk = server.build_search_key('twog/client', client_code)
         timestamp = make_timestamp()
-        note = "%s has been set to '%s' by %s on %s" % (sobject.get('name'), billing_status, user_name, timestamp)
-        note_ccs = 'matt.misenhimer@2gdigital.com;stephen.buchsbaum@2gdigital.com;accounting@2gdigital.com'
+        note = "%s has been set to '%s' by %s on %s" % (sobject.get('name'), client_billing, user_name, timestamp)
+        note_ccs = 'stephen.buchsbaum@2gdigital.com;accounting@2gdigital.com'
         server.execute_cmd('operator_view.MakeNoteWdg', {'obj_sk': client_sk, 'header': client_billing + ' ' + timestamp, 'note': note, 'note_ccs': note_ccs})
     except AttributeError as e:
         traceback.print_exc()

@@ -67,10 +67,6 @@ def main(server=None, input=None):
             from_email = 'tacticit@2gdigital.com'
             to_email =  'tacticit@2gdigital.com'
             int_ccs =  'tacticit@2gdigital.com'
-            #MTM TESTING ONLY
-            #to_email =  'matt.misenhimer@2gdigital.com'
-            #int_ccs =  'matt.misenhimer@2gdigital.com'
-            #MTM TEST END
             subject = subject.replace(' ','..')
             the_command = "php /opt/spt/custom/formatted_emailer/trusty_emailer.php '''%s''' '''%s''' '''%s''' '''%s''' '''%s''' '''%s'''" % (filled_in_email, to_email, from_email, 'Tactic New Accounts', subject, int_ccs.replace(';','#Xs*'))
             os.system(the_command)

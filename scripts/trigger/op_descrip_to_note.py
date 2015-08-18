@@ -30,7 +30,7 @@ def main(server=None, input=None):
         login = Environment.get_login()
         user_name = login.get_login()
         delim = '#Xs*'
-        all_ccs = 'fernando.vazquez@2gdigital.com%sScheduling@2gdigital.com%smatt.misenhimer@2gdigital.com' % (delim, delim)
+        all_ccs = 'fernando.vazquez@2gdigital.com%sScheduling@2gdigital.com' % delim
         #This is for production_error operator_description update
         sobject = input.get('sobject')
         operator_description = sobject.get('operator_description')

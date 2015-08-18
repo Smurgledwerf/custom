@@ -639,7 +639,6 @@ class SourceReportPopupWdg(BaseTableElementWdg):
                           if(scheduler_email != ''){
                               group_emails.push(scheduler_email);
                           }
-                          group_emails.push('matt.misenhimer@2gdigital.com');
                           all_ccs = group_emails.join('#Xs*');
                           applet = spt.Applet.get();
                           subject = '2G-SRC-ISSUE..(' + codes.length + '..Elements)..for..' + wo_code; 

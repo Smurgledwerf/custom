@@ -231,11 +231,6 @@ def main(server=None, input=None):
             login_obj = Environment.get_login()
             sender_email = login_obj.get_value('email')
             sender_name = '%s %s' % (login_obj.get_value('first_name'), login_obj.get_value('last_name'))
-            ##MTM this is for testing emails
-            #int_data['from_email'] = 'matt.misenhimer@2gdigital.com'
-            #int_data['to_email'] = 'matt.misenhimer@2gdigital.com'
-            #int_data['int_ccs'] = 'matt.misenhimer@2gdigital.com'
-            ##MTM END
             subject_int = subject_int.replace(' ','..')
             #the_command = "php /opt/spt/custom/formatted_emailer/trusty_emailer.php '''%s''' '''%s''' '''%s''' '''%s''' '''%s''' '''%s'''" % (filled_in_email, int_data['to_email'], int_data['from_email'], int_data['from_name'], subject_int, int_data['int_ccs'].replace(';','#Xs*'))
             the_command = "php /opt/spt/custom/formatted_emailer/trusty_emailer.php '''%s''' '''%s''' '''%s''' '''%s''' '''%s''' '''%s'''" % (filled_in_email, int_data['to_email'], sender_email, sender_name, subject_int, int_data['int_ccs'].replace(';','#Xs*'))

@@ -61,7 +61,7 @@ def main(server=None, input=None):
         sobject = input.get('sobject')
         wo_code = sobject.get('work_order_code')
         #This is who it will be going to, at a minimum
-        all_ccs = 'fernando.vazquez@2gdigital.com%smatt.misenhimer@2gdigital.com' % (delim)
+        all_ccs = 'tacticIT@2gdigital.com'
         # Get the info related to this ticket (if the user provided this info)
         wo = server.eval("@SOBJECT(twog/work_order['code','%s'])" % wo_code)
         if len(wo) > 0:
@@ -105,7 +105,7 @@ def main(server=None, input=None):
         filler.write(filled)
         filler.close()
         #Create a bundled message so it will go out as an email
-        server.insert('twog/bundled_message', {'filled_in_path': filled_in_path, 'message': 'New Ticket', 'from_email': 'TechAlert@2gdigital.com', 'to_email': 'matt.misenhimer@2gdigital.com', 'from_name': '%s New Ticket' % user_name, 'subject': 'New Ticket from %s' % user_name, 'all_ccs': all_ccs, 'object_code': sobject.get('code')})
+        server.insert('twog/bundled_message', {'filled_in_path': filled_in_path, 'message': 'New Ticket', 'from_email': 'TechAlert@2gdigital.com', 'to_email': 'tacticIT@2gdigital.com', 'from_name': '%s New Ticket' % user_name, 'subject': 'New Ticket from %s' % user_name, 'all_ccs': all_ccs, 'object_code': sobject.get('code')})
     except AttributeError as e:
         traceback.print_exc()
         print str(e) + '\nMost likely the server object does not exist.'

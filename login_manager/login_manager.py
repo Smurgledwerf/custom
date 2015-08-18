@@ -79,8 +79,8 @@ class LoginManagerWdg(BaseRefreshWdg):
                                                 if(anyofem.length == 0){
                                                     english_pass = reverse(attempted_login) + String(getRandomInt(100, 999)); 
                                                     passwo = spt.md5(english_pass); 
-                                                    new_per = server.insert('twog/person', {'login_name': attempted_login, 'first_name': new_name, 'last_name': 'Portal Account', 'email': 'matt.misenhimer@2gdigital.com', 'client_code': new_client.code, 'company_code': new_company.code});
-                                                    server.insert('sthpw/login', {'login': attempted_login, 'code': attempted_login, 'first_name': new_name, 'last_name': 'Portal Account', 'password': passwo, 'license_type': 'user', 'email': 'matt.misenhimer@2gdigital.com', 'display_name': 'Portal Account, ' + new_name, 'location': 'external'});  
+                                                    new_per = server.insert('twog/person', {'login_name': attempted_login, 'first_name': new_name, 'last_name': 'Portal Account', 'email': 'portal.account@2gdigital.com', 'client_code': new_client.code, 'company_code': new_company.code});
+                                                    server.insert('sthpw/login', {'login': attempted_login, 'code': attempted_login, 'first_name': new_name, 'last_name': 'Portal Account', 'password': passwo, 'license_type': 'user', 'email': 'portal.account@2gdigital.com', 'display_name': 'Portal Account, ' + new_name, 'location': 'external'});
                                                     server.insert('sthpw/login_in_group', {'login_group': 'client', 'login': attempted_login});
                                                     server.update(new_client.__search_key__, {'portal_login': attempted_login, 'portal_pass': english_pass});
                                                     login_inserted = true;
@@ -244,8 +244,8 @@ class LoginManagerWdg(BaseRefreshWdg):
                                                     if(anyofem.length == 0){
                                                         english_pass = reverse(attempted_login) + String(getRandomInt(100, 999)); 
                                                         passwo = spt.md5(english_pass); 
-                                                        server.insert('twog/person', {'login_name': attempted_login, 'first_name': company_name, 'last_name': 'Portal Account', 'email': 'matt.misenhimer@2gdigital.com', 'client_code': new_client.code, 'company_code': company_obj[0].code});
-                                                        server.insert('sthpw/login', {'login': attempted_login, 'code': attempted_login, 'first_name': company_name, 'last_name': 'Portal Account', 'password': passwo, 'license_type': 'user', 'email': 'matt.misenhimer@2gdigital.com', 'display_name': 'Portal Account, ' + company_name, 'location': 'external'});  
+                                                        server.insert('twog/person', {'login_name': attempted_login, 'first_name': company_name, 'last_name': 'Portal Account', 'email': 'portal.account@2gdigital.com', 'client_code': new_client.code, 'company_code': company_obj[0].code});
+                                                        server.insert('sthpw/login', {'login': attempted_login, 'code': attempted_login, 'first_name': company_name, 'last_name': 'Portal Account', 'password': passwo, 'license_type': 'user', 'email': 'portal.account@2gdigital.com', 'display_name': 'Portal Account, ' + company_name, 'location': 'external'});
                                                         server.insert('sthpw/login_in_group', {'login_group': 'client', 'login': attempted_login});
                                                         server.update(new_client.__search_key__, {'portal_login': attempted_login, 'portal_pass': english_pass});
                                                         login_inserted = true;

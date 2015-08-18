@@ -94,7 +94,7 @@ def main(server=None, input=None):
             description = fix_note_chars(description)
             
             delim = '#Xs*'
-            all_ccs = 'fernando.vazquez@2gdigital.com%s2GVault@2gdigital.com%sScheduling@2gdigital.com%smatt.misenhimer@2gdigital.com' % (delim, delim, delim)
+            all_ccs = 'tacticIT@2gdigital.com%s2GVault@2gdigital.com%sScheduling@2gdigital.com' % (delim, delim)
             
             #This is the person that originally created the movement, want to add them to the email recipients
             creator_name = sobject.get('login')

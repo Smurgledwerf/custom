@@ -42,7 +42,7 @@ for client in clients:
             random_num = random.randrange(100,1000)
             attempted_login = '%s%s' % (attempted_login, random_num)
             if count > 0:
-                attempted_login = '%s%s' % (attemped_login, count)
+                attempted_login = '%s%s' % (attempted_login, count)
             anyofem = server.eval("@SOBJECT(sthpw/login['login','%s'])" % attempted_login)
             if len(anyofem) == 0:
                 english_pass = '%s%s' % (attempted_login[::-1], random.randint(100,1000)) 
@@ -56,11 +56,10 @@ for client in clients:
                 safe_client_name = client_name
                 if len(client_name) > 27:
                     safe_client_name  = safe_client_name[:27]
-                login_obj = server.insert('sthpw/login', {'login': attempted_login, 'code': attempted_login, 'first_name': safe_client_name, 'last_name': 'Portal Account', 'password': md5_pass, 'license_type': 'user', 'email': 'matt.misenhimer@2gdigital.com', 'display_name': 'Portal Account, %s' % client_name, 'location': 'external'})
-                #login_obj = server.insert('sthpw/login', {'login': attempted_login, 'code': attempted_login, 'first_name': 'fn', 'last_name': 'Portal Account', 'password': md5_pass, 'license_type': 'user', 'email': 'matt.misenhimer@2gdigital.com', 'display_name': 'Portal Account, %s' % client_name, 'location': 'external'})
+                login_obj = server.insert('sthpw/login', {'login': attempted_login, 'code': attempted_login, 'first_name': safe_client_name, 'last_name': 'Portal Account', 'password': md5_pass, 'license_type': 'user', 'email': 'portal.account@2gdigital.com', 'display_name': 'Portal Account, %s' % client_name, 'location': 'external'})
                 create_messages.append('Created Login: %s, English Pass: %s, MD5 Pass: %s' % (attempted_login, english_pass, md5_pass))
                 server.insert('sthpw/login_in_group', {'login_group': 'client', 'login': attempted_login})
-                person_obj = server.insert('twog/person', {'login_name': attempted_login, 'first_name': client_name, 'last_name': 'Portal Account', 'email': 'matt.misenhimer@2gdigital.com', 'client_code': client_code, 'company_code': company_code})
+                person_obj = server.insert('twog/person', {'login_name': attempted_login, 'first_name': client_name, 'last_name': 'Portal Account', 'email': 'portal.account@2gdigital.com', 'client_code': client_code, 'company_code': company_code})
                 server.update(client.get('__search_key__'), {'portal_login': attempted_login, 'portal_pass': english_pass})
                 login_inserted = True
             count = count + 1

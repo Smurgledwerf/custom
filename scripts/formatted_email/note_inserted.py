@@ -216,9 +216,6 @@ def main(server=None, input=None):
                                     ext_data['ext_ccs'] = adta
                                 else:
                                     ext_data['ext_ccs'] = '%s;%s' % (ext_data['ext_ccs'], adta)
-                    #ext_data['to_email'] = 'matt.misenhimer@2gdigital.com' # FOR TESTING ONLY
-                    #ext_data['from_email'] = 'matt.misenhimer@2gdigital.com' # FOR TESTING ONLY
-                    #ext_data['ext_ccs'] = 'matt.misenhimer@2gdigital.com' # FOR TESTING ONLY
                     the_command = "php /opt/spt/custom/formatted_emailer/trusty_emailer.php '''%s''' '''%s''' '''%s''' '''%s''' '''%s''' '''%s'''" % (filled_in_email, ext_data['to_email'], ext_data['from_email'], ext_data['from_name'], subject, ext_data['ext_ccs'].replace(';','#Xs*'))
                     if ext_data['to_email'] not in [None,''] and ext_data['ext_ccs'] not in [None,'',';']:
                         os.system(the_command)
@@ -277,10 +274,7 @@ def main(server=None, input=None):
                     int_data['int_ccs'] = '%s;rejections@2gdigital.com' % (int_data['int_ccs']) 
                 login_email = server.eval("@GET(sthpw/login['login','%s'].email)" % login)
                 if login_email:
-                    int_data['from_email'] = login_email[0] 
-                #int_data['to_email'] = 'matt.misenhimer@2gdigital.com' # FOR TESTING ONLY
-                #int_data['from_email'] = 'matt.misenhimer@2gdigital.com' # FOR TESTING ONLY
-                #int_data['int_ccs'] = 'matt.misenhimer@2gdigital.com' # FOR TESTING ONLY
+                    int_data['from_email'] = login_email[0]
                 the_command = "php /opt/spt/custom/formatted_emailer/trusty_emailer.php '''%s''' '''%s''' '''%s''' '''%s''' '''%s''' '''%s'''" % (filled_in_email, int_data['to_email'], int_data['from_email'], int_data['from_name'], subject_int, int_data['int_ccs'].replace(';','#Xs*'))
                 if int_data['to_email'] not in [None,''] and int_data['int_ccs'] not in [None,'',';']:
                     os.system(the_command)
@@ -300,8 +294,8 @@ def main(server=None, input=None):
                 filler.write(filled)
                 filler.close()
                 addressed_to = '2gstaff@2gdigital.com'
-                from_email = 'matt.misenhimer@2gdigital.com'
-                the_command = "php /opt/spt/custom/formatted_emailer/trusty_emailer.php '''%s''' '''%s''' '''%s''' '''%s''' '''%s''' '''%s'''" % (filled_in_email, addressed_to, from_email, 'Admin', subject_int, 'matt.misenhimer@2gdigital.com')
+                from_email = 'tacticIT@2gdigital.com'
+                the_command = "php /opt/spt/custom/formatted_emailer/trusty_emailer.php '''%s''' '''%s''' '''%s''' '''%s''' '''%s''' '''%s'''" % (filled_in_email, addressed_to, from_email, 'Admin', subject_int, 'administrator@2gdigital.com')
                 os.system(the_command)
             elif 'CLIENT' in parent_tall_str:
                 subject = 'A client has been put on a billing hold'
@@ -334,10 +328,6 @@ def main(server=None, input=None):
                     server.update(parent.get('__search_key__'), {'corrective_action': note})
                 else:
                     email_list = parent.get('email_list')
-                    if email_list not in [None,'']:
-                        email_list = '%s;%s' % (email_list, 'matt.misenhimer@2gdigital.com')
-                    else:
-                        email_list = 'matt.misenhimer@2gdigital.com'
                     server.update(parent.get('__search_key__'), {'email_list': email_list})
             
         #print "LEAVING NOTE INSERTED"

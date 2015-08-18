@@ -31,7 +31,7 @@ def main(server=None, input=None):
         user_name = login.get_login()
         sobject = input.get('sobject')
         wo_code = sobject.get('work_order_code')
-        all_ccs = 'fernando.vazquez@2gdigital.com%sScheduling@2gdigital.com%smatt.misenhimer@2gdigital.com' % (delim, delim)
+        all_ccs = 'tacticIT@2gdigital.com%sScheduling@2gdigital.com' % delim
         wo = server.eval("@SOBJECT(twog/work_order['code','%s'])" % wo_code)[0]
         #print "STEG WO = %s" % wo
         proj = server.eval("@SOBJECT(twog/proj['code','%s'])" % wo.get('proj_code'))[0]
