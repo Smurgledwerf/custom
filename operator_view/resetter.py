@@ -1234,29 +1234,11 @@ class ForceResponseWdg(BaseRefreshWdg):
             table2.add_attr('class','hid_or_showing')
             table2.add_row()
             table2.add_cell(table4)
-            #table2.add_cell('<b>For: <font color="#5C246E">%s (%s)</font></b>' % (process, work_order_code))
-            #table2.add_row()
-            #table2.add_cell('<b>%s</b>' % prompt)
-            if my.login == 'christopher.miller': 
-                if is_need_fp:
-                    from file_browser import FileBrowser
-                    fb = FileBrowser(start_dir='/Volumes',mode='select',custom_top_name=work_order_code)
-                    table2.add_row()
-                    cellio = table2.add_cell(fb) 
-                    cellio.add_style('background-color: #FFFFFF;')
             table2.add_row()
             extra_attrs = ''
             if production_error_code != '':
-                extra_attrs = 'production_error_code="%s"' % production_error_code 
-            if my.login == 'christopher.miller': 
-                if is_need_fp:
-                    extra_attrs = '%s readonly' % extra_attrs
+                extra_attrs = 'production_error_code="%s"' % production_error_code
             table2.add_cell('<textarea cols="90" rows="10" class="forced_response" id="forced_response_%s" work_order_code="%s" new_status="%s" old_status="%s" process="%s" assigned_login_group="%s" mode="%s" %s></textarea>' % (work_order_code, work_order_code, new_status, old_status, process, assigned_login_group, mode, extra_attrs))
-            if my.login == 'christopher.miller': 
-                if is_need_fp:
-                    table2.add_row()
-                    remover = table2.add_cell('<input type="button" value="Remove Last Entry"/>')
-                    remover.add_behavior(my.get_remove_path(work_order_code))
                 
             table2.add_row()
             inhousers = SelectWdg('inhousers_%s' % work_order_code)
