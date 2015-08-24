@@ -85,7 +85,7 @@ def main(server=None, input=None):
         process = note_dict.get('process')
         note = note_dict.get('note')
 
-        if 'Corrective Action' in process or 'Root Cause' in process:
+        if 'Corrective Action' in process or 'Root Cause' in process or 'Cloned WO:' in process:
             return
 
         # If there are no attached files, then send the note

@@ -388,8 +388,13 @@ class QCReportClonerWdg(BaseTableElementWdg):
                                         }else{
                                             note = note + '\\n' + out_lines[r]; 
                                         }
-                                    } 
-                                    thing = server.execute_cmd('operator_view.MakeNoteWdg', {'obj_sk': original_title_sk, 'header': wo_code + " - Cloned", 'note': note, 'note_ccs': ccs});
+                                    }
+                                    note_data = {'obj_sk': original_title_sk,
+                                                 'header': wo_code + " - Cloned",
+                                                 'note': note,
+                                                 'note_ccs': ccs,
+                                                 'note_process': 'Cloned WO: ' + wo_code};
+                                    thing = server.execute_cmd('operator_view.MakeNoteWdg', note_data);
                                     spt.alert('Done');
                                     spt.popup.close(spt.popup.get_popup(bvr.src_el));
                                     top_to_reload = document.getElementsByClassName('big_ol_element_wdg_' +  wo_code)[0];

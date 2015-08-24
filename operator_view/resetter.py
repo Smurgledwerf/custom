@@ -1490,6 +1490,8 @@ class MakeNoteWdg(Command):
         my.email_info = my.make_email_info(obj2)
         email_info_keys = my.email_info.keys()
         note_process = ''
+        if my.kwargs.get('note_process'):
+            note_process = my.kwargs.get('note_process')
         if 'work_order_process' in my.email_info.keys() and my.email_info['work_order_process'] != '':
             note_process = '%s (WO#%s) - %s - (in %s)' % (my.email_info['work_order_process'], my.email_info['work_order_code'].replace('WORK_ORDER',''), my.email_info['from_name'], my.email_info['title_code'])
         if 'File Path' in my.header:
