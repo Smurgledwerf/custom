@@ -89,18 +89,7 @@ def main(server=None, input=None):
             if corrective_action not in [None,'']:
                 corrective_action = corrective_action.replace('\n','<br/>').replace(' ','&nbsp;')
             corrective_action = fix_note_chars(corrective_action)
-        
-        # OLD WAY, BEFORE NOTES WERE USED --- WILL NEED A WAY TO SEND THESE ALERTS WHEN NEW NOTES ARE ADDED, TOO
-        #    root_cause = er_dict.get('root_cause').replace('\n','<br/>').replace(' ','&nbsp;')
-        #    if root_cause not in [None,'']:
-        #        root_cause = root_cause.replace('\n','<br/>').replace(' ','&nbsp;')
-        #    root_cause = fix_note_chars(root_cause)
-        #    corrective_action = er_dict.get('corrective_action').replace('\n','<br/>').replace(' ','&nbsp;')
-        #    if corrective_action not in [None,'']:
-        #        corrective_action = corrective_action.replace('\n','<br/>').replace(' ','&nbsp;')
-        #    corrective_action = fix_note_chars(corrective_action)
-            
-            
+
             title = er_dict.get('title')
             episode = er_dict.get('episode')
             po_number = er_dict.get('po_number')
@@ -152,39 +141,23 @@ def main(server=None, input=None):
                     ukeys = update_data.keys()
                     if len(ukeys) > 0:
                         is_an_update = True
-                        head_message = 'Updated Fields for External Rejection on %s (%s) [%s PO#: %s]:' % (title_full_name, title_code, order_code, po_number)
-                        main_message = '<table style="font-size: 14px; color: #440000;"><tr><td><b><u>Updated Information:</u></b></td><td></td></tr>'
-                        count = 0
-                        for k in ukeys:
-                            main_message = '%s<tr><td valign="top"><b>%s:<b></td><td valign="top">Went from <br/>"<i>%s</i>"<br/> -- TO -- <br/>"<i>%s</i>"</td></tr>' % (main_message, k, fix_note_chars(prev_data[k]), fix_note_chars(update_data[k]))
-                            if count == 0:
-                                head_message = '%s CHANGED: %s' % (head_message, k)
-                            else:
-                                head_message = '%s, %s' % (head_message, k)
-                            count = count + 1
-                        if 'status' in ukeys:
-                            if update_data['status'] == 'Closed':
-                                head_message = '%s<br/><br/>THIS EXTERNAL REJECTION IS NOW CLOSED' % head_message
-                            else:
-                                return
-                    main_message = '%s<tr><td colspan="2"><br/><br/><hr></td><td> </td></tr>' % (main_message)
-                    main_message = '%s<tr><td valign="top"><b><u>Reported Issue:</u></b></td><td valign="top">%s</td></tr>' % (main_message, reported_issue)
-                    main_message = '%s<tr><td valign="top"><b><u>Root Cause:</u></b></td><td valign="top">%s</td></tr>' % (main_message, root_cause)
-                    main_message = '%s<tr><td valign="top"><b><u>Corrective Action:</u></b></td><td valign="top">%s</td></tr>' % (main_message, corrective_action)
-                    main_message = '%s</table>' % main_message
-            
-            
-            subject_int = ''
+                        head_message = 'Update for External Rejection on %s (%s) [%s PO#: %s]:' % (title_full_name, title_code, order_code, po_number)
+                        if 'status' in ukeys and update_data['status'] == 'Closed':
+                            head_message += '<br/><br/>THIS EXTERNAL REJECTION IS NOW CLOSED'
+                        else:
+                            return
+                    main_message = '<table style="font-size: 14px;"><tr><td colspan="2"><br/><br/><hr></td><td> </td></tr>'
+                    main_message += '<tr><td valign="top"><b><u>Reported Issue:</u></b></td><td valign="top">{0}</td></tr>'.format(reported_issue)
+                    main_message += '<tr><td valign="top"><b><u>Root Cause:</u></b></td><td valign="top">{0}</td></tr>'.format(root_cause)
+                    main_message += '<tr><td valign="top"><b><u>Corrective Action:</u></b></td><td valign="top">{0}</td></tr>'.format(corrective_action)
+                    main_message += '</table>'
+
             if is_an_update:
                 subject_int = 'NEW - URGENT External Rejection Updates for %s (%s) - Status: %s Scheduler: %s PO#: %s' % (title_full_name, title_code, status, scheduler, po_number) 
             else:
-                subject_int = 'NEW - URGENT External Rejection Created for %s (%s) - Status: %s Scheduler: %s PO#: %s' % (title_full_name, title_code, status, scheduler, po_number) 
-                head_message = 'NEW External Rejection on %s (%s) [%s PO#: %s]:' % (title_full_name, title_code, order_code, po_number)
-                main_message = '<table><tr><td>External Rejection Information:</td><td></td></tr>'
-                main_message = '%s<tr><td>Scheduler Reason:</td><td>%s</td></tr>' % (main_message, reported_issue)
-                main_message = '%s</table>' % main_message
+                return
             
-            head_detail = '<tr><td align="left" style="color: #06C; font-size: 16px;">Replacement Order Code: <strong>%s</strong></td></tr><tr><td align="left" style="color: #06C; font-size: 16px;">Replacement Title Code: <strong>%s</strong></td></tr>' % (replacement_order_code, replacement_title_code)
+            head_detail = '<tr><td align="left" style="color: #0C6; font-size: 16px;">Replacement Order Code: <strong>%s</strong></td></tr><tr><td align="left" style="color: #0C6; font-size: 16px;">Replacement Title Code: <strong>%s</strong></td></tr>' % (replacement_order_code, replacement_title_code)
             
             from formatted_emailer import EmailDirections
             
