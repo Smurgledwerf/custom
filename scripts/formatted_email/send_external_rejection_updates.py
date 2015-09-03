@@ -25,7 +25,7 @@ def main(server=None, input=None):
     try:
         # CUSTOM_SCRIPT00103
         # Matthew Tyler Misenhimer
-        # Sends an email when a External Rejection is inserted or updated
+        # Sends an email when a External Rejection is updated
         
         def fix_note_chars(note):
             if isinstance(note, bool):
@@ -146,14 +146,14 @@ def main(server=None, input=None):
                             head_message += '<br/><br/>THIS EXTERNAL REJECTION IS NOW CLOSED'
                         else:
                             return
-                    main_message = '<table style="font-size: 14px;"><tr><td colspan="2"><br/><br/><hr></td><td> </td></tr>'
+                    main_message = '<table style="font-size: 14px;"><tr><td colspan="2"><br/><hr></td><td> </td></tr>'
                     main_message += '<tr><td valign="top"><b><u>Reported Issue:</u></b></td><td valign="top">{0}</td></tr>'.format(reported_issue)
                     main_message += '<tr><td valign="top"><b><u>Root Cause:</u></b></td><td valign="top">{0}</td></tr>'.format(root_cause)
                     main_message += '<tr><td valign="top"><b><u>Corrective Action:</u></b></td><td valign="top">{0}</td></tr>'.format(corrective_action)
                     main_message += '</table>'
 
             if is_an_update:
-                subject_int = 'NEW - URGENT External Rejection Updates for %s (%s) - Status: %s Scheduler: %s PO#: %s' % (title_full_name, title_code, status, scheduler, po_number) 
+                subject_int = 'NEW - URGENT External Rejection Closed for %s (%s) - Status: %s Scheduler: %s PO#: %s' % (title_full_name, title_code, status, scheduler, po_number)
             else:
                 return
             
