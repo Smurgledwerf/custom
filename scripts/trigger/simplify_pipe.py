@@ -347,12 +347,15 @@ def main(server=None, input=None):
     except AttributeError as e:
         traceback.print_exc()
         print str(e) + '\nMost likely the server object does not exist.'
+        raise e
     except KeyError as e:
         traceback.print_exc()
         print str(e) + '\nMost likely the input dictionary does not exist.'
+        raise e
     except Exception as e:
         traceback.print_exc()
         print str(e)
+        raise e
 
 
 if __name__ == '__main__':
