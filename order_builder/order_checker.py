@@ -657,12 +657,6 @@ class OrderCheckerWdg(BaseRefreshWdg):
         errors = []
         o_sk = obj.get('__search_key__')
         o_st = o_sk.split('?')[0]
-        if o_st == 'twog/title':
-            wo_count = my.server.eval("@COUNT(twog/proj['title_code','%s'].twog/work_order)" % obj.get('code'))
-            if wo_count > 1:
-                qc_wo_count = my.server.eval("@COUNT(twog/proj['title_code','%s'].twog/work_order['work_group','in','qc|qc supervisor'])" % obj.get('code'))
-                if qc_wo_count == 0:
-                    errors.append(['Need At Least 1 QC WO','''%s's pipeline has no QC Work Orders. It needs at least 1.''' % obj.get('code')]) 
         kid_st_dict = {'twog/title': ['twog/proj', 'title_code', 'PROJ', 'project'], 'twog/proj': ['twog/work_order', 'proj_code', 'WORK_ORDER', 'work order']}
         kid_st, kid_parent_link, matcher, kid_type = kid_st_dict[o_st]
         ocode = obj.get('code')
