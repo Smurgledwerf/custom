@@ -157,7 +157,7 @@ def main(server=None, input=None):
             else:
                 return
             
-            head_detail = '<tr><td align="left" style="color: #0C6; font-size: 16px;">Replacement Order Code: <strong>%s</strong></td></tr><tr><td align="left" style="color: #0C6; font-size: 16px;">Replacement Title Code: <strong>%s</strong></td></tr>' % (replacement_order_code, replacement_title_code)
+            head_detail = '<tr><td align="left" style="font-size: 16px;">Replacement Order Code: <strong>%s</strong></td></tr><tr><td align="left" style="font-size: 16px;">Replacement Title Code: <strong>%s</strong></td></tr>' % (replacement_order_code, replacement_title_code)
             
             from formatted_emailer import EmailDirections
             
