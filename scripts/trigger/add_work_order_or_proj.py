@@ -84,7 +84,7 @@ def main(server=None, input=None):
                             is_master = True
                             if is_master:
                                 server.retire_sobject(sobj_sk)
-                                killed_task = true
+                                killed_task = True
                                 server.update(proj.get('__search_key__'), {'task_code': ''})
                 pipeline_code = proj.get('pipeline_code')
                 spt_processes = server.eval("@SOBJECT(config/process['pipeline_code','%s']['process','%s'])"%(pipeline_code, sobj.get('process')))
