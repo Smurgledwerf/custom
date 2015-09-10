@@ -1,0 +1,317 @@
+<config>
+<client_view_titles_wdg_conf>
+<html>
+<style type="text/css">
+.client_view_titles_wdg .block{
+    border-radius: 10px;
+    height: 100px;
+    margin-bottom: 10px;
+    //width: 100%;
+
+}
+
+
+.client_view_titles_wdg .order_block{
+    width: 1230px;
+background: #cbe4ed;
+background: -moz-linear-gradient(top,  #cbe4ed 0%, #7ac5ff 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#cbe4ed), color-stop(100%,#7ac5ff));
+background: -webkit-linear-gradient(top,  #cbe4ed 0%,#7ac5ff 100%);
+background: -o-linear-gradient(top,  #cbe4ed 0%,#7ac5ff 100%);
+background: -ms-linear-gradient(top,  #cbe4ed 0%,#7ac5ff 100%);
+background: linear-gradient(to bottom,  #cbe4ed 0%,#7ac5ff 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cbe4ed', endColorstr='#7ac5ff',GradientType=0 );
+
+}
+
+.client_view_titles_wdg .completed_title_block{
+    width: 1180px;
+    margin-left: 50px;
+
+background: #c0edad;
+background: -moz-linear-gradient(top,  #c0edad 0%, #a6ed80 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#c0edad), color-stop(100%,#a6ed80));
+background: -webkit-linear-gradient(top,  #c0edad 0%,#a6ed80 100%);
+background: -o-linear-gradient(top,  #c0edad 0%,#a6ed80 100%);
+background: -ms-linear-gradient(top,  #c0edad 0%,#a6ed80 100%);
+background: linear-gradient(to bottom,  #c0edad 0%,#a6ed80 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c0edad', endColorstr='#a6ed80',GradientType=0 );
+
+
+}
+
+.client_view_titles_wdg .title_block{
+    width: 1180px;
+    margin-left: 50px;
+
+background: #e8e8e8;
+background: -moz-linear-gradient(top,  #e8e8e8 0%, #ececec 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e8e8e8), color-stop(100%,#ececec));
+background: -webkit-linear-gradient(top,  #e8e8e8 0%,#ececec 100%);
+background: -o-linear-gradient(top,  #e8e8e8 0%,#ececec 100%);
+background: -ms-linear-gradient(top,  #e8e8e8 0%,#ececec 100%);
+background: linear-gradient(to bottom,  #e8e8e8 0%,#ececec 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e8e8e8', endColorstr='#ececec',GradientType=0 );
+
+
+}
+
+
+.client_view_titles_wdg .block h2{
+   margin: 0px;
+   padding: 0px;
+
+}
+
+
+.client_view_titles_wdg .block td.block_inner {
+    vertical-align: top;
+    padding: 10px;
+
+}
+
+.client_view_titles_wdg .button {
+
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;    
+    margin-bottom: 5px;
+    //padding: 2px;
+    border-radius: 3px;    
+    border: 1px solid #fff;
+    background: [expr]@GRADIENT('background', -10)[/expr];
+}
+
+
+.client_view_titles_wdg .title_img {
+
+    width: 150px;
+    height: 80px;
+    //margin: 10px;
+
+
+    background: #000;
+    opacity: 0.25;
+}
+
+.client_view_titles_wdg .order_img {
+
+    width: 150px;
+    height: 80px;
+    //margin: 10px;
+
+
+    background: #000;
+}
+
+
+.client_view_titles_wdg .spt_discussion_top {
+    position: absolute;
+    width: 330px;
+    border: 2px solid #fff;
+    background: #fff;
+}
+</style>
+<div class="client_view_titles_wdg">
+  <div>
+<![CDATA[
+<%
+def trim_text(text, length, shrink_thresh, default_size):
+    tlen = len(text) 
+    font_size = default_size
+    if tlen > shrink_thresh:
+        font_size = font_size - 2
+    if tlen > length: 
+        text = '''<div title="%s" style="font-size: %spx;">%s</div>''' %(text, font_size, text[0:length]+"...")
+    else:
+        text = '''<div title="%s" style="font-size: %spx;">%s</div>''' %(text, font_size, text)
+    return text
+
+def trim_text_old(text, length):
+    
+    if len(text) > length: 
+        text = '''<div title="%s">%s</div>''' %(text, text[0:length]+"...")
+    else:
+        text = '''<div title="%s">%s</div>''' %(text, text)
+    return text
+
+def fix_date(date):
+    #This is needed due to the way Tactic deals with dates (using timezone info), post v4.0
+    from pyasm.common import SPTDate
+    return_date = ''
+    date_obj = SPTDate.convert_to_local(date)
+    if date_obj not in [None,'']:
+        return_date = date_obj.strftime("%Y-%m-%d  %H:%M")
+    return return_date
+
+
+color_lookup = {'Assignment': '#fcaf88', 'Pending': '#d7d7d7', 'In Progress': '#f5f3a4', 'In_Progress': '#f5f3a4', 'In Production': '#f5f3a4', 'In_Production': '#f5f3a4', 'In production': '#f5f3a4', 'In_production': '#f5f3a4', 'Waiting': '#ffd97f', 'Need Assistance': '#fc88fb', 'Need_Assistance': '#fc88fb', 'Review': '#888bfc', 'Approved': '#d4b5e7', 'On Hold': '#e8b2b8', 'On_Hold': '#e8b2b8', 'Client Response': '#ddd5b8', 'Completed': '#b7e0a5', 'Ready': '#b2cee8', 'Internal Rejection': '#ff0000', 'External Rejection': '#ff0000', 'Rejected': '#ff0000', 'Failed QC': '#ff0000', 'Inspecting': '#c466a1', 'Fix Needed': '#c466a1', 'Need Buddy Check': '#e3701a', 'DR In_Progress': '#d6e0a4', 'DR In Progress': '#d6e0a4', "Amberfin01_In_Progress": "#D8F1A8", "Amberfin01 In Progress": "#D8F1A8", "Amberfin02_In_Progress": "#F3D291","Amberfin02 In Progress": "#F3D291",'BATON In_Progress': '#c6e0a4','BATON In Progress': '#c6e0a4', 'Export In_Progress': '#796999','Export In Progress': '#796999', 'Buddy Check In_Progress': '#1aade3','Buddy Check In Progress': '#1aade3'}
+
+status_hider = {'Assignment': 'Pending', 'Pending': 'Pending', 'In Progress': 'In Progress', 'In_Progress': 'In Progress', 'In Production': 'In Progress', 'In_Production': 'In Progress', 'In production': 'In Progress', 'In_production': 'In Progress', 'Waiting': 'In Progress', 'Need Assistance': 'In Progress', 'Need_Assistance': 'In Progress', 'Review': 'In Progress', 'Approved': 'Completed', 'On Hold': 'On Hold', 'On_Hold': 'On Hold', 'Client Response': 'Client Response', 'Completed': 'Completed', 'Ready': 'Ready', 'Internal Rejection': 'In Progress', 'External Rejection': 'In Progress', 'Rejected': 'In Progress', 'Failed QC': 'In Progress', 'Fix Needed': 'In Progress', 'Need Buddy Check': 'In Progress', 'DR In_Progress': 'In Progress','DR In Progress': 'In Progress', 'Amberfin01_In_Progress': 'In Progress','Amberfin01 In Progress': 'In Progress', 'Amberfin02_In_Progress': 'In Progress','Amberfin02 In Progress': 'In Progress', 'BATON In_Progress': 'In Progress','BATON In Progress': 'In Progress', 'Export In_Progress': 'In Progress','Export In Progress': 'In Progress', 'Buddy Check In_Progress': 'In Progress','Buddy Check In Progress': 'In Progress'}
+
+image_finder = {'Pending': '/context/icons/custom/cv_calendar.png', 'In Progress': '/context/icons/custom/cv_go1.png', 'Inspecting': '/context/icons/custom/cv_inspect.png', 'Completed': '/context/icons/custom/cv_check.png', 'On Hold': '/context/icons/custom/cv_minus_red.png', 'Client Response': '/context/icons/custom/cv_phone.png', 'Ready': '/context/icons/custom/cv_calendar.png'}
+
+group_lookup = {'': '', 'admin': 'Admin',  'qc': 'QC',  'billing and accounts receivable': 'Billing',  'compression': 'Compression',  'qc supervisor': 'QC',  'scheduling supervisor': 'Scheduling',  'audio': 'Audio',  'compression supervisor': 'Compression',  'edeliveries': 'Edeliveries',  'machine room': 'Machine Room',  'media vault': 'Media Vault',  'machine room supervisor': 'Machine Room',  'media vault supervisor': 'Media Vault',  'office employees': 'Office',  'edit supervisor': 'Edit',  'edit': 'Edit',  'vault': 'Vault',  'sales': 'Sales',  'streamz': 'StreamZ',  'sales supervisor': 'Sales',  'scheduling': 'Scheduling',  'senior_staff': 'Senior Staff',  'executives': 'Executives',  'it': 'IT',  'management': 'Management',  'technical services': 'Technical Services'} 
+
+titles_html = ''
+order_code = 'NUNCA'
+title_count = 0
+if 'order_code' in kwargs.keys():
+    order_code = kwargs.get('order_code')
+    order_zindex = kwargs.get('order_zindex');
+    order_sk = server.build_search_key('twog/order', order_code)
+    title_divs = []
+    title_expr = "@SOBJECT(twog/title['order_code','%s'])" % order_code
+    titles = server.eval(title_expr)
+    title_count = len(titles)
+    for title_so in titles:
+        title_sk = title_so.get("__search_key__")
+        title = title_so.get("title")
+        title = trim_text(title, 40, 40, 14) 
+        episode = title_so.get('episode')
+        if episode not in [None,'']:
+            episode = '<div><b>Episode: %s</b></div>' % episode
+        territory = title_so.get('territory')
+        if territory == '--Select--':
+            territory = ''
+        if territory not in [None,'']:
+            territory = '<div><b>Territory: %s</b></div>' % territory
+        platform = title_so.get('platform')
+        if platform == '--Select--':
+            platform = ''
+        if platform not in [None,'']:
+            platform = '<div><b>Platform: %s</b></div>' % platform
+        status = "Status: %s" % title_so.get("status")
+        description = title_so.get("description")
+        description = trim_text(description, 70, 50, 12)
+ 
+        due_date = fix_date(title_so.get("due_date")).split(" ")[0]
+        completion_date = fix_date(title_so.get("completion_date")).split(" ")[0]
+        completion_date_div = ''
+        if completion_date not in [None,'']:
+            completion_date_div = '<div>Delivered: %s</div>' % completion_date
+
+
+#        completion = 100
+#        if title_so.get('wo_count') not in [0,None]:
+#            completion = float(float(title_so.get('wo_completed'))/float(title_so.get('wo_count'))) * 100
+#        completion_div = '''
+#        <div style="width: 100px; background: #fff; float:left">
+#          <div style="width:%s%%;height: 20px; background: #5cd444"> </div>
+#        </div>
+#        <div style="float:left;">%0.1f%%</div>
+#        ''' %(completion, completion)
+          
+#        preview_path = "/context/images/2GLogoTactic.jpg"
+#        snapshot = server.eval("@SOBJECT(sthpw/snapshot['search_id','%s']['search_type','~','twog/title']['context','publish']['is_current','in','True|true|1|t']['version','>','0'])" % title_so.get('id'))
+#        if snapshot:
+#            files = server.eval("@SOBJECT(sthpw/file['snapshot_code','%s'])" % snapshot[0].get('code'))
+#            for file in files:
+#                if file.get('type') == 'web':
+#                    preview_path = 'http://tactic.2gdigital.com/assets/%s/%s' % (file.get('relative_dir'), file.get('file_name'))
+        projs = server.eval("@SOBJECT(sthpw/task['title_code','%s']['search_type','twog/title?project=twog']['@ORDER_BY','actual_start_date'])" % title_so.get('code'))
+        ptbl = '<table border="1" cellpadding="5px" style="font-size: 8px;"><tr>'
+        for p in projs:
+            simple_status = status_hider[p.get('status')]
+
+            simple_img = image_finder[simple_status]
+
+            proj_name = trim_text(p.get('process'), 20, 20, 9) 
+            #this_tbl = '''<table style="background-color: %s; font-size: 9px; height: 100%s;"><tr><td align="center"><b>%s</b></td></tr><tr><td align="center" nowrap="nowrap"><u>%s</u></td></tr><tr><td align="center" nowrap="nowrap">%s</td></tr></table>''' % (color_lookup[simple_status], '%', p.get('process'), group_lookup[p.get('assigned_login_group')], simple_status)
+            asl = group_lookup[p.get('assigned_login_group')]
+            if asl in [None,'']:
+                wo_asl = server.eval("@GET(twog/work_order['proj_code','%s'].work_group)" % p.get('lookup_code')) 
+                if wo_asl:
+                    wo_asl = wo_asl[0]
+                    asl = group_lookup[wo_asl]
+            this_tbl = '''<table style="background-color: %s; font-size: 9px; height: 100%s;"><tr><td align="center" valign="top" nowrap="nowrap"><b>%s</b></td></tr><tr><td align="center" valign="top" nowrap="nowrap"><u>%s</u></td></tr><tr><td align="center" valign="bottom" nowrap="nowrap"><img valign="bottom" src='%s' title='%s' alt='%s'/></td></tr></table>''' % (color_lookup[simple_status], '%', proj_name, asl, simple_img, simple_status, simple_status)
+
+            ptbl = '%s<td valign="top" style="background-color: %s;">%s</td>' % (ptbl, color_lookup[simple_status], this_tbl)
+        ptbl = ptbl + '</tr></table>'
+        
+        color_class = 'title_block'
+        if title_so.get('status') == 'Completed':
+            color_class = 'completed_title_block'
+
+        div = '''
+
+        <div class="block %s title_under_%s info_getter" order_zindex="%s" style="display: block;">
+          <table>
+            <tr>
+              <td width="20px" class="block_inner">
+                <!--<div class="button title_edit" search_key="%s"><img src="/context/icons/silk/vcard_edit.png"/></div>-->
+                <!--<div class="button title_checkin" search_key="%s"><img src="/context/icons/custom/checkout_3d_lg.png" width="16px"/></div>-->
+              </td>
+              <td class="block_inner">
+                <table>
+                  <tr>
+                    <td><div><h2>%s</h2></div></td>
+                  </tr>
+                  <tr>
+                    <td nowrap="nowrap">%s</td>
+                  </tr>
+                  <tr>
+                    <td nowrap="nowrap">%s</td>
+                  </tr>
+                  <tr>
+                    <td><div>%s</div></td>
+                  </tr>
+                </table>
+              </td>
+              <td align="center" width="30%s" class="block_inner">%s</td>
+              <td width="350px" class="block_inner">    
+                <element name="notes" width="350px">
+                  <display class="tactic.ui.widget.DiscussionWdg">
+                    <search_key>%s</search_key>
+                    <process>client</process>
+                    <note_expandable>false</note_expandable>
+                    <show_context_notes>false</show_context_notes>
+                  </display>
+                </element>
+              </td>
+              <td width="150px" class="block_inner">
+                <div>%s</div>
+                %s
+              </td>
+            </tr>
+          </table>
+        </div>
+        ''' %(color_class, order_sk, order_zindex, title_sk, title_sk, title, episode, platform, description, '%', ptbl, title_sk, status, completion_date_div)
+
+        title_divs.append(div)
+    titles_html = "".join(title_divs)
+
+    
+context.write(titles_html)
+
+%>]]>
+  </div>
+</div>
+</html>
+<behavior class="client_view_titles_wdg"><![CDATA[
+{ "type": "load", 
+"cbjs_action": '''
+
+// This is a fix for a z-index layering issue in the notes widget
+var note_els = bvr.src_el.getElements(".spt_discussion_top")
+var info_guy = bvr.src_el.getElementsByClassName('info_getter')[0];
+info_guy.style.backgroundColor = '#440000';
+var order_zindex = Number(info_guy.getAttribute('order_zindex'));
+//alert('ORDER ZINDEX = ' + order_zindex);
+for (i=0; i<note_els.length; i++) {
+    note_els[i].style.zIndex = order_zindex - 1 - i;
+}
+
+
+'''}
+]]></behavior>
+
+</client_view_titles_wdg_conf>
+</config>
+
+
+
+
+
+

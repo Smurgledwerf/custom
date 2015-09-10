@@ -1,0 +1,478 @@
+<config>
+<client_view_order_form_wdg_conf>
+<html>
+<style type="text/css">
+.client_view_order_form_wdg {
+
+  min-width: 700px;
+  margin: 20px auto;
+  width: 700px;
+}
+
+.client_view_order_form_wdg div.sections {
+  margin: 20px;
+  border-radius: 10px;
+  padding: 20px;
+
+background: #cbe4ed;
+background: -moz-linear-gradient(top,  #cbe4ed 0%, #7ac5ff 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#cbe4ed), color-stop(100%,#7ac5ff));
+background: -webkit-linear-gradient(top,  #cbe4ed 0%,#7ac5ff 100%);
+background: -o-linear-gradient(top,  #cbe4ed 0%,#7ac5ff 100%);
+background: -ms-linear-gradient(top,  #cbe4ed 0%,#7ac5ff 100%);
+background: linear-gradient(to bottom,  #cbe4ed 0%,#7ac5ff 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cbe4ed', endColorstr='#7ac5ff',GradientType=0 );
+
+
+}
+
+
+.client_view_order_form_wdg td {
+vertical-align: top;
+}
+
+.client_view_order_form_wdg td.input_name {
+width: 100px;
+height: 40px;
+//padding-left: 10px;
+font-weight: bold;
+vertical-align: top;
+}
+
+#description {
+position: relative;
+margin-top: 0px;
+margin-left: 0px;
+height: 100px;
+}
+
+#due_date {
+position: relative;
+margin-top: 20px;
+margin-left: 0px;
+}
+
+#purchase_order {
+position: relative;
+margin-top: 0px;
+margin-left: 0px;
+}
+
+.files_list {
+    padding: 10px;
+    font-size: 13px;
+    background: #fff;
+    box-shadow: 2px 0px 4px rgba(0,0,0,0.25) inset;
+    margin: 10px 0px;   
+}
+
+</style>
+<div class="client_view_order_form_wdg">
+  <div>
+<![CDATA[
+<%
+from pyasm.common import Environment
+ticket = server.generate_ticket()
+login_obj = Environment.get_login()
+login = login_obj.get_login()
+
+
+platform_vals = ''
+platform_labels = ''
+platform_expr = "@SOBJECT(twog/platform['@ORDER_BY','name'])"
+plats = server.eval(platform_expr)
+for plat in plats:
+    if plat.get('name') != '0':
+        if platform_vals in [None,'']:
+            platform_vals = plat.get('name')
+        else:
+            platform_vals = '%s|%s' % (platform_vals, plat.get('name'))
+platform_labels = platform_vals
+
+mode = kwargs.get("mode")
+
+if kwargs.get("is_test"):
+    mode = "edit"
+    search_key = "twog/order?project=twog&id=12"
+    kwargs['search_key'] = search_key
+
+if mode == "edit":
+
+    search_key = kwargs.get("search_key") or ""
+    
+    so = server.get_by_search_key(search_key)
+
+    form_title = so.get("name")
+
+    files_table = '''
+        <element name="files">
+          <display class="tactic.ui.panel.FastTableLayoutWdg">
+            <search_type>sthpw/snapshot</search_type>
+            <view>table</view>
+            <element_names>preview,description,web_path</element_names>
+            <show_row_select>false</show_row_select>
+            <search_key>%s</search_key>
+            <show_gear>false</show_gear>
+            <show_shelf>true</show_shelf>
+            <show_select>false</show_select>
+            <show_expand>true</show_expand>
+            <show_search>false</show_search>
+            <show_layout_switcher>false</show_layout_switcher>
+            <height>200px</height>
+            <show_column_manager>false</show_column_manager>
+            <expression>@UNION(@SOBJECT(sthpw/snapshot['context','PO']),@SOBJECT(sthpw/note.sthpw/snapshot['context','PO']))</expression>
+          </display>
+        </element>
+    ''' %search_key
+
+
+else:
+    search_key = ""
+    form_title = "Add New Order"
+    files_table = ""
+
+
+on_complete_js = '''
+var top = bvr.src_el.getParent(".client_view_order_form_wdg");
+var file_list = top.getElement(".files_list");
+var values = spt.api.get_input_values(top);
+var files = values.upload;
+var html = files.join(", ");
+file_list.innerHTML = html;
+spt.app_busy.hide();
+'''
+
+
+%>]]>
+</div>
+  <input type="hidden" class="spt_input" name="search_key" value="${search_key}"/>
+  <input type="hidden" class="spt_input" name="transaction_ticket" value="${ticket}"/>
+  <div class="sections">
+    <h1>${form_title}</h1>
+    <table>
+      <tr class="row">
+        <td class="input_name" width="200px">TITLE</td>
+        <td colspan="2" style="padding-left: 5px">
+          <element name="name">
+            <display class="tactic.ui.input.TextInputWdg">
+              <search_key>${search_key}</search_key>
+              <width>440px</width>
+            </display>
+          </element>
+        </td>
+      </tr>
+      <tr class="row">
+        <td class="input_name" width="200px">EPISODE(S)</td>
+        <td colspan="2" style="padding-left: 5px">
+          <element name="episodes">
+            <display class="tactic.ui.input.TextInputWdg">
+              <search_key>${search_key}</search_key>
+              <width>440px</width>
+            </display>
+          </element>
+        </td>
+      </tr>
+      <tr class="row">
+        <td class="input_name" width="200px">DESCRIPTION</td>
+        <td colspan="2" style="padding-left: 5px">
+          <element name="description">
+            <display class="TextAreaWdg">
+              <search_key>${search_key}</search_key>
+              <rows>5</rows>
+              <cols>70</cols>
+            </display>
+          </element>
+        </td>
+      </tr>
+      <tr><td><br/></td></tr>
+      <tr class="row">
+        <td class="input_name">PLATFORM</td>
+        <td>
+          <element name="platform">
+            <display class="pyasm.widget.SelectWdg">
+              <search_key>${search_key}</search_key>
+              <values>${platform_vals}</values>
+              <labels>${platform_labels}</labels>
+              <width>300px</width>
+            </display>
+          </element>
+        </td>
+        <td>
+          <input type="button" class="add_platform" value="Add New Platform"/>
+        </td>
+      </tr>
+      <tr class="row">
+        <td class="input_name">PO #</td>
+        <td colspan="2" style="padding-left: 5px">
+          <element name="po_number">
+            <display class="tactic.ui.input.TextInputWdg">
+              <width>300px</width>
+              <search_key>${search_key}</search_key>
+            </display>
+          </element>
+        </td>
+      </tr>
+      <tr class="row">
+        <td class="input_name">DUE DATE</td>
+        <td colspan="2" style="padding-left: 5px">
+          <element name="due_date">
+            <display class="tactic.ui.widget.CalendarInputWdg">
+              <search_key>${search_key}</search_key>
+            </display>
+          </element>
+        </td>
+      </tr>
+      <tr class="row">
+        <td class="input_name" valign="top" align="left">CC Email</td>
+        <td colspan="2" style="padding-left: 5px">
+          <element name="client_view_order_form_email">
+            <display class="tactic.ui.panel.CustomLayoutWdg">
+              <view>client_view_order_form_email</view>
+              <search_key>${search_key}</search_key>
+              <login>${login}</login>
+            </display>
+          </element>
+        </td>
+      </tr>
+    </table>
+    <div id="purchase_order">
+      <div class="files_panel_wdg">
+        <h4>Purchase Order Files </h4>
+        <element name="upload">
+          <display class="tactic.ui.input.UploadButtonWdg">
+            <on_complete>${on_complete_js}</on_complete>
+            <ticket>${ticket}</ticket>
+          </display>
+        </element>
+        <div class="files_list">- No Files Selected -</div>
+        <div>
+        ${files_table}
+        </div>
+      </div>
+    </div>
+    <input type="button" class="submit_button" value="Submit"/>
+  </div>
+</div>
+</html>
+<behavior class="submit_button"><![CDATA[ {
+"type": "click_up",
+"cbjs_action": '''
+
+    
+    spt.app_busy.show("Saving", "");
+
+    betterReplace = function(the_str, find_char, rep_char)
+    {
+        the_str = String(the_str);
+        out_str = '';
+        strlen = the_str.length;
+        for(var r = 0; r < strlen; r++){
+            if(the_str[r] == find_char){
+                out_str = out_str + rep_char;
+            }else{
+                out_str = out_str + the_str[r];
+            }
+        }
+        return out_str;
+    }
+
+    setTimeout(function() {
+    
+    
+    try {
+        var env = spt.Environment.get()
+        var login = env.get_user();
+        var server = TacticServerStub.get();
+
+        top_el = bvr.src_el.getParent(".client_view_order_form_wdg");
+        var wdg_el = top_el.getParent(".spt_custom_top");
+        values = spt.api.get_input_values(top_el);
+
+        log.critical(values)
+
+        // Get the search key from the values
+        var search_key = values.search_key;
+        var transaction_ticket = values.transaction_ticket;
+
+        // Get the client code
+        // Old Way
+        //var client_expr = "@GET(sthpw/login['login', '"+login+"'].twog/person.twog/company.client_code)"
+        // New Way
+        var client_expr = "@GET(sthpw/login['login', '"+login+"'].twog/person.client_code)"
+        var client_code = server.eval(client_expr, {'single': 'true'});
+
+        // Get the client_rep info
+        var rep_expr = "@GET(sthpw/login['login', '"+login+"'].twog/person.code)"
+        var client_rep = server.eval(rep_expr, {'single': 'true'});
+
+        // Get the email list and format as comma delimited
+        var email_list = values.client_email_list;
+        email_list.shift();
+        var client_email_list = email_list.join(",");
+        var file_list = values.upload;
+        //var scheduler = values.login;
+        var episodes = values.episodes;
+        var order_name = betterReplace(values.name,"'","");
+        data = {
+            'classification': 'Bid',
+            'episodes': episodes,
+            'client_code': client_code,
+            'name': order_name,
+            'description': values.description,
+            'due_date': values.due_date,
+            'platform': values.platform,
+            'po_number': values.po_number,
+            'sap_po': values.sap_po,
+            'client_login': login,
+            'client_ref_num': values.client_ref_num,
+            'client_email_list': client_email_list,
+            'client_rep': client_rep
+        }
+     
+        if (search_key == "") {
+            data['initial_po_upload_list'] = file_list
+            server.start({'title': 'Insert Order', 'description': values.name, transaction_ticket: transaction_ticket}); 
+            spt.app_busy.show("Adding Order", data.name)
+            var order_so = server.insert("twog/order", data);
+            var search_key = order_so.__search_key__;
+        }
+
+        else {
+            server.start({'title': 'Update Order', 'description': values.name, transaction_ticket: transaction_ticket}); 
+            spt.app_busy.show("Updating Order", data.name)
+            var search_key = bvr.kwargs.search_key;
+            server.update(search_key, data);
+        }
+
+
+        // Files
+        
+        var files = values.upload;
+        if (files.length > 0) {
+            spt.app_busy.show("Saving","Adding files...");
+            for (i=0; i<files.length; i++) {
+                if (files[i].length > 0) {
+                    var file_name = files[i].split(".")[0];
+                    spt.app_busy.show("Adding Files", file_name)
+                    var process = "PO/" + file_name;
+                    server.simple_checkin(search_key, process, files[i], {'mode': 'uploaded'})
+                }
+            }
+            
+        }
+
+        
+        // Refresh the form
+        var class_name = "tactic.ui.panel.CustomLayoutWdg";
+        var kwargs = {
+            'view': 'client_view_order_form_wdg',
+            'include_mako': 'true',
+            'search_key': search_key,
+            'mode': 'edit'
+        }
+        spt.panel.load(wdg_el, class_name, kwargs);
+
+        // Jump to Orders page
+        //page_el = bvr.src_el.getParent(".client_view_top")
+        page_el = document.getElement(".client_view_top")
+
+        if (page_el) {
+            spt.app_busy.show("Loading...", "Orders List");
+
+            var content_el = page_el.getElement(".client_view_content")
+            var class_name = "tactic.ui.panel.CustomLayoutWdg"
+            var kwargs = {
+                'view': 'client_view_home_wdg',
+                'include_mako': 'true',
+                'ten_chunk': '0',
+                'chunk_var': 10,
+                'order_by': 'id desc',
+                'search_limit': '100',
+                'show_search_limit': false
+            }
+            spt.panel.load(content_el, class_name, kwargs)
+        }
+
+    }
+    catch(e) {
+        spt.alert(spt.exception.handler(e));
+        server.abort();
+    }
+
+    server.finish();
+    spt.app_busy.hide();
+    
+    }, 100);
+
+
+'''
+}]]></behavior>
+
+
+<behavior class="spt_add_files"><![CDATA[{
+  "type": "click_up",
+  "cbjs_action": '''
+
+    var search_key = bvr.kwargs.search_key;
+    var top = spt.api.get_parent(bvr.src_el, ".files_panel_wdg");
+    var files_list_el = top.getElement(".files_list")
+    var applet = spt.Applet.get()
+    var files = applet.open_file_browser();
+
+    var html = []
+    for (i=0; i<files.length; i++) {
+        var file = files[i].replace(/\\\\/gi, '/')
+        html.push(file + "<input type='hidden' class='file' name='files' value='"+file+"'>")
+
+    }
+    html = html.join("<br/>")
+    files_list_el.innerHTML = html;
+  '''
+}]]></behavior>
+
+<behavior class="add_platform"><![CDATA[{
+  "type": "click_up",
+  "cbjs_action": '''
+    new_platform = prompt("Please enter the Platform name");
+    var top = bvr.src_el.getParent(".client_view_order_form_wdg");
+    var server = TacticServerStub.get();
+    any_yet = server.eval("@GET(twog/platform['name','" + new_platform + "'].name)");
+    if(any_yet.length == 0){
+        server.insert('twog/platform', {'name': new_platform}, {'triggers': false});
+    }
+    pull = null;
+    pulls = top.getElementsByTagName('select');
+    for(var r = 0; r < pulls.length; r++){
+        if(pulls[r].getAttribute('name') == 'platform'){
+            pull = pulls[r];
+        }
+    }
+    pull_inner = pull.innerHTML;
+    replacer_str = '<option value="' + new_platform + '">' + new_platform + '</option>';
+    pull_inner = pull_inner + replacer_str
+    pull.innerHTML = pull_inner;
+    pull.value = new_platform;
+  '''
+}]]></behavior>
+</client_view_order_form_wdg_conf>
+</config>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

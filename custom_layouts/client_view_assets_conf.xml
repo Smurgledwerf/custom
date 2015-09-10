@@ -1,0 +1,30 @@
+<config>
+<client_view_assets_conf>
+<html>
+<element name="assets" title="Assets" width="100%" edit="false">
+  <display class="tactic.ui.panel.ViewPanelWdg">
+    <search_type>twog/source</search_type>
+    <view>client_view_assets</view>
+    <simple_search_view>simple_asset_filter</simple_search_view>
+    <show_layout_switcher>true</show_layout_switcher>
+    <show_gear>false</show_gear>
+    <show_column_manager>false</show_column_manager>
+    <show_insert>false</show_insert>
+    <show_search>false</show_search>
+    <show_search_limit>true</show_search_limit>
+    <show_shelf>true</show_shelf>
+    <show_select>false</show_select>
+    <show_export_button>false</show_export_button>
+    <show_layout_switcher>false</show_layout_switcher>
+    <order_by>timestamp desc</order_by>
+    <filter> {"prefix":"main_body","main_body_enabled":"","main_body_column":"title","main_body_relation":"is","main_body_value":""}
+    </filter>
+  </display>
+</element>
+</html>
+</client_view_assets_conf>
+</config>
+
+
+
+

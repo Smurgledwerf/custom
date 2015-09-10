@@ -1,0 +1,133 @@
+
+<config>
+<client_view_order_form_email_conf>
+<html>
+<table class="spt_element">
+  <tr>
+    <td class="item_list">
+      <div>
+<![CDATA[
+<%
+
+list_column = "client_email_list"
+
+job = {}
+
+if kwargs.get("is_test"):
+    search_key = ""
+else:
+    search_key = kwargs.get("search_key") or ""
+login = ''
+if kwargs.get('login'):
+    login = kwargs.get('login')
+
+
+template_el = '''
+<div style="display:none" class="list_item_template">
+  <div class="list_item">
+    <table>
+      <tr>
+        <td>
+          <element name="%s">
+            <display class="TextWdg">
+              <width>300</width>
+            </display>
+          </element>
+        </td>
+        <td><img class="spt_list_add" src="/context/icons/silk/add.png"/></td>
+        <td><img class="spt_list_remove" src="/context/icons/silk/delete.png"/></td>              
+      </tr>
+    </table>
+  </div>
+</div>
+''' %list_column
+context.write(template_el)
+
+
+if not search_key:
+    item_list = ['']
+    if login:
+        login_obj = server.eval("@SOBJECT(sthpw/login['login','%s'])" % login)[0]
+        externals = login_obj.get('external_notification_list')
+        externals = str(externals)
+        item_list = externals.split(',')        
+else:
+    so = server.get_by_search_key(search_key)
+    item_list = so.get(list_column)
+    item_list = str(item_list)
+    item_list = item_list.split(",")
+
+
+for item in item_list:
+    item_el = '''
+      <div class="list_item">
+        <table>
+          <tr>
+            <td>
+              <element name="%s">
+                <display class="TextWdg">
+                  <width>300</width>
+                  <default>%s</default>
+                </display>
+              </element>
+            </td>
+            <td><img class="spt_list_add" src="/context/icons/silk/add.png"/></td>
+            <td><img class="spt_list_remove" src="/context/icons/silk/delete.png"/></td>              
+          </tr>
+        </table>
+      </div>
+    ''' %(list_column, item)
+    context.write(item_el)
+
+
+
+
+%>]]>
+
+
+
+</div>
+    </td>
+  </tr>
+</table>
+</html>
+<behavior class="spt_list_add" type="click_up"><![CDATA[
+
+
+var wdg_el = bvr.src_el.getParent(".spt_custom_top")
+var top_el = bvr.src_el.getParent(".item_list");
+var template_el = top_el.getElement(".list_item_template");
+
+// Find the behaviors
+var handoff_el = wdg_el.getElement(".spt_customlayoutwdg_handoffs")
+var bvr_els = handoff_el.getElements(".SPT_BVR")
+
+// Create the new row and add to the widget
+var div = document.createElement("div");
+spt.behavior.replace_inner_html(div, template_el.innerHTML);
+top_el.appendChild(div);
+
+// Replace - Add button behavior
+var bvr_list = bvr_els[0].getAttribute("spt_bvr_list")
+var behaviors = eval(bvr_list)
+behaviors[0]._handoff_ = "@.getElement('.spt_list_add')"
+spt.behavior._handoff_bvr(div, behaviors[0])
+
+// Replace - Remove button behavior
+var bvr_list = bvr_els[1].getAttribute("spt_bvr_list")
+var behaviors = eval(bvr_list)
+behaviors[0]._handoff_ = "@.getElement('.spt_list_remove')"
+spt.behavior._handoff_bvr(div, behaviors[0])
+
+]]></behavior>
+
+
+<behavior class="spt_list_remove" type="click_up"><![CDATA[
+
+var edit_task_el = bvr.src_el.getParent(".list_item")
+spt.behavior.destroy_element(edit_task_el);
+
+]]></behavior>
+</client_view_order_form_email_conf>
+</config>
+

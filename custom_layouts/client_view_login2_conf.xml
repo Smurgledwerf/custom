@@ -1,0 +1,75 @@
+<config>
+<client_view_login2_conf>
+<html>
+<style type="text/css">
+.client_view_login2 {
+
+  min-width: 700px;
+  margin: 20px auto;
+  width: 700px;
+}
+
+.client_view_login2 div.sections {
+  margin: 20px;
+  border-radius: 10px;
+  padding: 20px;
+
+background: #cbe4ed;
+background: -moz-linear-gradient(top,  #cbe4ed 0%, #7ac5ff 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#cbe4ed), color-stop(100%,#7ac5ff));
+background: -webkit-linear-gradient(top,  #cbe4ed 0%,#7ac5ff 100%);
+background: -o-linear-gradient(top,  #cbe4ed 0%,#7ac5ff 100%);
+background: -ms-linear-gradient(top,  #cbe4ed 0%,#7ac5ff 100%);
+background: linear-gradient(to bottom,  #cbe4ed 0%,#7ac5ff 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cbe4ed', endColorstr='#7ac5ff',GradientType=0 );
+
+
+}
+
+.client_view_login2 td {
+vertical-align: top;
+}
+
+.client_view_login2 td.input_name {
+width: 100px;
+height: 40px;
+//padding-left: 10px;
+font-weight: bold;
+vertical-align: top;
+}
+</style>
+
+<div class="client_view_login2">
+<![CDATA[
+<%
+login = kwargs.get('login')
+%>]]>
+  <div align='center' class='sections'>
+    <table valign='center'>
+      <tr>
+        <td valign="top">
+          <element name="client_view_custom_profile2">
+            <display class="tactic.ui.panel.CustomLayoutWdg">
+              <view>client_view_custom_profile2</view>
+              <login>${login}</login>
+              <include_mako>true</include_mako>
+            </display>
+          </element>
+        </td>
+        <td width="50px"> </td>
+        <td valign="bottom" align="center">
+          <element name="client_view_login_ccs">
+            <display class="tactic.ui.panel.CustomLayoutWdg">
+              <view>client_view_login_default_ccs</view>
+              <login>${login}</login>
+              <include_mako>true</include_mako>
+            </display>
+          </element>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</html>
+</client_view_login2_conf>
+</config>

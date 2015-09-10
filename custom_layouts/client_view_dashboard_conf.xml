@@ -1,0 +1,182 @@
+<config>
+<client_view_dashboard_conf>
+<html>
+<style type="text/css">
+.client_view_dashboard .block{
+    border-radius: 10px;
+    height: 100px;
+    margin-bottom: 10px;
+    //width: 100%;
+
+}
+
+.client_view_dashboard .block h2{
+   margin: 0px;
+   padding: 0px;
+
+}
+
+
+.client_view_dashboard .block td.block_inner {
+    vertical-align: top;
+    padding: 10px;
+
+}
+
+.client_view_dashboard .button {
+
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;    
+    margin-bottom: 5px;
+    //padding: 2px;
+    border-radius: 3px;    
+    border: 1px solid #fff;
+    background: [expr]@GRADIENT('background', -10)[/expr];
+}
+
+.client_view_dashboard .spt_discussion_top {
+    position: absolute;
+    width: 330px;
+    border: 2px solid #fff;
+    background: #fff;
+}
+</style>
+<div class="client_view_dashboard">
+  <div>
+<![CDATA[
+<%
+def return_num(obj):
+    num = 0
+    if obj:
+        obj = obj[0]
+        num = float(obj.get('value'))
+    return num
+from pyasm.common import Environment
+login_obj = Environment.get_login()
+login = login_obj.get_login()
+person = server.eval("@SOBJECT(twog/person['login_name','%s'])" % login)[0]
+client_code = person.get('client_code')
+client = server.eval("@SOBJECT(twog/client['code','%s'])" % client_code)[0]
+extra_info = ''
+if 'extra_info' in kwargs.keys():
+    extra_info = kwargs.get('extra_info')
+my_orders = server.eval("@SOBJECT(twog/order['client_code','%s']['client_rep','%s']['classification','not in','Master|Cancelled'])" % (client_code, person.get('code')))
+total_orders = 0
+completed_orders = 0
+in_production_orders = 0
+preparing_orders = 0
+for mo in my_orders:
+    classification = mo.get('classification')
+    if classification not in [None,'']:
+        total_orders = total_orders + 1
+        if classification == 'Completed':
+            completed_orders = completed_orders + 1
+        elif classification == 'In Production':
+            in_production_orders = in_production_orders + 1
+        elif classification == 'Bid':
+            preparing_orders = preparing_orders + 1
+
+my_titles = server.eval("@SOBJECT(twog/order['client_code','%s']['client_rep','%s']['classification','not in','Master|Cancelled'].twog/title)" % (client_code, person.get('code')))
+total_titles = 0
+completed_titles = 0
+in_progress_titles = 0
+preparing_titles = 0
+client_responses = {}
+client_response_sks = []
+for mt in my_titles:
+    status = mt.get('status')
+    mt_sk = mt.get('__search_key__')
+    total_titles = total_titles + 1
+    if status == 'Completed' or status == 'Invoiced':
+        completed_titles = completed_titles + 1
+    elif status == 'In Production':
+        in_progress_titles = in_progress_titles + 1
+    elif status == '':
+        preparing_titles = preparing_titles + 1
+
+
+    client_response = mt.get('client_response_count')
+    client_response_int = 0
+    if client_response in [None,'']:
+        client_response_int = 0
+    else:
+        client_response_int = int(client_response)
+    if client_response_int > 0:
+        client_response_sks.append(mt_sk)
+        full_title = mt.get('title')
+        if mt.get('episode') not in [None,'']:
+            full_title = '%s: %s' % (full_title, mt.get('episode'))
+        scheduler_login = mt.get('login')
+        sched_sob = server.eval("@SOBJECT(sthpw/login['login','%s'])" % scheduler_login)[0]
+        scheduler = '%s %s' % (sched_sob.get('first_name'), sched_sob.get('last_name'))
+        sched_phone = sched_sob.get('phone_number')
+        client_responses[mt_sk] = {'title': full_title, 'po_number': mt.get('po_number'), 'completion_ratio': '%s/%s' % (mt.get('wo_completed'), mt.get('wo_count')), 'scheduler': scheduler, 'scheduler_ext': sched_phone}
+
+
+table_summary = '''<table cellpadding="5">
+             <tr><td colspan="2" align="center"><b>Purchase Orders</b></td><td>    </td><td colspan="2" align="center"><b>Titles/Episodes</b></td></tr>
+             <tr><td>In Production:</td><td>%s</td><td>   </td><td>In Production:</td><td>%s</td></tr>
+             <tr><td>Preparing:</td><td>%s</td><td>   </td><td>Preparing:</td><td>%s</td></tr>
+           </table>
+        ''' % (in_production_orders, in_progress_titles, preparing_orders, preparing_titles)
+table_cr = '''<table cellpadding="5">'''
+if len(client_response_sks) > 0:
+    table_cr = ''' %s<tr><td><b>Need Your Response On:</b></td></tr>''' % table_cr
+else:
+    table_cr = '''<table>'''
+for tsk in client_response_sks:
+    title = client_responses[tsk]
+    title_note = '''               
+                <element name="notes" width="350px">
+                  <display class="tactic.ui.widget.DiscussionWdg">
+                    <search_key>%s</search_key>
+                    <process>client</process>
+                    <note_expandable>false</note_expandable>
+                    <show_context_notes>false</show_context_notes>
+                  </display>
+                </element>
+                 ''' % tsk
+    table_cr = '''%s<tr><td><table bgcolor="#d9edcf" style="border-spacing: 25px 0px;border-bottom-right-radius: 10px;border-bottom-left-radius: 10px;border-top-right-radius: 10px;border-top-left-radius: 10px;background-color: #d9edcf;"><tr><td><table><tr><td nowrap="nowrap">Title: %s</td></tr><td nowrap="nowrap">PO#: %s</td></tr><tr><td nowrap="nowrap">Completion Ratio: %s</td></tr><tr><td nowrap="nowrap">Scheduler: %s</td></tr><tr><td nowrap="nowrap">Phone: %s</td></tr></table></td><td valign="top" align="right">%s</td></tr></table></td></tr>''' % (table_cr, title.get('title'), title.get('po_number'), title.get('completion_ratio'), title.get('scheduler'), title.get('scheduler_ext'), title_note)
+
+table_cr = '%s</table>' % table_cr
+table = '<table cellpadding="5"><tr><td>%s</td></tr><tr><td>%s</td></tr></table>' % (table_summary, table_cr)
+html = table
+context.write(html)
+
+%>]]>
+
+  </div>
+</div>
+</html>
+<behavior class="nothing_yet"><![CDATA[
+{ "type": "click_up", 
+"cbjs_action": '''
+
+
+'''}
+]]></behavior>
+<behavior class="client_view_dashboard"><![CDATA[
+{ "type": "load", 
+"cbjs_action": '''
+// This is a fix for a z-index layering issue in the notes widget
+var note_els = bvr.src_el.getElements(".spt_discussion_top")
+for (i=0; i<note_els.length; i++) {
+    new_z = 100 - i;
+    note_els[i].style.zIndex = new_z;
+}
+
+
+'''}
+]]></behavior>
+
+</client_view_dashboard_conf>
+</config>
+
+
+
+
+
+
+

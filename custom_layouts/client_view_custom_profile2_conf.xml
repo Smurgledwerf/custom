@@ -1,0 +1,132 @@
+<config>
+<client_view_custom_profile2_conf>
+<html>
+<style type="text/css">
+body {
+    background: #FFF !important;
+}
+
+
+.custom_login {
+    width: 350px;
+    font-size: 14px;
+    padding: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 100px;
+    margin-bottom: 100px;
+    background: [expr]@GRADIENT('background', 10)[/expr];
+    border: solid 1px black;
+}
+
+.custom_login .title {
+    color: #000;
+    background-color: [expr]@COLOR('background3')[/expr];
+    padding: 20px;
+    width: 410px;
+    height: 100px;
+    margin: -50 -50 30 -50;
+    text-align: center;
+}
+</style>
+<div>
+<![CDATA[
+<%
+login = kwargs.get('login')
+profile = server.eval("@SOBJECT(sthpw/login['login','%s'])" % login)[0]
+sk = profile.get('__search_key__')
+first_name = profile.get('first_name')
+last_name = profile.get('last_name')
+email = profile.get('email')
+
+snapshot = server.get_snapshot(profile, context='icon')
+snapshot_code = snapshot.get("code")
+path = '/context/icons/common/no_image.png'
+if snapshot_code:
+    path = server.get_path_from_snapshot(snapshot_code, mode="web")     
+image = '''<img height="80px" src="%s"/>''' % path
+
+whole_name = '%s %s' % (first_name, last_name)
+
+
+the_html = '''
+<table border="0" class="profile_page_for_%s">
+    <tr>
+        <td style="height: 40px; font-weight: bold; vertical-align: top;">Picture</td>
+        <td align="center">%s</td>
+    </tr>
+    <tr>
+        <td> </td><td align="center"><input type="button" value="Upload New Picture" class="uploader" sk="%s" whole_name="%s"/></td>
+    </tr>
+    <tr><td><br/></td></tr>
+    <tr>
+        <td style="height: 25px; font-weight: bold; vertical-align: top;" nowrap="nowrap">Password</td>
+        <td><input type="password" id="pass1"/></td>
+    </tr>
+    <tr>
+        <td style="height: 25px; font-weight: bold; vertical-align: top;" nowrap="nowrap">Re-Enter Password</td>
+        <td><input type="password" id="pass2"/></td>
+    </tr>
+    <tr>
+        <td style="height: 25px; font-weight: bold; vertical-align: top;" nowrap="nowrap">First Name</td>
+        <td><input type="text" value="%s" id="first_name"/></td>
+    </tr>
+    <tr>
+        <td style="height: 25px; font-weight: bold; vertical-align: top;" nowrap="nowrap">Last Name</td>
+        <td><input type="text" value="%s" id="last_name"/></td>
+    </tr>
+    <tr>
+        <td style="height: 25px; font-weight: bold; vertical-align: top;" nowrap="nowrap">Email</td>
+        <td><input type="text" value="%s" id="email"/></td>
+    </tr>
+    <tr>
+        <td></td><td align="center"><input type="button" value="Save" class="save_changes" sk="%s"/></td>
+    </tr>
+</table>
+''' % (sk, image, sk, whole_name, first_name, last_name, email, sk) 
+%>]]>
+
+${the_html}
+</div>
+</html>
+
+<behavior class="uploader"><![CDATA[
+{ "type": "click_up", 
+"cbjs_action": '''
+var search_key = bvr.src_el.getAttribute("sk")
+var whole_name = bvr.src_el.getAttribute("whole_name")
+//alert(search_key);
+form_type = 'Profile';
+form_title = whole_name; 
+ft1_title = 'Profile Image Files';
+ft1_process = 'icon'
+ft1_process_title = 'Image'
+ft1_union = ""
+ft2_union = "";
+show_ft2 = 'No';
+kwargs = {'search_key': search_key, 'view': 'client_view_files_wdg', 'ft1_process': ft1_process, 'ft1_union': ft1_union, 'ft2_union': ft2_union, 'form_type': form_type, 'ft1_title': ft1_title, 'ft1_process_title': ft1_process_title, 'form_title': form_title, 'show_ft2': show_ft2};
+spt.panel.load_popup('Uploaded Image Files', 'tactic.ui.panel.CustomLayoutWdg', kwargs);
+spt.app_busy.hide();
+
+'''}
+]]></behavior>
+
+
+<behavior class="save_changes"><![CDATA[
+{ "type": "click_up", 
+"cbjs_action": '''
+
+var search_key = bvr.src_el.getAttribute("sk")
+
+
+'''}
+]]></behavior>
+</client_view_custom_profile2_conf>
+</config>
+
+
+
+
+
+
+

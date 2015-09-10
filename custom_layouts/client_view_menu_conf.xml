@@ -1,0 +1,162 @@
+<config>
+<client_view_menu_conf>
+<html>
+<style type="text/css">
+#main_menu {
+    width: 1230px;
+    margin: 0;
+}
+
+
+#main_menu div {
+    width: 25%;
+    height: 30px;
+    background: #2d2d2d;
+    float: left;
+    text-align: center;
+    font-size: 16px;
+    line-height: 30px;
+    color: #fff;
+    position: relative;
+
+    background: #adadad;
+    background: -moz-linear-gradient(top,  #adadad 0%, #606060 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#adadad), color-stop(100%,#606060));
+    background: -webkit-linear-gradient(top,  #adadad 0%,#606060 100%);
+    background: -o-linear-gradient(top,  #adadad 0%,#606060 100%);
+    background: -ms-linear-gradient(top,  #adadad 0%,#606060 100%);
+    background: linear-gradient(to bottom,  #adadad 0%,#606060 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#adadad', endColorstr='#606060',GradientType=0 );
+}
+
+
+#main_menu div:hover{
+
+    background: #777777;
+    background: -moz-linear-gradient(top,  #777777 0%, #4f4f4f 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#777777), color-stop(100%,#4f4f4f));
+    background: -webkit-linear-gradient(top,  #777777 0%,#4f4f4f 100%);
+    background: -o-linear-gradient(top,  #777777 0%,#4f4f4f 100%);
+    background: -ms-linear-gradient(top,  #777777 0%,#4f4f4f 100%);
+    background: linear-gradient(to bottom,  #777777 0%,#4f4f4f 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#777777', endColorstr='#4f4f4f',GradientType=0 );
+    cursor: pointer;
+}
+
+#main_menu div div.separator {
+    right: 0px;
+    top: 0px;
+    height: 30px;
+    width: 2px;
+    background: #000000;
+    opacity: 0.25;
+    position: absolute;
+
+}
+</style>
+<div class="client_view_menu" id="main_menu">
+  <!-- <div class="dashboard">Dashboard<div class="separator"> </div></div> -->
+  <div class="home">Orders<div class="separator"> </div></div>
+  <div class="assets">Assets<div class="separator"> </div></div>
+  <div class="add_po">Add New Order<div class="separator"> </div></div>
+  <div class="profile">Profile</div>
+</div>
+</html>
+<behavior class="add_po"><![CDATA[
+{ "type": "click_up", 
+"cbjs_action": '''
+
+
+var top_el = bvr.src_el.getParent(".client_view_top")
+var content_el = top_el.getElement(".client_view_content")
+var class_name = "tactic.ui.panel.CustomLayoutWdg"
+var kwargs = {
+  'view': 'client_view_order_form_wdg',
+  'mode': 'add',
+  'include_mako': 'true'
+}
+spt.app_busy.show("Loading Add PO...");
+spt.panel.load(content_el, class_name, kwargs)
+spt.app_busy.hide();
+//spt.panel.load_custom_layout(content_el, )
+
+
+'''}
+]]></behavior>
+
+<behavior class="dashboard"><![CDATA[
+{ "type": "click_up", 
+"cbjs_action": '''
+
+
+var top_el = bvr.src_el.getParent(".client_view_top")
+var content_el = top_el.getElement(".client_view_content")
+spt.app_busy.show("Loading Dashboard...");
+spt.panel.load_custom_layout(content_el, "client_view_dashboard")
+spt.app_busy.hide();
+
+
+'''}
+]]></behavior>
+
+<behavior class="assets"><![CDATA[
+{ "type": "click_up", 
+"cbjs_action": '''
+
+
+var top_el = bvr.src_el.getParent(".client_view_top")
+var content_el = top_el.getElement(".client_view_content")
+spt.app_busy.show("Loading Assets...");
+spt.panel.load_custom_layout(content_el, "client_view_assets")
+spt.app_busy.hide();
+
+
+'''}
+]]></behavior>
+
+
+<behavior class="home"><![CDATA[
+{ "type": "click_up", 
+"cbjs_action": '''
+
+
+var top_el = bvr.src_el.getParent(".client_view_top")
+var content_el = top_el.getElement(".client_view_content")
+spt.app_busy.show("Loading Orders...");
+spt.panel.load_custom_layout(content_el, "client_view_home_wdg")
+spt.app_busy.hide();
+
+
+'''}
+]]></behavior>
+
+
+<behavior class="profile"><![CDATA[
+{ "type": "click_up", 
+"cbjs_action": '''
+
+var evt = spt.Environment.get()
+var login = evt.get_user()
+
+var top_el = bvr.src_el.getParent(".client_view_top")
+var content_el = top_el.getElement(".client_view_content")
+var class_name = "tactic.ui.panel.CustomLayoutWdg"
+var kwargs = {
+  'view': 'client_view_login2',
+  'login': login
+ }
+spt.app_busy.show("Loading Profile...");
+spt.panel.load(content_el, class_name, kwargs)
+spt.app_busy.hide();
+
+'''}
+]]></behavior>
+</client_view_menu_conf>
+</config>
+
+
+
+
+
+
+

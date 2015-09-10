@@ -1,0 +1,494 @@
+<config>
+<client_view_files_wdg_conf>
+<html>
+<style type="text/css">
+.client_view_files_wdg {
+
+  min-width: 850px;
+  margin: 20px auto;
+  width: 800px;
+}
+
+.client_view_files_wdg div.sections {
+  margin: 20px;
+  border-radius: 10px;
+  padding: 20px;
+
+background: #cbe4ed;
+background: -moz-linear-gradient(top,  #cbe4ed 0%, #7ac5ff 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#cbe4ed), color-stop(100%,#7ac5ff));
+background: -webkit-linear-gradient(top,  #cbe4ed 0%,#7ac5ff 100%);
+background: -o-linear-gradient(top,  #cbe4ed 0%,#7ac5ff 100%);
+background: -ms-linear-gradient(top,  #cbe4ed 0%,#7ac5ff 100%);
+background: linear-gradient(to bottom,  #cbe4ed 0%,#7ac5ff 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cbe4ed', endColorstr='#7ac5ff',GradientType=0 );
+
+
+}
+
+
+.client_view_files_wdg td {
+vertical-align: top;
+}
+
+.client_view_files_wdg td.input_name {
+width: 100px;
+height: 40px;
+//padding-left: 10px;
+font-weight: bold;
+vertical-align: top;
+}
+
+#po_box {
+position: relative;
+margin-top: 10px;
+margin-left: 0px;
+height: 40px;
+}
+
+#description {
+position: relative;
+margin-top: 0px;
+margin-left: 0px;
+height: 100px;
+}
+
+#due_date {
+position: relative;
+margin-top: 20px;
+margin-left: 0px;
+
+
+}
+
+#scheduler {
+position: relative;
+margin-top: 0px;
+margin-left: 0px;
+
+}
+
+#purchase_order {
+position: relative;
+margin-top: 0px;
+margin-left: 0px;
+
+}
+
+#purchase_order2 {
+position: relative;
+margin-top: 0px;
+margin-left: 0px;
+
+}
+
+#create_project {
+position: relative;
+margin-top: 0px;
+margin-left: 0px;
+
+}
+
+.files_list {
+    padding: 10px;
+    font-size: 13px;
+    background: #fff;
+    box-shadow: 2px 0px 4px rgba(0,0,0,0.25) inset;
+    margin: 10px 0px;   
+}
+</style>
+<div class="client_view_files_wdg">
+  <div>
+<![CDATA[
+<%
+from pyasm.common import Environment
+ticket = server.generate_ticket()
+login_obj = Environment.get_login()
+login = login_obj.get_login()
+
+show_ft2 = ''
+if 'show_ft2' in kwargs.keys():
+    show_ft2 = kwargs.get('show_ft2')
+    if show_ft2 in ['No','no','n','f','false','False',False]:
+        show_ft2 = 'display: none;'
+
+form_type = 'Order'
+if 'form_type' in kwargs.keys():
+    form_type = kwargs.get('form_type')
+
+ft1_title = 'Purchase Order Files'
+if 'ft1_title' in kwargs.keys():
+    ft1_title = kwargs.get('ft1_title')
+
+ft1_process = 'PO'
+if 'ft1_process' in kwargs.keys():
+    ft1_process = kwargs.get('ft1_process')
+
+ft1_process_title = 'PO'
+if 'ft1_process_title' in kwargs.keys():
+    ft1_process_title = kwargs.get('ft1_process_title')
+
+ft1_union = ''
+ft1_expr_start = ''
+ft1_expr_end = ''
+if 'ft1_union' in kwargs.keys():
+    ft1_deet = kwargs.get('ft1_union')
+    if ft1_deet not in [None,'']:
+        ft1_union = ',%s' % kwargs.get('ft1_union')
+        ft1_expr_start = '@UNION('
+        ft1_expr_end = ')'
+
+ft2_union = ''
+ft2_expr_start = ''
+ft2_expr_end = ''
+if 'ft2_union' in kwargs.keys():
+    ft2_deet = kwargs.get('ft2_union')
+    if ft2_deet not in [None,'']:
+        ft2_union = ',%s' % kwargs.get('ft2_union')
+        ft2_expr_start = '@UNION('
+        ft2_expr_end = ')'
+
+search_key = kwargs.get("search_key") or ""
+
+if 'form_title' in kwargs.keys():
+    form_title = kwargs.get('form_title')
+else:
+    so = server.get_by_search_key(search_key)
+    form_title = so.get("name")
+    if form_title in [None,'']:
+        form_title = so.get('login')
+
+files_table1 = '''
+    <element name="files">
+      <display class="tactic.ui.panel.FastTableLayoutWdg">
+        <search_type>sthpw/snapshot</search_type>
+        <view>table</view>
+        <element_names>preview,is_current,process,description,web_path,timestamp</element_names>
+        <show_row_select>true</show_row_select>
+        <search_key>%s</search_key>
+        <show_gear>false</show_gear>
+        <show_shelf>false</show_shelf>
+        <show_select>true</show_select>
+        <width>100%%</width>
+        <height>200px</height>
+        <process>%s</process>
+        <show_column_manager>false</show_column_manager>
+        <expression>%s@SOBJECT(sthpw/snapshot['context','~','%s'])%s%s)</expression>
+        <temp>true</temp>
+      </display>
+    </element>
+''' % (search_key, ft1_process, ft1_expr_start, ft1_process, ft1_union, ft1_expr_end)
+
+files_table2 = '''
+    <element name="files">
+      <display class="tactic.ui.panel.FastTableLayoutWdg">
+        <search_type>sthpw/snapshot</search_type>
+        <view>table</view>
+        <element_names>preview,is_current,process,description,web_path,timestamp</element_names>
+        <show_row_select>true</show_row_select>
+        <search_key>%s</search_key>
+        <show_gear>false</show_gear>
+        <show_shelf>false</show_shelf>
+        <show_select>true</show_select>
+        <height>200px</height>
+        <width>100%%</width>
+        <show_column_manager>false</show_column_manager>
+        <expression>%s@SOBJECT(sthpw/snapshot['process','not in','%s|publish'])%s%s</expression>
+        <temp>true</temp>
+      </display>
+    </element>
+''' % (search_key, ft2_expr_start, ft1_process, ft2_union, ft2_expr_end)
+
+on_complete_js1 = '''
+var top = bvr.src_el.getParent(".client_view_files_wdg");
+var file_list = top.getElementById("filelist1");
+var values = spt.api.get_input_values(top);
+var files = values.upload;
+var html = files.join(" ");
+file_list.innerHTML = html;
+spt.app_busy.hide();
+'''
+
+on_complete_js2 = '''
+var top = bvr.src_el.getParent(".client_view_files_wdg");
+var file_list = top.getElementById("filelist2");
+var values = spt.api.get_input_values(top);
+var files = values.upload;
+var html = files.join(" ");
+file_list.innerHTML = html;
+spt.app_busy.hide();
+'''
+
+%>]]>
+</div>
+  <input type="hidden" class="spt_input" name="search_key" value="${search_key}"/>
+  <input type="hidden" class="spt_input" name="transaction_ticket" value="${ticket}"/>
+  <div class="sections">
+    <h1>${form_type}: ${form_title}</h1>
+    <div id="purchase_order">
+      <div class="files_panel_wdg" form_type="${form_type}" ft1_title="${ft1_title}" ft1_process="${ft1_process}" ft1_union="${ft1_union}" ft2_union="${ft2_union}" show_ft2="${show_ft2}" form_title="${form_title}" ft1_process_title="${ft1_process_title}" search_key="${search_key}">
+        <h4>${ft1_title}</h4>
+        <table><tr><td>
+        <element name="upload">
+          <display class="tactic.ui.input.UploadButtonWdg">
+            <context>${ft1_process}</context>
+            <ticket>${ticket}</ticket>
+            <on_complete>${on_complete_js1}</on_complete>
+            <search_key>${search_key}</search_key>
+            <title>Select ${ft1_process_title} File</title>
+            <stupid_button>True</stupid_button>
+          </display>
+        </element>
+        </td><td>
+        <input type="button" value="Upload ${ft1_process_title} File" class="submit_button"/>
+        </td></tr></table>
+        <div class="files_list" id="filelist1">- No Files Selected -</div>
+        <div>
+        ${files_table1}
+        </div>
+      </div>
+    </div>
+    <div id="other_files" style="${show_ft2}">
+      <div class="files_panel_wdg2">
+        <h4>Additional Files (Images, Excel Sheets, Etc)</h4>
+        <table><tr><td>
+        <element name="upload">
+          <display class="tactic.ui.input.UploadButtonWdg">
+            <ticket>${ticket}</ticket>
+            <on_complete>${on_complete_js2}</on_complete>
+            <context>publish</context>
+            <search_key>${search_key}</search_key>
+            <title>Select File</title>
+            <stupid_button>True</stupid_button>
+          </display>
+        </element>
+        </td><td>
+        <input type="button" value="Upload File" class="submit_button2"/>
+        </td></tr></table>
+        <div class="files_list" id="filelist2">- No Files Selected -</div>
+        <div>
+        ${files_table2}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</html>
+<behavior class="submit_button"><![CDATA[ {
+"type": "click_up",
+"cbjs_action": '''
+
+
+    
+    spt.app_busy.show("Saving", "");
+
+    setTimeout(function() {
+    
+    try {
+        var server = TacticServerStub.get();
+
+        var top_el = bvr.src_el.getParent(".client_view_files_wdg");
+        var vals_el = top_el.getElementsByClassName("files_panel_wdg")[0];
+        var ft1_process = vals_el.getAttribute('ft1_process');
+        var form_type = vals_el.getAttribute('form_type');
+        var form_title = vals_el.getAttribute('form_title');
+        var ft1_union = vals_el.getAttribute('ft1_union');
+        var ft2_union = vals_el.getAttribute('ft2_union');
+        var ft1_title = vals_el.getAttribute('ft1_title');
+        var ft1_process_title = vals_el.getAttribute('ft1_process_title');
+        var show_ft2 = vals_el.getAttribute('show_ft2');
+
+        if(ft1_process == '' || ft1_process == null){
+            ft1_process = 'publish'
+        }
+        var wdg_el = top_el.getParent(".spt_custom_top");
+        var values = spt.api.get_input_values(top_el);
+        var fvals = spt.api.get_input_values(vals_el);
+        log.critical(values)
+
+        // Get the search key from the values
+        var search_key = values.search_key;
+        var transaction_ticket = values.transaction_ticket;
+        server.start({'title': 'Uploading file', 'description': 'uploading', transaction_ticket: transaction_ticket}); 
+        //var files = values.upload;
+        var files = fvals.upload;
+        if (files.length > 0) {
+            spt.app_busy.show("Saving","Adding files...");
+            for (i=0; i<files.length; i++) {
+                if (files[i].length > 0) {
+                    var file_name = files[i].split(".")[0];
+                    spt.app_busy.show("Adding Files", file_name)
+                    dood = server.simple_checkin(search_key, ft1_process, files[i], {'mode': 'uploaded'})
+                }
+            }
+            
+        }
+
+        
+        // Refresh the form
+        var class_name = "tactic.ui.panel.CustomLayoutWdg";
+        var kwargs = {
+            'view': 'client_view_files_wdg',
+            'include_mako': 'true',
+            'search_key': search_key,
+            'mode': 'edit',
+            'form_type': form_type,
+            'ft1_title': ft1_title,
+            'ft1_process_title': ft1_process_title,
+            'show_ft2': show_ft2,
+            'form_title': form_title,
+            'ft1_process': ft1_process,
+            'ft1_union': ft1_union,
+            'ft2_union': ft2_union
+        }
+        spt.panel.load(wdg_el, class_name, kwargs);
+        profile_page = document.getElementsByClassName('profile_page_for_' + search_key);
+        if(profile_page.length > 0){
+            var evt = spt.Environment.get()
+            var login = evt.get_user()
+            
+            var top_el = document.getElementsByClassName("client_view_top")[0];
+            var content_el = top_el.getElement(".client_view_content")
+            var class_name = "tactic.ui.panel.CustomLayoutWdg"
+            var kwargs = {
+              'view': 'client_view_login2',
+              'login': login
+             }
+            spt.app_busy.show("Loading Profile...");
+            spt.panel.load(content_el, class_name, kwargs)
+            spt.app_busy.hide();
+        }
+
+    }
+    catch(e) {
+        spt.alert(spt.exception.handler(e));
+        server.abort();
+    }
+
+    server.finish();
+    spt.app_busy.hide();
+    
+    }, 100);
+
+
+'''
+}]]></behavior>
+<behavior class="submit_button2"><![CDATA[ {
+"type": "click_up",
+"cbjs_action": '''
+    function oc(a){
+        var o = {};
+        for(var i=0;i<a.length;i++){
+            o[a[i]]='';
+        }
+        return o;
+    }
+    spt.app_busy.show("Saving", "");
+
+    setTimeout(function() {
+    
+    try {
+        var server = TacticServerStub.get();
+        var top_el = bvr.src_el.getParent(".client_view_files_wdg");
+        var vals_el = top_el.getElementsByClassName("files_panel_wdg2")[0];
+        var vals_el_top = top_el.getElementsByClassName("files_panel_wdg")[0];
+        var ft1_process = vals_el_top.getAttribute('ft1_process');
+        var form_type = vals_el_top.getAttribute('form_type');
+        var ft1_union = vals_el_top.getAttribute('ft1_union');
+        var ft2_union = vals_el_top.getAttribute('ft2_union');
+        var ft1_title = vals_el_top.getAttribute('ft1_title');
+        var ft1_process_title = vals_el_top.getAttribute('ft1_process_title');
+        var form_title = vals_el_top.getAttribute('form_title');
+        var show_ft2 = vals_el_top.getAttribute('show_ft2');
+        if(ft1_process == '' || ft1_process == null){
+            ft1_process = 'publish'
+        }
+        var wdg_el = top_el.getParent(".spt_custom_top");
+        var values = spt.api.get_input_values(top_el);
+        var fvals = spt.api.get_input_values(vals_el);
+        log.critical(values)
+
+        // Get the search key from the values
+        var search_key = values.search_key;
+        var transaction_ticket = values.transaction_ticket;
+        server.start({'title': 'Uploading file', 'description': 'uploading', transaction_ticket: transaction_ticket}); 
+        var files = fvals.upload;
+        if (files.length > 0) {
+            spt.app_busy.show("Saving","Adding files...");
+            for (i=0; i<files.length; i++) {
+                if (files[i].length > 0) {
+                    var fss = files[i].split(".");
+                    var ext = "publish";
+                    var file_name = '';
+                    if(fss.length > 1){
+                        ext = fss[fss.length - 1].toUpperCase();
+                        for(var r = 0; r < fss.length - 1; r++){
+                            if(file_name == ''){
+                                file_name = fss[r];
+                            }else{
+                                file_name = file_name + '.' + fss[r];
+                            }    
+                        }
+                    }else{
+                        file_name = fss[0];
+                    }
+                    spt.app_busy.show("Adding Files", file_name)
+                    var process = ext;
+                    if(process in oc(['JPG','BMP','PNG','GIF','TIFF'])){
+                        process = 'icon';
+                    }
+                    dood = server.simple_checkin(search_key, process, files[i], {'mode': 'uploaded'})
+                }
+            }
+            
+        }
+
+        
+        // Refresh the form
+        var class_name = "tactic.ui.panel.CustomLayoutWdg";
+        var kwargs = {
+            'view': 'client_view_files_wdg',
+            'include_mako': 'true',
+            'search_key': search_key,
+            'mode': 'edit',
+            'ft1_process_title': ft1_process_title,
+            'show_ft2': show_ft2,
+            'form_title': form_title,
+            'form_type': form_type,
+            'ft1_title': ft1_title,
+            'ft1_process': ft1_process,
+            'ft1_union': ft1_union,
+            'ft2_union': ft2_union
+        }
+        spt.panel.load(wdg_el, class_name, kwargs);
+
+    }
+    catch(e) {
+        spt.alert(spt.exception.handler(e));
+        server.abort();
+    }
+
+    server.finish();
+    spt.app_busy.hide();
+    
+    }, 100);
+
+
+'''
+}]]></behavior>
+</client_view_files_wdg_conf>
+</config>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

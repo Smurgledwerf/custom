@@ -1,0 +1,154 @@
+<config>
+<client_view_login_default_ccs_conf>
+<html>
+<table class="spt_element">
+  <tr>
+    <td valign="bottom">
+      Default Email Recipients
+    </td>
+  </tr>
+  <tr>
+    <td class="item_list" valign="bottom">
+      <div>
+<![CDATA[
+<%
+
+list_column = "external_notification_list"
+
+login = kwargs.get('login')
+
+
+template_el = '''
+<div style="display:none" class="list_item_template" login="%s">
+  <div class="list_item" login="%s">
+    <table>
+      <tr>
+        <td>
+          <element name="%s">
+            <display class="TextWdg">
+              <width>300</width>
+            </display>
+          </element>
+        </td>
+        <td><img class="spt_list_add" src="/context/icons/silk/add.png"/></td>
+        <td><img class="spt_list_remove" src="/context/icons/silk/delete.png"/></td>              
+      </tr>
+    </table>
+  </div>
+</div>
+''' % (login, login, list_column)
+context.write(template_el)
+
+item_list = []
+item_list_printout = ''
+so = server.eval("@SOBJECT(sthpw/login['login','%s'])" % login)
+if so:
+    so = so[0]
+    item_list = so.get(list_column)
+    item_list_printout = item_list
+    item_list = str(item_list)
+    item_list = item_list.split(",")
+
+
+for item in item_list:
+    item_el = '''
+      <div class="list_item">
+        <table>
+          <tr>
+            <td should_be="%s">
+                <input type="text" value="%s" style="width: 125px;"/>
+            </td>
+            <td><img class="spt_list_add" src="/context/icons/silk/add.png"/></td>
+            <td><img class="spt_list_remove" src="/context/icons/silk/delete.png"/></td>              
+          </tr>
+        </table>
+      </div>
+    ''' %(item, item)
+    context.write(item_el)
+%>]]>
+</div>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      
+<![CDATA[
+<%
+save_butt = '<input type="button" value="Save Default Emails" class="save_emails"/>'
+butt_portion = '<div><table><tr><td align="center">%s</td></tr></table></div>' % save_butt
+context.write(butt_portion)
+
+%>]]>
+    </td>
+  </tr>
+</table>
+</html>
+<behavior class="spt_list_add" type="click_up"><![CDATA[
+var wdg_el = bvr.src_el.getParent(".spt_custom_top")
+var top_el = bvr.src_el.getParent(".item_list");
+var template_el = top_el.getElement(".list_item_template");
+// Find the behaviors
+var handoff_el = wdg_el.getElement(".spt_customlayoutwdg_handoffs")
+var bvr_els = handoff_el.getElements(".SPT_BVR")
+
+// Create the new row and add to the widget
+var div = document.createElement("div");
+spt.behavior.replace_inner_html(div, template_el.innerHTML);
+top_el.appendChild(div);
+
+// Replace - Add button behavior
+var bvr_list = bvr_els[0].getAttribute("spt_bvr_list")
+var behaviors = eval(bvr_list)
+behaviors[0]._handoff_ = "@.getElement('.spt_list_add')"
+spt.behavior._handoff_bvr(div, behaviors[0])
+
+// Replace - Remove button behavior
+var bvr_list = bvr_els[1].getAttribute("spt_bvr_list")
+var behaviors = eval(bvr_list)
+behaviors[0]._handoff_ = "@.getElement('.spt_list_remove')"
+spt.behavior._handoff_bvr(div, behaviors[0])
+//HERE NEED TO CHECK THE LIST AND GET ALL THE CC INPUTS AND VERIFY THEY ARE THERE. DO THE SAME THING WITH REMOVE
+
+]]></behavior>
+
+
+<behavior class="spt_list_remove" type="click_up"><![CDATA[
+
+var edit_task_el = bvr.src_el.getParent(".list_item")
+spt.behavior.destroy_element(edit_task_el);
+//HERE NEED TO CHECK THE LIST AND GET ALL THE CC INPUTS AND VERIFY THEY ARE THERE. DO THE SAME THING WITH REMOVE
+
+
+]]></behavior>
+
+<behavior class="save_emails" type="click_up"><![CDATA[
+
+var server = TacticServerStub.get();
+var env = spt.Environment.get()
+var login = env.get_user();
+var wdg_el = bvr.src_el.getParent(".spt_custom_top")
+var top_el = wdg_el.getElementsByClassName("item_list")[0];
+inputs = top_el.getElementsByTagName('input');
+full_list = '';
+for(var r = 0; r < inputs.length; r++){
+    if(inputs[r].type == 'text'){
+        that_email = inputs[r].value;
+        if(that_email != '' && that_email != null){
+            if(full_list == ''){
+                full_list = that_email;
+            }else{
+                full_list = full_list + ',' + that_email;
+            }
+        }
+    }
+}
+lg_sk = server.build_search_key('sthpw/login', login)
+server.update(lg_sk, {'external_notification_list': full_list});
+
+
+]]></behavior>
+</client_view_login_default_ccs_conf>
+</config>
+
+
+

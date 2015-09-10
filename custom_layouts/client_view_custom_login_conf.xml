@@ -1,0 +1,56 @@
+<config>
+<client_view_custom_login_conf>
+<html>
+<style type="text/css">
+body {
+    background: #FFF !important;
+}
+
+
+.custom_login {
+    width: 350px;
+    font-size: 14px;
+    padding: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 100px;
+    margin-bottom: 100px;
+    background: [expr]@GRADIENT('background', 10)[/expr];
+    border: solid 1px black;
+}
+
+.custom_login .title {
+    color: #000;
+    background-color: [expr]@COLOR('background3')[/expr];
+    padding: 20px;
+    width: 410px;
+    height: 100px;
+    margin: -50 -50 30 -50;
+    text-align: center;
+}
+</style>
+<div class="custom_login" onkeyup="alert('Pththththththt');">
+  <div class="title">
+    <h1>2GSTRAT2G</h1>
+    <h2>[expr]@GET(project.title)[/expr]</h2>
+  </div>
+  <form>
+Name:
+    <element name="login"><display class="tactic.ui.input.TextInputWdg"/></element>
+
+<br/>
+
+
+Password:
+    <div><element name="password"><display class="tactic.ui.input.PasswordInputWdg"/></element></div>
+
+<br/>
+
+
+<div style="float: right" class="custom_button" onclick="document.form.submit()"><input type="button" value="Enter >>"/></div>
+
+</form>
+</div>
+</html>
+</client_view_custom_login_conf>
+</config>

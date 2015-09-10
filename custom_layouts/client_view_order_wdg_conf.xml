@@ -1,0 +1,510 @@
+<config>
+<client_view_order_wdg_conf>
+<html>
+<style type="text/css">
+.client_view_order_wdg .block{
+    border-radius: 10px;
+    margin-bottom: 10px;
+    //width: 100%;
+
+}
+
+
+.client_view_order_wdg .order_block{
+    width: 1230px;
+background: #cbe4ed;
+background: -moz-linear-gradient(top,  #cbe4ed 0%, #7ac5ff 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#cbe4ed), color-stop(100%,#7ac5ff));
+background: -webkit-linear-gradient(top,  #cbe4ed 0%,#7ac5ff 100%);
+background: -o-linear-gradient(top,  #cbe4ed 0%,#7ac5ff 100%);
+background: -ms-linear-gradient(top,  #cbe4ed 0%,#7ac5ff 100%);
+background: linear-gradient(to bottom,  #cbe4ed 0%,#7ac5ff 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cbe4ed', endColorstr='#7ac5ff',GradientType=0 );
+
+}
+
+.client_view_order_wdg .title_block{
+    width: 1180px;
+    margin-left: 50px;
+
+background: #c0edad;
+background: -moz-linear-gradient(top,  #c0edad 0%, #a6ed80 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#c0edad), color-stop(100%,#a6ed80));
+background: -webkit-linear-gradient(top,  #c0edad 0%,#a6ed80 100%);
+background: -o-linear-gradient(top,  #c0edad 0%,#a6ed80 100%);
+background: -ms-linear-gradient(top,  #c0edad 0%,#a6ed80 100%);
+background: linear-gradient(to bottom,  #c0edad 0%,#a6ed80 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c0edad', endColorstr='#a6ed80',GradientType=0 );
+
+
+}
+
+.client_view_order_wdg .block h2{
+   margin: 0px;
+   padding: 0px;
+
+}
+
+
+.client_view_order_wdg .block td.block_inner {
+    vertical-align: top;
+    padding: 10px;
+
+}
+
+.client_view_order_wdg .button {
+
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;    
+    margin-bottom: 5px;
+    //padding: 2px;
+    border-radius: 3px;    
+    border: 1px solid #fff;
+    background: [expr]@GRADIENT('background', -10)[/expr];
+}
+
+
+.client_view_order_wdg .title_img {
+
+    width: 150px;
+    height: 80px;
+    //margin: 10px;
+
+
+    background: #000;
+    opacity: 0.25;
+}
+
+.client_view_order_wdg .order_img {
+
+    width: 88px;
+    height: 130px;
+    //margin: 10px;
+
+
+    background: #000;
+}
+
+
+.client_view_order_wdg .spt_discussion_top {
+    position: absolute;
+    width: 330px;
+    border: 2px solid #fff;
+    background: #fff;
+}
+</style>
+<div class="client_view_order_wdg" style="min-height: 500px;">
+  <div>
+<![CDATA[
+<%
+
+def trim_text(text, length):
+    
+    if len(text) > length: 
+        text = '''<div title="%s">%s</div>''' %(text, text[0:length]+"...")
+    else:
+        text = '''<div title="%s">%s</div>''' %(text, text)
+    return text
+
+def fix_date(date):
+    #This is needed due to the way Tactic deals with dates (using timezone info), post v4.0
+    from pyasm.common import SPTDate
+    return_date = ''
+    date_obj = SPTDate.convert_to_local(date)
+    if date_obj not in [None,'']:
+        return_date = date_obj.strftime("%Y-%m-%d  %H:%M")
+    return return_date
+
+def get_platform_img(platform_str):
+    from pyasm.search import Search
+    img_path = ''
+    platform_search = Search("twog/platform")
+    platform_search.add_filter('name',platform_str)
+    platform = platform_search.get_sobject()
+    snaps = []
+    if platform:
+        platform_id = platform.get_id()
+        snaps_s = Search("sthpw/snapshot")
+        snaps_s.add_filter('search_id',platform_id)
+        snaps_s.add_filter('search_type','twog/platform?project=twog')
+        snaps_s.add_filter('is_current','1')
+        snaps_s.add_filter('version','0',op='>')
+        snaps_s.add_where("\"context\" in ('publish','icon','MISC')")
+        snaps_s.add_order_by('timestamp desc')
+        snaps = snaps_s.get_sobjects()
+    if len(snaps) > 0:
+        from tactic_client_lib import TacticServerStub
+        server = TacticServerStub.get()
+        snap = snaps[0]
+        img_path = server.get_path_from_snapshot(snap.get_code(), mode="web")
+        if img_path not in [None,'']:
+            img_path = 'http://tactic.2gdigital.com%s' % img_path
+    return img_path
+
+
+
+
+#from operator import itemgetter
+#sobjects2 = sorted(sobjects, key=itemgetter('timestamp'), reverse=True)
+from pyasm.common import Environment
+beginning = 0
+ending = 10
+chunk_var = 10
+if 'chunk_var' in kwargs.keys():
+    chunk_var = int(kwargs.get('chunk_var'))
+    ending = chunk_var
+ten_chunk = 'NOTHING'
+if 'element_names' in kwargs.keys():
+    ten_chunk = kwargs.get('element_names')
+sob_len = len(sobjects)
+client_preview_path = "/context/images/2GLogoTactic.jpg"
+client_code = None
+client_expr = "@SOBJECT(twog/person.twog/client)"
+client = server.eval(client_expr, login_sk, single=True)
+client_code = client.get('code')
+#snapshot = server.get_snapshot(client, context='icon')
+#snapshot_code = snapshot.get("code")
+#if snapshot_code not in [None,'']:
+#    client_preview_path = server.get_path_from_snapshot(snapshot_code, mode="web")     
+snap_expr = "@SOBJECT(sthpw/snapshot['search_id','%s']['search_type','twog/client?project=twog']['context','in','publish|icon|MISC']['is_current','1']['version','>','0'])" % client.get('id')
+snapshot = server.eval(snap_expr)
+if snapshot:
+    snapshot = snapshot[0]
+    client_preview_path = server.get_path_from_snapshot(snapshot.get('code'), mode="web")
+if ten_chunk == 'last':
+    ending = sob_len
+    beginning = ending - chunk_var
+elif type(ten_chunk) is list:
+    beginning = 0
+    ending = chunk_var
+elif ten_chunk not in  ['NOTHING','NADA']:
+    beginning = int(ten_chunk)
+    ending = beginning + chunk_var
+if beginning < 0:
+    beginning = 0
+    ending = chunk_var
+last_ten = beginning - chunk_var
+next_ten = ending
+shown_beginning = beginning + 1
+shown_ending = ending
+end_disabled = ''
+begin_disabled = ''
+if ending >= sob_len:
+    shown_ending = sob_len
+    end_disabled = 'disabled'
+if beginning == 0:
+    begin_disabled = 'disabled'
+total_len = sob_len
+if total_len == 1000:
+    total_len = '1000+'
+buttun = '<div><table><tr><td><input type="button" value="Prev %s" class="clicker" chunk_var="%s" next_begin="%s" %s/></td><td style="width: 10%%;"> </td><td align="left" nowrap="nowrap">Load # Per Page:</td><td align="left"><input type="text" value="%s" class="chunk_changer" next_begin="%s" size="4"/></td><td width="80%%" align="center">< Total: %s Listing: %s - %s ></td><td align="right"><input type="button" value="Next %s" class="clicker" chunk_var="%s" next_begin="%s" %s/></td></tr><tr><td><br/></td></tr></table></div>' % (chunk_var, chunk_var, last_ten, begin_disabled, chunk_var, last_ten, total_len, shown_beginning, shown_ending, chunk_var, chunk_var, next_ten, end_disabled)
+butt = False
+sob_count = 0
+for so in sobjects:
+    order_code = so.get('code')
+    if sob_count < ending and sob_count >= beginning:
+    
+        order_sk = so.get("__search_key__")
+        platform = so.get('platform')
+        order_platform = ''
+        if platform not in [None,'']:
+            #order_platform = 'Platform: %s' % platform
+            order_platform = platform
+        platform_img = ''
+        if platform not in [None,'']:
+            platform_img = get_platform_img(platform)
+            if platform_img not in [None,'']:
+                platform_img = '<img src="%s" alt="%s" title="%s" style="max-height: 32px; height: 32px; width: 32px"/>' % (platform_img, platform, platform)
+            else:
+                platform_img = '' 
+        if platform_img != '':
+            order_platform = platform_img
+        # Get Data from the order
+        name = so.get("name")
+        untrimmed_name = name
+        name = trim_text(name, 32)
+        po_number = so.get("po_number")
+        login = so.get("login")
+        scheduler_name = login
+        if scheduler_name not in [None,'']:
+            scheduler_name_s = login.split('.')
+            if len(scheduler_name_s) == 1:
+                scheduler_name = '%s%s' % (scheduler_name_s[0][0].upper(), scheduler_name_s[0][1:])
+            elif len(scheduler_name_s) > 1:
+                scheduler_name_s[1] = '%s%s' % (scheduler_name_s[1][0].upper(), scheduler_name_s[1][1:])
+		scheduler_name = '%s%s %s' % (scheduler_name_s[0][0].upper(), scheduler_name_s[0][1:], scheduler_name_s[1]) 
+        # Get the description and shorten if too long
+        description = so.get("description")
+        description = trim_text(description, 55)
+        due_date = fix_date(so.get("due_date")).split(" ")[0]
+    
+        wo_count = so.get('wo_count')
+        wo_completed = so.get('wo_completed')
+
+#        completion = 0
+#        if wo_count > 0:
+#            completion = float(float(wo_completed)/float(wo_count)) * 100
+#        else:
+#            completion = 100
+#        completion_div = '''
+#            <div style="width: 100px; background: #fff; float:left">
+#              <div style="width:%s%%;height: 20px; background: #5cd444"> </div>
+#            </div>
+#            <div style="float:left;">%0.1f%%</div>
+#        ''' %(completion, completion)
+        
+        preview_path = client_preview_path 
+        #if so.get('icon_path') not in [None,'']:
+        #    preview_path = so.get('icon_path')
+        #else:
+        #MTM used to be indented to...
+        snapshot = server.eval("@SOBJECT(sthpw/snapshot['search_id','%s']['search_type','twog/order?project=twog']['context','in','publish|icon']['is_current','1']['version','>','0'])" % so.get('id'))
+        if snapshot:
+            snapshot = snapshot[0]
+            preview_path = server.get_path_from_snapshot(snapshot.get('code'), mode="web")
+            server.update(order_sk, {'icon_path': preview_path})
+        #files = server.eval("@SOBJECT(sthpw/file['snapshot_code','%s'])" % snapshot[0].get('code'))
+        #for file in files:
+        #    if file.get('type') == 'web':
+        #        preview_path = 'http://tactic.2gdigital.com/assets/%s/%s' % (file.get('relative_dir'), file.get('file_name'))
+        preview_path = 'http://tactic.2gdigital.com%s' % preview_path
+        #preview_path = preview_path.replace('.jpg','.png')
+        #MTM here
+        includer = ''
+        if not butt:
+            butt = True
+            includer = '<div><table width="100%%"><tr><td width="100%%">%s</td></tr></table></div>' % buttun
+        ttogg = '<div class="title_toggler" search_key="%s" style="cursor: pointer;"><u>Expand for Breakdown</u></div>' % order_sk
+        if wo_count < 1:
+            ttogg = ''
+	comp_date = ''
+	if so.get('completion_date') not in [None,''] and so.get('classification') == 'Completed':
+            comp_date = '<tr><td nowrap="nowrap"><div nowrap="nowrap">Completion Date: %s</div></td></tr>' % fix_date(so.get('completion_date')).split(' ')[0]
+
+        html = '''
+        %s 
+        <div class="block order_block">
+        <table "counter=%s" id="order_%s">
+        <tr>
+          <td width="20px" class="block_inner">
+            <div class="button po_edit" search_key="%s"><img src="/context/icons/silk/vcard_edit.png" alt="Edit Order" title="Edit Order" style="cursor: pointer;"/></div>
+            <!----<div class="button upload_files_button" search_key="%s" form_title="%s" style="cursor: pointer;"><img src="/context/icons/custom/checkout_3d_lg.png" width="16px" alt="Upload Files" title="Upload Files"/></div>---->
+          </td>
+          <td class="block_inner" align="left">
+            <img src="%s" id="icon_%s" align="center" style="max-height: 130px; height: 100%%; width: 88px;"/>
+          </td>
+          <td width="35%s" class="block_inner">
+            <div><h2>%s</h2></div>
+            <div><b>PO: %s</b></div>
+            <div>%s</div>
+            <div>Platform: %s</div>
+            %s
+          </td>
+          <td width="333px" class="block_inner">    
+            <element name="notes" width="333">
+              <display class="tactic.ui.widget.DiscussionWdg">
+                <search_key>%s</search_key>
+                <process>client</process>
+                <context>client</context>
+                <note_expandable>false</note_expandable>
+                <show_context_notes>false</show_context_notes>
+              </display>
+            </element>
+          </td>
+          <td width="150px" class="block_inner">
+            <table>
+              <tr><td><div><b>Due: %s</b></div></td></tr>
+              <tr><td nowrap="nowrap"><div>Scheduler: %s</div></td></tr>
+              <tr><td><div nowrap="nowrap">Status: %s<br/>Completed: (%s/%s)</div></td></tr>
+	      %s
+            </table>
+          </td>
+        </tr>
+        </table>
+        </div>
+        ''' %(includer, sob_count, order_sk, order_sk, order_sk, untrimmed_name, preview_path, order_sk, '%', name, po_number, description, order_platform, ttogg, order_sk, due_date, scheduler_name, so.get('classification'), so.get('titles_completed'), so.get('titles_total'), comp_date)
+        #html = html.encode('utf-8') + titles_html.encode('utf-8')
+        html = html + '<div id="titles_for_%s"></div>' % order_code #titles_html
+        context.write(html)
+    sob_count = sob_count + 1
+
+
+
+
+
+%>]]>
+
+  </div>
+</div>
+</html>
+<behavior class="po_edit"><![CDATA[
+{ "type": "click_up", 
+"cbjs_action": '''
+spt.app_busy.show('Loading Order Editor...');
+var search_key = bvr.src_el.getAttribute("search_key")
+//alert(search_key)
+var class_name = "tactic.ui.panel.CustomLayoutWdg";
+var kwargs = {
+  'view': 'client_view_order_form_wdg',
+  'mode': 'edit',
+  'search_key': search_key,
+  'include_mako': 'true'
+}
+spt.panel.load_popup("Edit Order", class_name, kwargs)
+spt.app_busy.hide();
+
+'''}
+]]></behavior>
+
+
+<behavior class="upload_files_button"><![CDATA[
+{ "type": "click_up", 
+"cbjs_action": '''
+
+spt.app_busy.show('Loading Uploader...');
+var server = TacticServerStub.get();
+var search_key = bvr.src_el.getAttribute("search_key")
+var form_title = bvr.src_el.getAttribute("form_title")
+form_type = 'Order';
+ft1_title = 'Purchase Order Files';
+ft1_process = 'PO';
+ft1_process_title = 'PO';
+ft1_union = "@SOBJECT(sthpw/note.sthpw/snapshot['context','~','PO'])"
+ft2_union = "@SOBJECT(twog/title.sthpw/snapshot['process','not in','PO|publish']),@SOBJECT(sthpw/note.sthpw/snapshot['context','not in','PO|publish'])";
+kwargs = {'search_key': search_key, 'view': 'client_view_files_wdg', 'ft1_process': ft1_process, 'ft1_union': ft1_union, 'ft2_union': ft2_union, 'form_type': form_type, 'ft1_title': ft1_title, 'ft1_process_title': ft1_process_title, 'form_title': form_title};
+spt.panel.load_popup('Uploaded Files', 'tactic.ui.panel.CustomLayoutWdg', kwargs);
+
+spt.app_busy.hide();
+
+'''}
+]]></behavior>
+
+<behavior class="title_toggler"><![CDATA[
+{ "type": "click_up", 
+"cbjs_action": '''
+
+var search_key = bvr.src_el.getAttribute("search_key")
+var order_code = search_key.split('code=')[1];
+order_row = document.getElementById("order_" + search_key);
+var note_el = order_row.getElements(".spt_discussion_top")[0];
+order_zin = note_el.style.zIndex; 
+title_els = document.getElementsByClassName('title_under_' + search_key);
+spt.app_busy.show("Loading Titles...");
+disp = 'block';
+if(title_els.length > 0){
+    for(var r = 0; r < title_els.length; r++){
+        currently = title_els[r].style.display;
+        if(currently == 'block'){
+            disp = 'none';
+        }
+        title_els[r].style.display = disp;
+    }
+}else{
+    titles_el = document.getElementById("titles_for_" + order_code);
+    var class_name = "tactic.ui.panel.CustomLayoutWdg";
+    var kwargs = {
+         'view': 'client_view_titles_wdg',
+         'include_mako': 'true',
+         'order_code': order_code,
+         'order_zindex': order_zin,
+         'parent_sk': search_key
+    }
+    spt.api.load_panel(titles_el, class_name, kwargs);
+}
+spt.app_busy.hide();
+called_now = bvr.src_el.innerHTML;
+next_inner = '<u>Hide Breakdown</u>';
+if(called_now == next_inner){
+    next_inner = '<u>Expand for Breakdown</u>';
+}
+bvr.src_el.innerHTML = next_inner;
+
+'''}
+]]></behavior>
+
+<behavior class="clicker"><![CDATA[
+{ "type": "click_up", 
+"cbjs_action": '''
+    var next_begin = bvr.src_el.getAttribute("next_begin");
+    var chunk_var = Number(bvr.src_el.getAttribute("chunk_var"));
+    spt.app_busy.show("Loading...", "Orders List");
+    var page_el = document.getElement(".client_view_top")
+    var content_el = page_el.getElement(".client_view_content")
+    var class_name = "tactic.ui.panel.CustomLayoutWdg"
+    var kwargs = {
+        'view': 'client_view_home_wdg',
+        'include_mako': 'true',
+        'ten_chunk': next_begin,
+        'chunk_var': chunk_var,
+        'order_by': 'due_date desc',
+        'show_search_limit': false,
+        'search_limit': 1000
+    }
+    spt.panel.load(content_el, class_name, kwargs)
+    spt.app_busy.hide();
+'''}
+]]></behavior>
+
+<behavior class="chunk_changer"><![CDATA[
+{ "type": "change", 
+"cbjs_action": '''
+    var next_begin = bvr.src_el.getAttribute("next_begin");
+    var chunk_var_val = bvr.src_el.value;
+    var chunk_var = 0;
+    if(!(isNaN(chunk_var_val))){
+        chunk_var = Number(chunk_var_val);
+    }
+    if(chunk_var > 0){
+        spt.app_busy.show("Loading...", "Orders List");
+        var page_el = document.getElement(".client_view_top")
+        var content_el = page_el.getElement(".client_view_content")
+        var class_name = "tactic.ui.panel.CustomLayoutWdg"
+        var kwargs = {
+            'view': 'client_view_home_wdg',
+            'include_mako': 'true',
+            'ten_chunk': next_begin,
+            'chunk_var': chunk_var,
+            'order_by': 'due_date desc',
+            'show_search_limit': false,
+            'search_limit': 1000
+        }
+        spt.panel.load(content_el, class_name, kwargs)
+    }else{
+        bvr.src_el.value = '10';
+    }
+    spt.app_busy.hide();
+'''}
+]]></behavior>
+
+<behavior class="do_fings_buttun"><![CDATA[
+{ "type": "click_up", 
+"cbjs_action": '''
+
+var lines_to_export = bvr.src_el.getAttribute("lines_to_export");
+kwargs = {'order_codes': lines_to_export};
+spt.panel.load_popup('Generate CSV', 'client_view.ClientCSVExportWdg', kwargs);
+
+'''}
+]]></behavior>
+
+
+<behavior class="client_view_order_wdg"><![CDATA[
+{ "type": "load", 
+"cbjs_action": '''
+
+// This is a fix for a z-index layering issue in the notes widget
+var note_els = bvr.src_el.getElements(".spt_discussion_top")
+for (i=0; i<note_els.length; i++) {
+    note_els[i].style.zIndex = note_els.length*20 - i*20;
+}
+
+
+'''}
+]]></behavior>
+</client_view_order_wdg_conf>
+</config>
+
+
+

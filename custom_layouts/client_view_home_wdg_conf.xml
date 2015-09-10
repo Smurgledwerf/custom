@@ -1,0 +1,51 @@
+<config>
+<client_view_home_wdg_conf>
+<html>
+<style type="text/css">
+.client_view_home_wdg .spt_simple_search table {
+    margin:auto;
+}
+</style>
+<div class="client_view_home_wdg">
+<div>
+<![CDATA[
+<%
+    ten_chunk = 'NADA'
+    if 'ten_chunk' in kwargs.keys():
+        ten_chunk = kwargs.get('ten_chunk')
+    chunk_var = 10
+    if 'chunk_var' in kwargs.keys():
+        chunk_var = int(kwargs.get('chunk_var'))
+%>]]>
+</div>
+  <element name="orders" title="Orders" width="100%">
+    <display class="tactic.ui.panel.ViewPanelWdg">
+      <search_type>twog/order</search_type>
+      <view>client_view_order_wdg</view>
+      <element_names>${ten_chunk}</element_names>
+      <chunk_var>${chunk_var}</chunk_var>
+      <layout>custom</layout>
+      <do_search>true</do_search>
+      <order_by>due_date desc</order_by>
+      <search_limit>1000</search_limit>
+      <show_search_limit>false</show_search_limit>
+      <simple_search_view>simple_client_order_filter</simple_search_view>
+      <show_export_button>false</show_export_button>
+      <show_select>false</show_select>
+      <show_shelf>true</show_shelf>
+      <show_layout_switcher>false</show_layout_switcher>
+      <show_gear>false</show_gear>
+      <show_column_manager>false</show_column_manager>
+      <show_insert>false</show_insert>
+      <show_search>false</show_search>
+      <filter>{"prefix":"main_body","main_body_enabled":"","main_body_column":"name","main_body_relation":"is not","main_body_value":""}
+      </filter>
+    </display>
+  </element>
+</div>
+</html>
+</client_view_home_wdg_conf>
+</config>
+
+
+
