@@ -44,3 +44,13 @@ def replace_multiple(string, rep_dict):
     import re
     pattern = re.compile("|".join([re.escape(k) for k in rep_dict.keys()]), re.M)
     return pattern.sub(lambda x: rep_dict[x.group(0)], string)
+
+
+def fix_date(date):
+    # This is needed due to the way Tactic deals with dates (using timezone info), post v4.0
+    from pyasm.common import SPTDate
+    return_date = ''
+    date_obj = SPTDate.convert_to_local(date)
+    if date_obj not in [None, '']:
+        return_date = date_obj.strftime("%Y-%m-%d  %H:%M")
+    return return_date

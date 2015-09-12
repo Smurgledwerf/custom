@@ -40,12 +40,16 @@ def main(server=None, event_data=None):
         assigned_group = work_order.get('work_group')
         if assigned_group and get_notification_setting(assigned_group, server):
             from formatted_emailer import EmailDirections, email_sender
+            import common_tools.utils as ctu
             order_code = work_order.get('order_code')
             ed = EmailDirections(order_code=order_code)
             internal_data = ed.get_internal_data()
             title = server.query('twog/title', filters=[('code', work_order.get('title_code'))])
             title = title[0] if title else {}
 
+            # to_email should be the department distribution group
+            # TODO: get the actual department distribution email address
+            internal_data['to_email'] = '{0}@2gdigital.com'.format(assigned_group)
             subject = 'Work Order "{0}" assigned to "{1}"'.format(work_order.get('process'), assigned_group)
             message = work_order.get('instructions')
             internal_data['subject'] = subject
@@ -54,6 +58,8 @@ def main(server=None, event_data=None):
             internal_data['work_order_name'] = work_order.get('process')
             internal_data['title_code'] = title.get('code')
             internal_data['title_name'] = title.get('title')
+            internal_data['start_date'] = ctu.fix_date(internal_data.get('start_date'))
+            internal_data['due_date'] = ctu.fix_date(internal_data.get('due_date'))
 
             email_template = '/opt/spt/custom/formatted_emailer/work_order_email_template.html'
             email_file_name = 'work_order_inserted/work_order_{0}.html'.format(work_order.get('code'))

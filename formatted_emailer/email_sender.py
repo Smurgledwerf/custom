@@ -15,12 +15,51 @@ TAB = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
 NEWLINE = '<br/>'
 
 
-class SafeDict(dict):
+class SafeFormatter(string.Formatter):
     """
-    A class used for safely formatting with missing kwargs.
+    A formatter class that skips missing or invalid kwargs.
     """
-    def __missing__(self, key):
-        return '{' + key + '}'
+    def _vformat(self, format_string, args, kwargs, used_args, recursion_depth):
+        if recursion_depth < 0:
+            raise ValueError('Max string recursion exceeded')
+        result = []
+        for literal_text, field_name, format_spec, conversion in \
+                self.parse(format_string):
+
+            # output the literal text
+            if literal_text:
+                result.append(literal_text)
+
+            # if there's a field, output it
+            if field_name is not None:
+                # this is some markup, find the object and do
+                #  the formatting
+
+                # given the field_name, find the object it references
+                #  and the argument it came from
+                try:
+                    obj, arg_used = self.get_field(field_name, args, kwargs)
+                except KeyError:
+                    arg_used = field_name
+                    obj = '{' + field_name + '}'
+                used_args.add(arg_used)
+
+                # do any conversion on the resulting object
+                obj = self.convert_field(obj, conversion)
+
+                # expand the format spec, if needed
+                format_spec = self._vformat(format_spec, args, kwargs,
+                                            used_args, recursion_depth-1)
+
+                # format the object and append to the result
+                try:
+                    formatted = self.format_field(obj, format_spec)
+                except ValueError:
+                    spec = ':' + format_spec if format_spec else ''
+                    formatted = '{' + field_name + spec + '}'
+                result.append(formatted)
+
+        return ''.join(result)
 
 
 def safe_format_string(format_string, keyword_dict):
@@ -36,7 +75,7 @@ def safe_format_string(format_string, keyword_dict):
     :param keyword_dict: a dictionary to format the string with
     :return: a safely formatted string
     """
-    return string.Formatter().vformat(format_string, (), SafeDict(keyword_dict))
+    return SafeFormatter().format(format_string, **keyword_dict)
 
 
 def fix_message_characters(message):
@@ -112,6 +151,7 @@ def send_email(template=DEFAULT_TEMPLATE, email_data=None, email_file_name='temp
         raise Exception('Email template not found: {0}'.format(template))
 
     # fill in default email data, fix message characters
+    # TODO: figure out what the default email address should be
     email_data['to_email'] = email_data.get('to_email', 'tactic@2gdigital.com')
     email_data['from_email'] = email_data.get('from_email', 'tactic@2gdigital.com')
     default_name = email_data['from_email'].split('@')[0].replace('.', ' ').title()
@@ -128,4 +168,4 @@ def send_email(template=DEFAULT_TEMPLATE, email_data=None, email_file_name='temp
             email_data['from_name'], email_data['subject'], email_data.get('ccs', '').replace(';', '#Xs*')]
     command = "php {0} '''{1}''' '''{2}''' '''{3}''' '''{4}''' '''{5}''' '''{6}'''".format(*args)
     print command
-    # os.system(command)
+    os.system(command)
