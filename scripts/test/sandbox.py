@@ -9,18 +9,25 @@ __date__ = '04/08/2015'
 import traceback
 
 
-def main(server=None, input=None):
+def main(server=None, event_data=None):
     """
-    The main function of the custom script. The entire script was copied
-    and pasted into the body of the try statement in order to add some
-    error handling. It's all legacy code, so edit with caution.
+    The main function of the custom script.
 
     :param server: the TacticServerStub object
-    :param input: a dict with data like like search_key, search_type, sobject, and update_data
+    :param event_data: a dict with data for the event containing:
+    'is_insert': True or False
+    'mode': 'insert', 'update', 'retire'
+    'prev_data': dict of column: values before the update
+    'update_data': dict of column: values that were updated
+    'search_type': search type of triggering sobject
+    'search_code': code of the sobject
+    'search_key': search key of the sobject
+    'sobject': the triggering sobject
+    'trigger_sobject': the config/trigger sobject itself
     :return: None
     """
-    if not input:
-        input = {}
+    if not event_data:
+        event_data = {}
 
     try:
         # CUSTOM_SCRIPT00108

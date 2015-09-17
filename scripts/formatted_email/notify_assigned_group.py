@@ -23,6 +23,26 @@ def get_notification_setting(login_group, server):
     return False
 
 
+def get_update_message(prev_data, update_data):
+    """Get the formatted message body with the updates.
+
+    :param prev_data: dict of the previous data
+    :param update_data: dict of the updated data
+    :return: a string
+    """
+    update_line = '<tr><td><b>{0}&nbsp;-&nbsp;</b></td><td>From:&nbsp;<i>{1}</i>&nbsp;</td><td>To:&nbsp;<i>{2}</i></td></tr>'
+    updates = []
+    for column in update_data:
+        column_name = column.replace('_', ' ').title()
+        old_value = prev_data.get(column, 'None')
+        new_value = update_data.get(column)
+        updates.append(update_line.format(column_name, old_value, new_value))
+
+    message = '<table>' + ''.join(updates) + '</table>'
+
+    return message
+
+
 def main(server=None, event_data=None):
     """
     The main function of the custom script.
@@ -41,8 +61,7 @@ def main(server=None, event_data=None):
         if assigned_group and get_notification_setting(assigned_group, server):
             from formatted_emailer import EmailDirections, email_sender
             import common_tools.utils as ctu
-            order_code = work_order.get('order_code')
-            ed = EmailDirections(order_code=order_code)
+            ed = EmailDirections(order_code=work_order.get('order_code'))
             internal_data = ed.get_internal_data()
             title = server.query('twog/title', filters=[('code', work_order.get('title_code'))])
             title = title[0] if title else {}
@@ -50,8 +69,15 @@ def main(server=None, event_data=None):
             # to_email should be the department distribution group
             # TODO: get the actual department distribution email address
             internal_data['to_email'] = '{0}@2gdigital.com'.format(assigned_group)
-            subject = 'Work Order "{0}" assigned to "{1}"'.format(work_order.get('process'), assigned_group)
-            message = work_order.get('instructions')
+            if event_data.get('mode') == 'insert':
+                subject = 'Work Order "{0}" assigned to "{1}"'.format(work_order.get('process'), assigned_group)
+                message = work_order.get('instructions')
+                internal_data['message_type'] = 'INSTRUCTIONS:'
+            else:
+                subject = 'Work Order "{0}" has been updated'.format(work_order.get('process'))
+                message = get_update_message(event_data.get('prev_data'), event_data.get('update_data'))
+                internal_data['message_type'] = 'UPDATES:'
+
             internal_data['subject'] = subject
             internal_data['message'] = message
             internal_data['work_order_code'] = work_order.get('code')
