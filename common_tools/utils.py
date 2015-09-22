@@ -54,3 +54,17 @@ def fix_date(date):
     if date_obj not in [None, '']:
         return_date = date_obj.strftime("%Y-%m-%d  %H:%M")
     return return_date
+
+
+def get_sobject_type(search_key):
+    """Get the sobject type from the search key or search_type.
+    This essentially strips the project and code, returning only
+    the sobject's type, like 'order', 'title', 'proj', 'work_order'
+
+    Ex. 'twog/order?project=twog&code=ORDER19297' will return 'order'
+
+    :param search_key: an sobject search key
+    :return: the sobject type as a string
+    """
+    sobject_type = search_key.split('?')[0].split('/')[1]
+    return sobject_type
