@@ -2133,6 +2133,7 @@ class ElementEvalLinesWdg(BaseTableElementWdg):
         import time, datetime
         from tactic_client_lib import TacticServerStub
         from pyasm.common import Environment
+        from pyasm.prod.biz import ProdSetting
         login = Environment.get_login()
         this_user = login.get_login()
         code = ''
@@ -2174,7 +2175,12 @@ class ElementEvalLinesWdg(BaseTableElementWdg):
             linestbl.add_cell("&nbsp;F")
             linestbl.add_cell("Description")
             linestbl.add_cell("In Safe")
-            linestbl.add_cell("Duration")
+            time_out_label = "Timecode Out"
+            # Some clients want "Duration" instead
+            duration_clients = ProdSetting.get_seq_by_key('qc_report_duration_clients')
+            if my.kwargs.get('client_code') in duration_clients:
+                time_out_label = "Duration"
+            linestbl.add_cell(time_out_label)
             linestbl.add_cell("&nbsp;F")
             linestbl.add_cell("Code")
             linestbl.add_cell("Scale")
@@ -2994,6 +3000,8 @@ class ElementEvalWdg(BaseTableElementWdg):
         rtbl.add_row()
         rtbl.add_cell('&nbsp;&nbsp;&nbsp;&nbsp;')
         client_name = my.element.get('client_name').upper()
+        if not client_name:
+            client_name = "ELEMENT EVALUATION"
         big = rtbl.add_cell("<b>{0}</b>".format(client_name))
         big.add_attr('nowrap','nowrap')
         big.add_attr('align','center')
@@ -3345,7 +3353,8 @@ class ElementEvalWdg(BaseTableElementWdg):
         k3.add_style('cursor: pointer;')
         k3.add_behavior(my.launch_tc_shifter(code, my.element.get('code')))
 
-        linestbl = ElementEvalLinesWdg(code=my.element.get('code'),wo_code=code)
+        linestbl = ElementEvalLinesWdg(code=my.element.get('code'), wo_code=code,
+                                       client_code=my.element.get('client_code'))
         audtbl = ElementEvalAudioWdg(code=my.element.get('code'),wo_code=code,channels=channels) 
 
         fulllines = Table()
