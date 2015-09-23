@@ -15,7 +15,9 @@ from tactic.ui.widget.button_new_wdg import ButtonSmallNewWdg, ButtonRowWdg
 from work_order_printer import WorkOrderPrintLauncherWdg
 from order_checker import OrderCheckerLauncherWdg
 from nighttime_hotlist.nighttime_hotlist import IndieBigBoardSelectWdg, BigBoardSelectWdg, BigBoardSingleWOSelectWdg
-from alternative_elements.customcheckbox import * 
+from alternative_elements.customcheckbox import *
+
+from common_tools.full_instructions import FullInstructionsLauncherWdg
 
 class OrderBuilderLauncherWdg(BaseTableElementWdg):
     #This is the button that launches the TitleSelectorWdg
@@ -2510,6 +2512,10 @@ class OrderTable(BaseRefreshWdg):
         order_sales_cell.add_attr('nowrap','nowrap')
         bottom_buttons = Table()
         bottom_buttons.add_row()
+
+        instructions_button = FullInstructionsLauncherWdg(title='View Instructions', search_key=my.sk)
+        instructions_cell = bottom_buttons.add_cell(instructions_button)
+        instructions_cell.add_attr('align', 'right')
 
         if user_is_scheduler:
             tcloner = ButtonSmallNewWdg(title="Title Cloner", icon=IconWdg.STAR)
