@@ -27,6 +27,7 @@ class ButtonSmallNewWdg(ButtonNewWdg):
 
     def init(self):
         """
+        The special tactic init function.
 
         :return: None
         """
@@ -35,25 +36,21 @@ class ButtonSmallNewWdg(ButtonNewWdg):
         self.hit_wdg = DivWdg()
         self.arrow_div = DivWdg()
         self.arrow_menu = IconButtonWdg(title="More Options", icon=IconWdg.ARROWHEAD_DARK_DOWN)
-
         self.show_arrow_menu = False
         # for icon decoration
         self.icon_div = DivWdg()
-
         self.is_disabled = self.kwargs.get("is_disabled") in [True, "true"]
 
     def get_display(self):
         """
+        Handles how the widget will be displayed.
 
-        :return:
+        :return: a button widget
         """
         top = self.top
         top.add_style("white-space: nowrap")
 
-        base = "%s/%s" % (BASE, self.top.get_theme() )
-
-        show_menu = self.kwargs.get("show_menu")
-        is_disabled = self.kwargs.get("is_disabled")
+        base = "{0}/{1}".format(BASE, self.top.get_theme())
 
         button = DivWdg()
         button.add_style("float: left")
@@ -73,7 +70,7 @@ class ButtonSmallNewWdg(ButtonNewWdg):
         over_div = DivWdg()
         button.add(over_div)
         over_div.add_class("spt_button_over")
-        over_img = "<img src='%s/SmallButton_over.png'/>" % base
+        over_img = "<img src='{0}/SmallButton_over.png'/>".format(base)
         over_div.add(over_img)
         over_div.add_style("position: absolute")
         over_div.add_style("top: -7px")
@@ -81,10 +78,9 @@ class ButtonSmallNewWdg(ButtonNewWdg):
         over_div.add_style("display: none")
 
         click_div = DivWdg()
-
         button.add(click_div)
         click_div.add_class("spt_button_click")
-        click_img = "<img src='%s/SmallButton_click.png'/>" % base
+        click_img = "<img src='{0}/SmallButton_click.png'/>".format(base)
         click_div.add(click_img)
         click_div.add_style("position: absolute")
         click_div.add_style("top: -7px")
@@ -92,7 +88,6 @@ class ButtonSmallNewWdg(ButtonNewWdg):
         click_div.add_style("display: none")
 
         title = self.kwargs.get("title")
-
         tip = self.kwargs.get("tip")
         if not tip:
             tip = title
@@ -124,10 +119,10 @@ class ButtonSmallNewWdg(ButtonNewWdg):
             arrow_div.add(arrow)
 
         web = WebContainer.get_web()
-        is_IE = web.is_IE()
+        is_ie = web.is_IE()
 
         self.hit_wdg.add_style("width: 100%")
-        if is_IE:
+        if is_ie:
             self.hit_wdg.add_style("filter: alpha(opacity=0)")
             self.hit_wdg.add_style("height: 40px")
         else:
@@ -143,44 +138,44 @@ class ButtonSmallNewWdg(ButtonNewWdg):
         self.hit_wdg.add_style("top: 0px")
         self.hit_wdg.add_style("left: 0px")
         self.hit_wdg.add_attr("title", tip)
-        self.hit_wdg.add_behavior( {
-        'type': 'hover',
-        'cbjs_action_over': '''
-            var top = bvr.src_el.getParent(".spt_button_top")
-            var over = top.getElement(".spt_button_over");
-            var click = top.getElement(".spt_button_click");
-            over.setStyle("display", "");
-            click.setStyle("display", "none");
-        ''',
-        'cbjs_action_out': '''
-            var top = bvr.src_el.getParent(".spt_button_top")
-            var over = top.getElement(".spt_button_over");
-            var click = top.getElement(".spt_button_click");
-            over.setStyle("display", "none");
-            click.setStyle("display", "none");
-        '''
-        } )
+        self.hit_wdg.add_behavior({
+            'type': 'hover',
+            'cbjs_action_over': '''
+                var top = bvr.src_el.getParent(".spt_button_top")
+                var over = top.getElement(".spt_button_over");
+                var click = top.getElement(".spt_button_click");
+                over.setStyle("display", "");
+                click.setStyle("display", "none");
+            ''',
+            'cbjs_action_out': '''
+                var top = bvr.src_el.getParent(".spt_button_top")
+                var over = top.getElement(".spt_button_over");
+                var click = top.getElement(".spt_button_click");
+                over.setStyle("display", "none");
+                click.setStyle("display", "none");
+            '''
+            })
 
-        self.hit_wdg.add_behavior( {
-        'type': 'click',
-        'cbjs_action': '''
-            var top = bvr.src_el.getParent(".spt_button_top")
-            var over = top.getElement(".spt_button_over");
-            var click = top.getElement(".spt_button_click");
-            over.setStyle("display", "none");
-            click.setStyle("display", "");
-        '''
-        } )
-        self.hit_wdg.add_behavior( {
-        'type': 'click_up',
-        'cbjs_action': '''
-            var top = bvr.src_el.getParent(".spt_button_top")
-            var over = top.getElement(".spt_button_over");
-            var click = top.getElement(".spt_button_click");
-            over.setStyle("display", "");
-            click.setStyle("display", "none");
-        '''
-        } )
+        self.hit_wdg.add_behavior({
+            'type': 'click',
+            'cbjs_action': '''
+                var top = bvr.src_el.getParent(".spt_button_top")
+                var over = top.getElement(".spt_button_over");
+                var click = top.getElement(".spt_button_click");
+                over.setStyle("display", "none");
+                click.setStyle("display", "");
+            '''
+            })
+        self.hit_wdg.add_behavior({
+            'type': 'click_up',
+            'cbjs_action': '''
+                var top = bvr.src_el.getParent(".spt_button_top")
+                var over = top.getElement(".spt_button_over");
+                var click = top.getElement(".spt_button_click");
+                over.setStyle("display", "");
+                click.setStyle("display", "none");
+            '''
+            })
 
         # add a second arrow widget
         if self.show_arrow_menu:
@@ -194,19 +189,18 @@ class ButtonSmallNewWdg(ButtonNewWdg):
         if self.dialog:
             top.add(self.dialog)
             dialog_id = self.dialog.get_id()
-            self.hit_wdg.add_behavior( {
-            'type': 'click_up',
-            'dialog_id': dialog_id,
-            'cbjs_action': '''
-            var dialog = $(bvr.dialog_id);
-            var pos = bvr.src_el.getPosition();
-            var size = bvr.src_el.getSize();
-            //var dialog = $(bvr.dialog_id);
-            dialog.setStyle("left", pos.x);
-            dialog.setStyle("top", pos.y+size.y);
-            spt.toggle_show_hide(dialog);
-
-            '''
-            } )
+            self.hit_wdg.add_behavior({
+                'type': 'click_up',
+                'dialog_id': dialog_id,
+                'cbjs_action': '''
+                    var dialog = $(bvr.dialog_id);
+                    var pos = bvr.src_el.getPosition();
+                    var size = bvr.src_el.getSize();
+                    //var dialog = $(bvr.dialog_id);
+                    dialog.setStyle("left", pos.x);
+                    dialog.setStyle("top", pos.y+size.y);
+                    spt.toggle_show_hide(dialog);
+                '''
+                })
 
         return top
