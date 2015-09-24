@@ -12,11 +12,12 @@ __date__ = '21/09/2015'
 from tactic_client_lib import TacticServerStub
 from pyasm.web import Table, DivWdg
 from pyasm.widget import CheckboxWdg
-from tactic.ui.container.pop_window_wdg import ResizeScrollWdg
 from tactic.ui.common import BaseRefreshWdg, BaseTableElementWdg
-from tactic.ui.widget import ActionButtonWdg, ButtonNewWdg
+from tactic.ui.container.pop_window_wdg import ResizeScrollWdg
+from tactic.ui.widget import ActionButtonWdg
 
 import common_tools.utils as ctu
+from widget.button_small_new_wdg import ButtonSmallNewWdg
 
 
 class FullInstructionsLauncherWdg(BaseTableElementWdg):
@@ -92,8 +93,7 @@ class FullInstructionsLauncherWdg(BaseTableElementWdg):
 
         :return: a widget containing a launch button
         """
-        # TODO: use the ButtonSmallNewWdg after migrating it
-        button = ButtonNewWdg(title=self.kwargs.get('title'))
+        button = ButtonSmallNewWdg(title=self.kwargs.get('title'))
         button.set_option('icon', "DOCUMENTATION")
         order = self.get_this_order()
         button.add_behavior(self.get_launch_behavior(order))
