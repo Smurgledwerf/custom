@@ -646,7 +646,10 @@ class IncompleteWOWdgInnerds(BaseTableElementWdg):
         return behavior
 
     def get_display(my):
-        view_lookup = {'audio': 'audio', 'all_titles': '', 'title': '', 'compression': 'compression', 'edel': 'edeliveries', 'edit': 'edit', 'mr': 'machine room', 'media_vault': 'media_vault', 'media vault': 'media vault', 'qc': 'qc', 'sales': 'sales', 'vault': 'vault'}
+        view_lookup = {'audio': 'audio', 'all_titles': '', 'title': '', 'compression': 'compression',
+                       'edel': 'edeliveries', 'edit': 'edit', 'mr': 'machine room', 'media_vault': 'media_vault',
+                       'media vault': 'media vault', 'qc': 'qc', 'sales': 'sales', 'vault': 'vault',
+                       'localization': 'localization'}
         search_type = 'twog/order'
         parent_view = ''
         if 'parent_view' in my.kwargs.keys():
@@ -756,7 +759,8 @@ class IncompleteWOWdgInnerds(BaseTableElementWdg):
             else:
                 piped_groups_str = '%s|%s' % (piped_groups_str, additional_group)
                 groups_str = "%s,'%s'" % (groups_str, additional_group) 
-        groups_in_orda = ['qc','streamz','compression','audio','vault','media vault','media_vault','sales','edit','edeliveries','machine room','machine_room']
+        groups_in_orda = ['qc', 'streamz', 'compression', 'audio', 'vault', 'media vault', 'media_vault', 'sales',
+                          'edit', 'edeliveries', 'machine room', 'machine_room', 'localization']
         group_to_add = ''
         for gg in groups_in_orda:
             if gg in parent_view and gg not in groups_str and gg.replace('_',' ') not in groups_str:
