@@ -13,13 +13,13 @@ from tactic_client_lib import TacticServerStub
 from pyasm.web import Table, DivWdg
 from pyasm.widget import CheckboxWdg
 from tactic.ui.container.pop_window_wdg import ResizeScrollWdg
-from tactic.ui.common import BaseRefreshWdg
+from tactic.ui.common import BaseRefreshWdg, BaseTableElementWdg
 from tactic.ui.widget import ActionButtonWdg, ButtonNewWdg
 
 import common_tools.utils as ctu
 
 
-class FullInstructionsLauncherWdg(ButtonNewWdg):
+class FullInstructionsLauncherWdg(BaseTableElementWdg):
     """
     The button class that launches the popup window that shows the full instructions.
     """
@@ -45,9 +45,12 @@ class FullInstructionsLauncherWdg(ButtonNewWdg):
         search_key = self.kwargs.get('search_key')
         if search_key:
             sobject = self.server.get_by_search_key(search_key)
+            search_type = sobject.get('__search_type__')
         else:
+            # This should be when the sobject is grabbed from the table itself
             sobject = self.get_current_sobject()
-        sobject_type = ctu.get_sobject_type(sobject.get('__search_key__'))
+            search_type = sobject.get_search_type()
+        sobject_type = ctu.get_sobject_type(search_type)
         if sobject_type == 'order':
             return sobject
 
@@ -62,7 +65,11 @@ class FullInstructionsLauncherWdg(ButtonNewWdg):
         :param order: the order sobject to open
         :return: a behavior dict
         """
-        search_key = order.get('__search_key__')
+        if isinstance(order, dict):
+            search_key = order.get('__search_key__')
+        else:
+            # This should be when the sobject is grabbed from the table itself
+            search_key = order.get_search_key()
         behavior = {'css_class': 'clickme', 'type': 'click_up', 'cbjs_action': '''
         try{
             var class_name = 'common_tools.full_instructions.FullOrderInstructionsWdg';
@@ -85,12 +92,13 @@ class FullInstructionsLauncherWdg(ButtonNewWdg):
 
         :return: a widget containing a launch button
         """
-        self.set_option('icon', "DOCUMENTATION")
+        # TODO: use the ButtonSmallNewWdg after migrating it
+        button = ButtonNewWdg(title=self.kwargs.get('title'))
+        button.set_option('icon', "DOCUMENTATION")
         order = self.get_this_order()
-        self.add_behavior(self.get_launch_behavior(order))
+        button.add_behavior(self.get_launch_behavior(order))
 
-        div = super(FullInstructionsLauncherWdg, self).get_display()
-        return div
+        return button
 
 
 class FullOrderInstructionsWdg(BaseRefreshWdg):
