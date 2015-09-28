@@ -167,290 +167,366 @@ class IncompleteWOWdgInnerds(BaseTableElementWdg):
         return behavior
 
     def get_save_behavior(my, code, parent_view, user_name, st, main_group):
-        behavior = {'css_class': 'clickme', 'type': 'click_up', 'cbjs_action': '''        
-                        function oc(a){
-                            var o = {};
-                            for(var i=0;i<a.length;i++){
-                                o[a[i]]='';
+        behavior = {'css_class': 'clickme', 'type': 'click_up', 'cbjs_action':
+            '''
+            function oc(a){
+                var o = {};
+                for(var i=0;i<a.length;i++){
+                    o[a[i]]='';
+                }
+                return o;
+            }
+            function task_completed(top){
+                var rows = top.getElementsByClassName('inc_row');
+                for(var row = 0; row < rows.length; row++){
+                    var task_sk = rows[row].getAttribute('sk');
+                    var sels = rows[row].getElementsByTagName('select');
+                    for(var x = 0; x < sels.length; x++){
+                        if(sels[x].name == 'status_' + task_sk){
+                            if(sels[x].value == 'Completed' && sels[x].value != sels[x].getAttribute('old')){
+                                return true;
                             }
-                            return o;
                         }
-                        try{
-                          var code = '%s';
-                          var parent_view = '%s';
-                          var login_name = '%s';
-                          var st = '%s';
-                          var main_group = '%s';
-                          var group_email_lookup = {'admin': 'administrator@2gdigital.com', 'it': 'IT@2gdigital.com', 'qc': 'QC@2gdigital.com', 'qc supervisor': 'QC@2gdigital.com', 'compression': 'Compression@2gdigital.com', 'billing and accounts receivable': '2GSales@2gdigital.com', 'audio': 'Audio@2gdigital.com', 'compression supervisor': 'Compression@2gdigital.com', 'edeliveries': 'Edeliveries@2gdigital.com', 'machine room': 'MR@2gdigital.com', 'media vault': 'Mediavault@2gdigital.com', 'media vault supervisor': 'Mediavault@2gdigital.com', 'edit supervisor': 'Editors@2gdigital.com', 'machine room supervisor': 'MR@2gdigital.com', 'office employees': 'jaime.torres@2gdigital.com;adriana.amador@2gdigital.com', 'edit': 'Editors@2gdigital.com', 'sales': '2GSales@2gdigital.com', 'senior_staff': 'fernando.vasquez@2gdigital.com;jaime.torres@2gdigital.com;adriana.amador@2gdigital.com;stephen.buchsbaum@2gdigital.com', 'executives': 'stephen.buchsbaum@2gdigital.com', 'management': 'jaime.torres@2gdigital.com;adriana.amador@2gdigital.com', 'scheduling': 'scheduling@2gdigital.com', 'streamz': 'MR@2gdigital.com;QC@2gdigital.com;Editors@2gdigital.com', 'technical services': 'IT@2gdigital.com', 'sales supervisor': '2GSales@2gdigital.com', 'scheduling supervisor': 'scheduling@2gdigital.com', 'vault': 'Mediavault@2gdigital.com'}
-                          var top = document.getElementsByClassName(parent_view + '_incomplete_tasks_' + code)[0];
-                          var widget = document.getElementsByClassName(parent_view + '_incomplete_tasks_wdg_' + code)[0];
-                          trt_el = top.getElementById('trt_top');
-                          trtwtl_el = top.getElementById('trtwtl_top');
-                          spt.app_busy.show("Saving...");
-                          var server = TacticServerStub.get();
-                          var title_sk = '';
-                          if(st == 'twog/title'){
-                              title_sk = server.build_search_key('twog/title', code);
-                          }else if(st == 'twog/work_order'){
-                              wo_title_code = server.eval("@GET(twog/work_order['code','" + code + "'].title_code)");
-                              if(wo_title_code){ 
-                                  title_sk = server.build_search_key('twog/title', wo_title_code[0]) 
-                              }
+                    }
+                }
+                return false;
+            }
+            function is_valid_runtime(runtime){
+                if(runtime == ''){
+                    return false;
+                }
+                else if(/^([0-9]{1,3}):([0-9]{2,3})([0-9:.]{0,})$/.test(runtime)){
+                    return true;
+                }
+                return false;
+            }
+            function is_N_A(value){
+                if(/^[nN]\/?[aA]$/.test(value)){
+                    return true;
+                }
+                return false;
+            }
+            try{
+                var code = '%s';
+                var parent_view = '%s';
+                var login_name = '%s';
+                var st = '%s';
+                var main_group = '%s';
+                var group_email_lookup = {'admin': 'administrator@2gdigital.com', 'it': 'IT@2gdigital.com',
+                    'qc': 'QC@2gdigital.com', 'qc supervisor': 'QC@2gdigital.com',
+                    'compression': 'Compression@2gdigital.com',
+                    'billing and accounts receivable': '2GSales@2gdigital.com', 'audio': 'Audio@2gdigital.com',
+                    'compression supervisor': 'Compression@2gdigital.com', 'edeliveries': 'Edeliveries@2gdigital.com',
+                    'machine room': 'MR@2gdigital.com', 'media vault': 'Mediavault@2gdigital.com',
+                    'media vault supervisor': 'Mediavault@2gdigital.com', 'edit supervisor': 'Editors@2gdigital.com',
+                    'machine room supervisor': 'MR@2gdigital.com',
+                    'office employees': 'jaime.torres@2gdigital.com;adriana.amador@2gdigital.com',
+                    'edit': 'Editors@2gdigital.com', 'sales': '2GSales@2gdigital.com',
+                    'senior_staff': 'fernando.vasquez@2gdigital.com;jaime.torres@2gdigital.com;adriana.amador@2gdigital.com;stephen.buchsbaum@2gdigital.com',
+                    'executives': 'stephen.buchsbaum@2gdigital.com',
+                    'management': 'jaime.torres@2gdigital.com;adriana.amador@2gdigital.com',
+                    'scheduling': 'scheduling@2gdigital.com',
+                    'streamz': 'MR@2gdigital.com;QC@2gdigital.com;Editors@2gdigital.com',
+                    'technical services': 'IT@2gdigital.com', 'sales supervisor': '2GSales@2gdigital.com',
+                    'scheduling supervisor': 'scheduling@2gdigital.com', 'vault': 'Mediavault@2gdigital.com'}
+                var top = document.getElementsByClassName(parent_view + '_incomplete_tasks_' + code)[0];
+                var widget = document.getElementsByClassName(parent_view + '_incomplete_tasks_wdg_' + code)[0];
+                trt_el = top.getElementById('trt_top');
+                trtwtl_el = top.getElementById('trtwtl_top');
+                file_size_el = top.getElementById('file_size_top');
+                pulled_el = top.getElementById('pulled_blacks_top');
+                spt.app_busy.show("Saving...");
+                var server = TacticServerStub.get();
+                var title_sk = '';
+                if(st == 'twog/title'){
+                    title_sk = server.build_search_key('twog/title', code);
+                }else if(st == 'twog/work_order'){
+                    wo_title_code = server.eval("@GET(twog/work_order['code','" + code + "'].title_code)");
+                    if(wo_title_code){
+                        title_sk = server.build_search_key('twog/title', wo_title_code[0])
+                    }
+                }
+
+                validated = true;
+                warning_message = '';
+                if(task_completed(top)){
+                    if(main_group in oc(['qc', 'qc supervisor', 'edeliveries'])){
+                        if(!(is_valid_runtime(trt_el.value))){
+                            validated = false;
+                            warning_message = 'The Total Runtime format is incorrect. Please fix this before continuing.';
+                        }
+                        if(!(is_valid_runtime(trtwtl_el.value) || is_N_A(trtwtl_el.value))){
+                            validated = false;
+                            if(warning_message != ''){
+                                warning_message = warning_message + '\\n';
+                            }
+                            warning_message += 'The Total Runtime With Textless format is incorrect. Correct format is normal runtime format or "N\/A". Please fix this before continuing.';
+                        }
+                        if(file_size_el.value == ''){
+                            validated = false;
+                            warning_message += '\\nThe file size cannot be blank.';
+                        }
+                    }
+                    if(main_group in oc(['compression', 'compression supervisor'])){
+                        if(pulled_el.value == ''){
+                            validated = false;
+                            warning_message += '\\nThe number of edits must be entered.';
+                        }
+                    }
+                }
+                if(!validated){
+                    alert(warning_message);
+                    spt.app_busy.hide();
+                    return;
+                }
+
+                var title_update_data = {};
+                if(trt_el.old_value != trt_el.value || trtwtl_el.old_value != trtwtl_el.value){
+                    title_update_data['total_program_runtime'] = trt_el.value;
+                    title_update_data['total_runtime_w_textless'] = trtwtl_el.value;
+                    trt_row = top.getElementById(code + '_trt_row');
+                    trt_row.setAttribute('bgcolor','#ededed');
+                }
+                pulled_el = top.getElementById('pulled_blacks_top');
+                if(pulled_el.value != pulled_el.old_value){
+                    title_update_data['pulled_blacks'] = pulled_el.value;
+                }
+                file_size_el = top.getElementById('file_size_top');
+                if(file_size_el.value != file_size_el.old_value){
+                    title_update_data['file_size'] = file_size_el.value;
+                }
+                // Do all the title updates at once
+                if(Object.keys(title_update_data).length != 0){
+                    server.update(title_sk, title_update_data);
+                }
+
+                  var rows = top.getElementsByClassName('inc_row');
+                  completed_one = false;
+                  updated = false;
+                  fix_code = '';
+                  some_special_statuses = false;
+                  some_path_prompts = false;
+                  force_response_strings = '';
+                  for(var r = 0; r < rows.length; r++){
+                      task_sk = rows[r].getAttribute('sk');
+                      task_code = task_sk.split('code=')[1];
+                      sels = rows[r].getElementsByTagName('select');
+                      assigned_val = '';
+                      old_assigned = '';
+                      status_val = '';
+                      old_status = '';
+                      worker_sel = null;
+                      status_sel = null;
+                      for(var x = 0; x < sels.length; x++){
+                          if(sels[x].name == 'worker_' + task_sk){
+                              assigned_val = sels[x].value;
+                              old_assigned = sels[x].getAttribute('old');
+                              worker_sel = sels[x];
+                          }else if(sels[x].name == 'status_' + task_sk){
+                              status_val = sels[x].value;
+                              old_status = sels[x].getAttribute('old');
+                              status_sel = sels[x];
                           }
-                          trts_ok = true;
-                          trt_str = '';
-                          if(main_group in oc(['qc','qc supervisor'])){
-                              if(!(/^([0-9]{1,3}):([0-9]{2,3})([0-9:.]{0,})$/.test(trt_el.value) || (/^N\/A$/.test(trt_el.value)) || (/^n\/a$/.test(trt_el.value)) || trt_el.value == '')){
-                                  trts_ok = false;
-                                  trt_str = 'The Total Runtime format is incorrect. Please fix this before continuing.';
-                              }
-                              if(!((/^([0-9]{1,3}):([0-9]{2,3})([0-9:.]{0,})$/.test(trtwtl_el.value)) || (/^N\/A$/.test(trtwtl_el.value)) || (/^n\/a$/.test(trtwtl_el.value)) || trtwtl_el.value == '')){
-                                  trts_ok = false;
-                                  if(trt_str != ''){
-                                      trt_str = trt_str + '\\n';
+                      }
+                      hours = rows[r].getElementById('hours');
+                      hour_val = hours.value;
+                      data = {};
+                      if(old_status != status_val){
+                          data['status'] = status_val;
+                      }
+                      if(old_assigned != assigned_val){
+                          data['assigned'] = assigned_val;
+                      }
+                      //If status is being updated or assigned is being updated and the work hours have not been entered, then
+                      //Update the html element's 'old' status, handle special cases like Fix Needed, On Hold, etc
+                      if((hour_val == '' || hour_val == null) && ('status' in data || 'assigned' in data)){
+                          server.update(task_sk, data);
+                          //Update html element's old status to current status
+                          if('status' in data){
+                              status_sel.setAttribute('old',data['status']);
+                          }
+                          updated = true;
+                          task = server.eval("@SOBJECT(sthpw/task['code','" + task_code + "'])")[0]
+                          //Handle special cases
+                          //turn into function?
+                          if(data['status'] in oc(['Rejected','Fix Needed','On Hold','Client Response'])){
+                              //Get a forced response as to why
+                              //Get production error generated prior to this, if applicable and send production error code to ForceResponseWdg
+                              some_special_statuses = true;
+                              production_error_code = '';
+                              if(data['status'] in oc(['Rejected','Fix Needed'])){
+                                  error_entries = server.eval("@SOBJECT(twog/production_error['work_order_code','" + task.lookup_code + "'])")
+                                  if((error_entries.length > 0)){
+                                      error_entry = error_entries[error_entries.length - 1];
+                                      production_error_code = error_entry.code;
                                   }
-                                  trt_str = trt_str + 'The Total Runtime With Textless format is incorrect. Correct format is normal runtime format or "N\/A". Please fix this before continuing.';
+                              }
+                              this_row_str = 'MTMX-Prompt:Please tell us why the new status for ' + task.process + ' is going to ' + data['status'] + 'MTMX-production_error_code:' + production_error_code + 'MTMX-work_order_code:' + task.lookup_code + 'MTMX-process:' + task.process + 'MTMX-new_status:' + data['status'] + 'MTMX-old_status:' + old_status;
+                              if(force_response_strings == ''){
+                                  force_response_strings = this_row_str;
+                              }else{
+                                  force_response_strings = force_response_strings + 'MTM_NEXT_MTM' + this_row_str;
+                              }
+                          }else if(old_status in oc(['Rejected','Fix Needed','On Hold','Client Response']) && old_status != status_val){
+                              //Get a forced response as to why
+                              //Probably no production error here, so no need to send production error code
+                              production_error_code = '';
+                              some_special_statuses = true;
+                              this_row_str = 'MTMX-Prompt:Please tell us why the new status for ' + task.process + ' is going to ' + data['status'] + ' from ' + old_status + 'MTMX-production_error_code:' + production_error_code + 'MTMX-work_order_code:' + task.lookup_code + 'MTMX-process:' + task.process + 'MTMX-new_status:' + data['status'] + 'MTMX-old_status:' + old_status;
+                              if(force_response_strings == ''){
+                                  force_response_strings = this_row_str;
+                              }else{
+                                  force_response_strings = force_response_strings + 'MTM_NEXT_MTM' + this_row_str;
                               }
                           }
-                          if(!trts_ok){
-                              alert(trt_str)    
+                          if(data['status'] != old_status && data['status'] == 'Completed' && task.assigned_login_group in oc(['compression','compression supervisor','machine room','machine room supervisor','audio','edit','edit supervisor'])){
+                              this_row_str = 'MTMX-Prompt:Please Enter the Path to the File(s) for ' + task.process + '.Status went to ' + data['status'] + ' from ' + old_status + 'MTMX-work_order_code:' + task.lookup_code + 'MTMX-process:' + task.process + 'MTMX-new_status:' + data['status'] + 'MTMX-old_status:' + old_status;
+                              if(force_response_strings == ''){
+                                  force_response_strings = this_row_str;
+                              }else{
+                                  force_response_strings = force_response_strings + 'MTM_NEXT_MTM' + this_row_str;
+                              }
+                              some_path_prompts = true;
+                              completed_one = true;
+                          }else if(data['status'] == 'Completed'){
+                              completed_one = true;
+                          }
+                      }else{
+                          hour = Number(hour_val);
+                          if(hour == '' || hour == null){
+                              //nothing happening here, not updating hours or status or assigned - probably just trt or equipment hours
+                          }else if(isNaN(hour)){
+                              spt.alert('Please only enter numbers into the hour entry box. ' + hour_val + ' is not a number.');
                           }else{
-                              if(trt_el.old_value != trt_el.value || trtwtl_el.old_value != trtwtl_el.value){
-                                  server.update(title_sk, {'total_program_runtime': trt_el.value, 'total_runtime_w_textless': trtwtl_el.value});
-                                  trt_row = top.getElementById(code + '_trt_row');
-                                  trt_row.setAttribute('bgcolor','#ededed');
-                              }
-                              pulled_el = top.getElementById('pulled_blacks_top');
-                              if(pulled_el.value != pulled_el.old_value){
-                                  server.update(title_sk, {'pulled_blacks': pulled_el.value});
-                              }
-                              file_size_el = top.getElementById('file_size_top');
-                              if(file_size_el.value != file_size_el.old_value){
-                                  server.update(title_sk, {'file_size': file_size_el.value});
-                              }
-                              var rows = top.getElementsByClassName('inc_row');
-                              completed_one = false;
-                              updated = false;
-                              fix_code = '';
-                              some_special_statuses = false;
-                              some_path_prompts = false;
-                              force_response_strings = '';
-                              for(var r = 0; r < rows.length; r++){
-                                  task_sk = rows[r].getAttribute('sk');
-                                  task_code = task_sk.split('code=')[1];
-                                  sels = rows[r].getElementsByTagName('select');
-                                  assigned_val = '';
-                                  old_assigned = '';
-                                  status_val = ''; 
-                                  old_status = '';
-                                  worker_sel = null;
-                                  status_sel = null;
-                                  for(var x = 0; x < sels.length; x++){
-                                      if(sels[x].name == 'worker_' + task_sk){
-                                          assigned_val = sels[x].value;
-                                          old_assigned = sels[x].getAttribute('old');
-                                          worker_sel = sels[x];
-                                      }else if(sels[x].name == 'status_' + task_sk){
-                                          status_val = sels[x].value;
-                                          old_status = sels[x].getAttribute('old');
-                                          status_sel = sels[x];
-                                      } 
+                              //The work hours were added, so add to the work hours table
+                              var today = new Date();
+                              var dd = today.getDate();
+                              var mm = today.getMonth() + 1;
+                              var yyyy = today.getFullYear();
+                              var day = yyyy + '-' + mm + '-' + dd;
+                              task_code = task_sk.split('code=')[1];
+                              task = server.eval("@SOBJECT(sthpw/task['code','" + task_code + "'])")[0];
+                              server.insert('sthpw/work_hour', {'day': day, 'search_type': 'sthpw/task', 'project_code': 'twog', 'process': task.process, 'task_code': task_code, 'search_id': task.id, 'straight_time': hour, 'login': login_name, 'is_billable': 'true'});
+                              if(data != null && data != {}){
+                                  server.update(task_sk, data);
+                                  //Update the html element's old status to the new status
+                                  if('status' in data){
+                                      status_sel.setAttribute('old',data['status']);
                                   }
-                                  hours = rows[r].getElementById('hours');
-                                  hour_val = hours.value;
-                                  data = {};
-                                  if(old_status != status_val){
-                                      data['status'] = status_val;
-                                  }
-                                  if(old_assigned != assigned_val){
-                                      data['assigned'] = assigned_val;
-                                  } 
-                                  //If status is being updated or assigned is being updated and the work hours have not been entered, then
-                                  //Update the html element's 'old' status, handle special cases like Fix Needed, On Hold, etc
-                                  if((hour_val == '' || hour_val == null) && ('status' in data || 'assigned' in data)){
-                                      server.update(task_sk, data);
-                                      //Update html element's old status to current status
-                                      if('status' in data){
-                                          status_sel.setAttribute('old',data['status']);
-                                      }
-                                      updated = true;
-                                      task = server.eval("@SOBJECT(sthpw/task['code','" + task_code + "'])")[0]
-                                      //Handle special cases
-                                      //turn into function?
-                                      if(data['status'] in oc(['Rejected','Fix Needed','On Hold','Client Response'])){
-                                          //Get a forced response as to why
-                                          //Get production error generated prior to this, if applicable and send production error code to ForceResponseWdg
-                                          some_special_statuses = true;
-                                          production_error_code = '';
-                                          if(data['status'] in oc(['Rejected','Fix Needed'])){
-                                              error_entries = server.eval("@SOBJECT(twog/production_error['work_order_code','" + task.lookup_code + "'])")
-                                              if((error_entries.length > 0)){
-                                                  error_entry = error_entries[error_entries.length - 1];
-                                                  production_error_code = error_entry.code;
-                                              }
-                                          }
-                                          this_row_str = 'MTMX-Prompt:Please tell us why the new status for ' + task.process + ' is going to ' + data['status'] + 'MTMX-production_error_code:' + production_error_code + 'MTMX-work_order_code:' + task.lookup_code + 'MTMX-process:' + task.process + 'MTMX-new_status:' + data['status'] + 'MTMX-old_status:' + old_status;
-                                          if(force_response_strings == ''){
-                                              force_response_strings = this_row_str;
-                                          }else{
-                                              force_response_strings = force_response_strings + 'MTM_NEXT_MTM' + this_row_str;
-                                          }
-                                      }else if(old_status in oc(['Rejected','Fix Needed','On Hold','Client Response']) && old_status != status_val){
-                                          //Get a forced response as to why
-                                          //Probably no production error here, so no need to send production error code
-                                          production_error_code = '';
-                                          some_special_statuses = true;
-                                          this_row_str = 'MTMX-Prompt:Please tell us why the new status for ' + task.process + ' is going to ' + data['status'] + ' from ' + old_status + 'MTMX-production_error_code:' + production_error_code + 'MTMX-work_order_code:' + task.lookup_code + 'MTMX-process:' + task.process + 'MTMX-new_status:' + data['status'] + 'MTMX-old_status:' + old_status;
-                                          if(force_response_strings == ''){
-                                              force_response_strings = this_row_str;
-                                          }else{
-                                              force_response_strings = force_response_strings + 'MTM_NEXT_MTM' + this_row_str;
+                                  //Handle special cases
+                                  //turn into function?
+                                  if(data['status'] in oc(['Rejected','Fix Needed','On Hold','Client Response'])){
+                                      //Get a forced response as to why
+                                      //Get production error generated prior to this, if applicable and send production error code to ForceResponseWdg
+                                      some_special_statuses = true;
+                                      production_error_code = '';
+                                      if(data['status'] in oc(['Rejected','Fix Needed'])){
+                                          error_entries = server.eval("@SOBJECT(twog/production_error['work_order_code','" + task.lookup_code + "'])")
+                                          if((error_entries.length > 0)){
+                                              error_entry = error_entries[error_entries.length - 1];
+                                              production_error_code = error_entry.code;
                                           }
                                       }
-                                      if(data['status'] != old_status && data['status'] == 'Completed' && task.assigned_login_group in oc(['compression','compression supervisor','machine room','machine room supervisor','audio','edit','edit supervisor'])){
-                                          this_row_str = 'MTMX-Prompt:Please Enter the Path to the File(s) for ' + task.process + '.\\nStatus went to ' + data['status'] + ' from ' + old_status + 'MTMX-work_order_code:' + task.lookup_code + 'MTMX-process:' + task.process + 'MTMX-new_status:' + data['status'] + 'MTMX-old_status:' + old_status;
-                                          if(force_response_strings == ''){
-                                              force_response_strings = this_row_str;
-                                          }else{
-                                              force_response_strings = force_response_strings + 'MTM_NEXT_MTM' + this_row_str;
-                                          }
-                                          some_path_prompts = true;
-                                          completed_one = true;
-                                      }else if(data['status'] == 'Completed'){
-                                          completed_one = true;
-                                      }
-                                  }else{
-                                      hour = Number(hour_val);
-                                      if(hour == '' || hour == null){
-                                          //nothing happening here, not updating hours or status or assigned - probably just trt or equipment hours
-                                      }else if(isNaN(hour)){
-                                          spt.alert('Please only enter numbers into the hour entry box. ' + hour_val + ' is not a number.');
+                                      this_row_str = 'MTMX-Prompt:Please tell us why the new status for ' + task.process + ' is going to ' + data['status'] + 'MTMX-production_error_code:' + production_error_code + 'MTMX-work_order_code:' + task.lookup_code + 'MTMX-process:' + task.process + 'MTMX-new_status:' + data['status'] + 'MTMX-old_status:' + old_status;
+                                      if(force_response_strings == ''){
+                                          force_response_strings = this_row_str;
                                       }else{
-                                          //The work hours were added, so add to the work hours table
-                                          var today = new Date(); 
-                                          var dd = today.getDate(); 
-                                          var mm = today.getMonth() + 1; 
-                                          var yyyy = today.getFullYear(); 
-                                          var day = yyyy + '-' + mm + '-' + dd;
-                                          task_code = task_sk.split('code=')[1];
-                                          task = server.eval("@SOBJECT(sthpw/task['code','" + task_code + "'])")[0];
-                                          server.insert('sthpw/work_hour', {'day': day, 'search_type': 'sthpw/task', 'project_code': 'twog', 'process': task.process, 'task_code': task_code, 'search_id': task.id, 'straight_time': hour, 'login': login_name, 'is_billable': 'true'});  
-                                          if(data != null && data != {}){
-                                              server.update(task_sk, data);
-                                              //Update the html element's old status to the new status
-                                              if('status' in data){
-                                                  status_sel.setAttribute('old',data['status']);
-                                              }
-                                              //Handle special cases
-                                              //turn into function?
-                                              if(data['status'] in oc(['Rejected','Fix Needed','On Hold','Client Response'])){
-                                                  //Get a forced response as to why
-                                                  //Get production error generated prior to this, if applicable and send production error code to ForceResponseWdg
-                                                  some_special_statuses = true;
-                                                  production_error_code = '';
-                                                  if(data['status'] in oc(['Rejected','Fix Needed'])){
-                                                      error_entries = server.eval("@SOBJECT(twog/production_error['work_order_code','" + task.lookup_code + "'])")
-                                                      if((error_entries.length > 0)){
-                                                          error_entry = error_entries[error_entries.length - 1];
-                                                          production_error_code = error_entry.code;
-                                                      }
-                                                  }
-                                                  this_row_str = 'MTMX-Prompt:Please tell us why the new status for ' + task.process + ' is going to ' + data['status'] + 'MTMX-production_error_code:' + production_error_code + 'MTMX-work_order_code:' + task.lookup_code + 'MTMX-process:' + task.process + 'MTMX-new_status:' + data['status'] + 'MTMX-old_status:' + old_status;
-                                                  if(force_response_strings == ''){
-                                                      force_response_strings = this_row_str;
-                                                  }else{
-                                                      force_response_strings = force_response_strings + 'MTM_NEXT_MTM' + this_row_str;
-                                                  }
-                                              }else if(old_status in oc(['Rejected','Fix Needed','On Hold','Client Response']) && old_status != status_val){
-                                                  //Get a forced response as to why
-                                                  //Probably no production error here, so no need to send production error code
-                                                  some_special_statuses = true;
-                                                  production_error_code = '';
-                                                  this_row_str = 'MTMX-Prompt:Please tell us why the new status for ' + task.process + ' is going to ' + data['status'] + ' from ' + old_status + 'MTMX-production_error_code:' + production_error_code + 'MTMX-work_order_code:' + task.lookup_code + 'MTMX-process:' + task.process + 'MTMX-new_status:' + data['status'] + 'MTMX-old_status:' + old_status;
-                                                  if(force_response_strings == ''){
-                                                      force_response_strings = this_row_str;
-                                                  }else{
-                                                      force_response_strings = force_response_strings + 'MTM_NEXT_MTM' + this_row_str;
-                                                  }
-                                              }
-                                              if(data['status'] != old_status && data['status'] == 'Completed' && task.assigned_login_group in oc(['compression','compression supervisor','machine room','machine room supervisor','audio','edit','edit supervisor'])){
-                                                  this_row_str = 'MTMX-Prompt:Please Enter the Path to the File(s) for ' + task.process + '.\\nStatus went to ' + data['status'] + ' from ' + old_status + 'MTMX-work_order_code:' + task.lookup_code + 'MTMX-process:' + task.process + 'MTMX-new_status:' + data['status'] + 'MTMX-old_status:' + old_status;
-                                                  if(force_response_strings == ''){
-                                                      force_response_strings = this_row_str;
-                                                  }else{
-                                                      force_response_strings = force_response_strings + 'MTM_NEXT_MTM' + this_row_str;
-                                                  }
-                                                  some_path_prompts = true;
-                                                  completed_one = true;
-                                              }else if(data['status'] == 'Completed'){
-                                                  completed_one = true;
-                                              }
-                                          }
-                                         updated = true;
+                                          force_response_strings = force_response_strings + 'MTM_NEXT_MTM' + this_row_str;
+                                      }
+                                  }else if(old_status in oc(['Rejected','Fix Needed','On Hold','Client Response']) && old_status != status_val){
+                                      //Get a forced response as to why
+                                      //Probably no production error here, so no need to send production error code
+                                      some_special_statuses = true;
+                                      production_error_code = '';
+                                      this_row_str = 'MTMX-Prompt:Please tell us why the new status for ' + task.process + ' is going to ' + data['status'] + ' from ' + old_status + 'MTMX-production_error_code:' + production_error_code + 'MTMX-work_order_code:' + task.lookup_code + 'MTMX-process:' + task.process + 'MTMX-new_status:' + data['status'] + 'MTMX-old_status:' + old_status;
+                                      if(force_response_strings == ''){
+                                          force_response_strings = this_row_str;
+                                      }else{
+                                          force_response_strings = force_response_strings + 'MTM_NEXT_MTM' + this_row_str;
                                       }
                                   }
-                                  eq_durs = rows[r].getElementsByClassName('eq_duration');
-                                  for(var d = 0; d < eq_durs.length; d++){
-                                      seg = eq_durs[d];
-                                      orig_val = seg.getAttribute('orig_val');
-                                      seg_id = seg.getAttribute('id');
-                                      new_val = seg.value; 
-                                      if(new_val != orig_val){
-                                          eq_code = seg_id.split('FFF')[0];
-                                          dur = Number(new_val);
-                                          if(isNaN(dur)){
-                                              spt.alert('Please only enter numbers into the entry box for equipment');
-                                              seg.value = orig_val;
-                                              seg.style.background="#ff0000";
-                                          }else{
-                                              eq_sk = server.build_search_key('twog/equipment_used', eq_code);
-                                              server.update(eq_sk, {'actual_duration': dur});
-                                              updated = true;
-                                          }
+                                  if(data['status'] != old_status && data['status'] == 'Completed' && task.assigned_login_group in oc(['compression','compression supervisor','machine room','machine room supervisor','audio','edit','edit supervisor'])){
+                                      this_row_str = 'MTMX-Prompt:Please Enter the Path to the File(s) for ' + task.process + '.Status went to ' + data['status'] + ' from ' + old_status + 'MTMX-work_order_code:' + task.lookup_code + 'MTMX-process:' + task.process + 'MTMX-new_status:' + data['status'] + 'MTMX-old_status:' + old_status;
+                                      if(force_response_strings == ''){
+                                          force_response_strings = this_row_str;
+                                      }else{
+                                          force_response_strings = force_response_strings + 'MTM_NEXT_MTM' + this_row_str;
                                       }
+                                      some_path_prompts = true;
+                                      completed_one = true;
+                                  }else if(data['status'] == 'Completed'){
+                                      completed_one = true;
                                   }
                               }
-                              if(some_special_statuses || some_path_prompts){
-                                  //Send to ForceResponseWdg
-                                  add_str = '';
-                                  if(some_path_prompts){
-                                      add_str = ' or enter a file path where prompted';
-                                  } 
-                                  spt.panel.load_popup('Please tell us why these work orders are getting a special status' + add_str, 'operator_view.resetter.ForceResponseWdg', {'string_to_parse': force_response_strings});
-                              }
-                              //Set the color back to the color it had before being changed
-                              if(updated){
-                                  for(var r = 0; r < rows.length; r++){
-                                      rows[r].setAttribute('bgcolor','#ededed');
-                                      hours = rows[r].getElementById('hours'); 
-                                      hours.value = '';
-                                  }
-                              }
-                              //If one status was set to completed, then the widget should be reloaded so it will hide the completed stuff and show which wo's are now ready
-                              if(completed_one){
-                                  //refresh the widget
-                                  search_type = st;
-                                  inc_wdg_1 = document.getElementsByClassName(parent_view + '_innerds_' + code);
-                                  inc_wdg = '';
-                                  for(var r = 0; r < inc_wdg_1.length; r++){
-                                      if(inc_wdg_1[r].tagName == 'TABLE'){
-                                          inc_wdg = inc_wdg_1[r];
-                                      }
-                                  }
-                                  if(inc_wdg != ''){
-                                      top_el = document.getElementsByClassName(parent_view + '_incomplete_tasks_' + code)[0];
-                                      show_all = top_el.getAttribute('show_all');
-                                      spt.api.load_panel(inc_wdg, 'operator_view.IncompleteWOWdg', {'search_type': search_type, 'code': code, 'parent_view': parent_view, 'show_all': show_all}); 
-                                  }
+                             updated = true;
+                          }
+                      }
+                      var eq_update_data = {};
+                      eq_durs = rows[r].getElementsByClassName('eq_duration');
+                      for(var d = 0; d < eq_durs.length; d++){
+                          seg = eq_durs[d];
+                          orig_val = seg.getAttribute('orig_val');
+                          seg_id = seg.getAttribute('id');
+                          new_val = seg.value;
+                          if(new_val != orig_val){
+                              eq_code = seg_id.split('FFF')[0];
+                              dur = Number(new_val);
+                              if(isNaN(dur)){
+                                  spt.alert('Please only enter numbers into the entry box for equipment');
+                                  seg.value = orig_val;
+                                  seg.style.background="#ff0000";
+                              }else{
+                                  eq_sk = server.build_search_key('twog/equipment_used', eq_code);
+                                  eq_update_data[eq_sk] = {'actual_duration': dur};
+                                  updated = true;
                               }
                           }
-                          spt.app_busy.hide();
-                }
-                catch(err){
-                          spt.app_busy.hide();
-                          spt.alert(spt.exception.handler(err));
-                }
-         ''' % (code, parent_view, user_name, st, main_group)}
+                      }
+                      // Do all the updates at once
+                      if(Object.keys(eq_update_data).length != 0){
+                          server.update_multiple(eq_update_data);
+                      }
+                  }
+                  if(some_special_statuses || some_path_prompts){
+                      //Send to ForceResponseWdg
+                      add_str = '';
+                      if(some_path_prompts){
+                          add_str = ' or enter a file path where prompted';
+                      }
+                      spt.panel.load_popup('Please tell us why these work orders are getting a special status' + add_str, 'operator_view.resetter.ForceResponseWdg', {'string_to_parse': force_response_strings});
+                  }
+                  //Set the color back to the color it had before being changed
+                  if(updated){
+                      for(var r = 0; r < rows.length; r++){
+                          rows[r].setAttribute('bgcolor','#ededed');
+                          hours = rows[r].getElementById('hours');
+                          hours.value = '';
+                      }
+                  }
+                  //If one status was set to completed, then the widget should be reloaded so it will hide the completed stuff and show which wo's are now ready
+                  if(completed_one){
+                      //refresh the widget
+                      search_type = st;
+                      inc_wdg_1 = document.getElementsByClassName(parent_view + '_innerds_' + code);
+                      inc_wdg = '';
+                      for(var r = 0; r < inc_wdg_1.length; r++){
+                          if(inc_wdg_1[r].tagName == 'TABLE'){
+                              inc_wdg = inc_wdg_1[r];
+                          }
+                      }
+                      if(inc_wdg != ''){
+                          top_el = document.getElementsByClassName(parent_view + '_incomplete_tasks_' + code)[0];
+                          show_all = top_el.getAttribute('show_all');
+                          spt.api.load_panel(inc_wdg, 'operator_view.IncompleteWOWdg', {'search_type': search_type, 'code': code, 'parent_view': parent_view, 'show_all': show_all});
+                      }
+                  }
+              spt.app_busy.hide();
+            }
+            catch(err){
+                  spt.app_busy.hide();
+                  spt.alert(spt.exception.handler(err));
+            }
+            ''' % (code, parent_view, user_name, st, main_group)}
         return behavior
 
     def get_add_multi_eq(my, title_code, piped_groups_str, parent_view, code):
@@ -1087,15 +1163,8 @@ class IncompleteWOWdgInnerds(BaseTableElementWdg):
         if client_str == '':
             table.add_row()
             scell1 = table.add_cell('<input type="button" value="Save"/>')
-            biggest_group = ''
-            biggest_group_count = 0
-            for maj in maj_arr:
-                grp = maj
-                gcount = majority_group_counter[maj]
-                if gcount > biggest_group_count:
-                    biggest_group = maj
-                    biggest_group_count = gcount 
-            launch_behavior = my.get_save_behavior(code, parent_view, user_name, search_type, biggest_group)
+            selected_department = login.get_value('active_department')
+            launch_behavior = my.get_save_behavior(code, parent_view, user_name, search_type, selected_department)
             scell1.add_style('cursor: pointer;')
             scell1.add_behavior(launch_behavior)
         widget.add(table)

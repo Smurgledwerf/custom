@@ -125,7 +125,13 @@ class TitleClonerCmd(Command):
                                 billing_str = 'noship'
                             elif 'Do Not Book' in billing_status:
                                 billing_str = 'nobook'
-                        tdict = my.clone_dict(title, {'order_code': ord_code, 'order_name': order.get('name'), 'login': my.user_name, 'po_number': order.get('po_number'), 'pulled_blacks': '0', 'priority': 100, 'wo_completed': 0}, ['trigger_me','client_status','status','closed','actual_cost','trt_pricing','title_id_number','price','rejection_description','numeric_client_status','saved_priority','resets','bigboard','wo_count','file_size','status_triggers','priority_triggers'])
+                        tdict = my.clone_dict(title, {'order_code': ord_code, 'order_name': order.get('name'),
+                                                      'login': my.user_name, 'po_number': order.get('po_number'),
+                                                      'pulled_blacks': '', 'priority': 100, 'wo_completed': 0},
+                                              ['trigger_me', 'client_status', 'status', 'closed', 'actual_cost',
+                                               'trt_pricing', 'title_id_number', 'price', 'rejection_description',
+                                               'numeric_client_status', 'saved_priority', 'resets', 'bigboard',
+                                               'wo_count', 'file_size', 'status_triggers', 'priority_triggers'])
                         tdict['no_charge'] = my.no_charge
                         tdict['redo'] = my.redo
                         if my.no_charge not in [False,'False','false','f',None] and my.redo not in [False,'False','false','f',None]:

@@ -12221,7 +12221,15 @@ class OBScripts(BaseRefreshWdg):
                           var epi_val = epi_name.value
                           var epis = epi_val.split(',')
                           
-                          data = {'episode': epi_name.value, 'title': title.value, 'order_code': order_code, 'description': description.value, 'keywords': keywords.value, 'po_number': order_obj.po_number, 'order_name': order_obj.name, 'title_id_number': title_id_num_el.value, 'priority': 100, 'audio_priority': 100, 'compression_priority': 100, 'edeliveries_priority': 100, 'edit_priority': 100, 'machine_room_priority': 100, 'media_vault_priority': 100, 'qc_priority': 100, 'vault_priority': 100, 'pulled_blacks': '0', 'delivery_specs': deliverable_specs.value, 'status_triggers': status_triggers.value, 'priority_triggers': priority_triggers.value, 'login': login}
+                          data = {'episode': epi_name.value, 'title': title.value, 'order_code': order_code,
+                                  'description': description.value, 'keywords': keywords.value,
+                                  'po_number': order_obj.po_number, 'order_name': order_obj.name,
+                                  'title_id_number': title_id_num_el.value, 'priority': 100, 'audio_priority': 100,
+                                  'compression_priority': 100, 'edeliveries_priority': 100, 'edit_priority': 100,
+                                  'machine_room_priority': 100, 'media_vault_priority': 100, 'qc_priority': 100,
+                                  'vault_priority': 100, 'pulled_blacks': '',
+                                  'delivery_specs': deliverable_specs.value, 'status_triggers': status_triggers.value,
+                                  'priority_triggers': priority_triggers.value, 'login': login}
                           if(expected_price_el.value != '' && expected_price_el.value != null){
                               data['expected_price'] = expected_price_el.value;
                           }
