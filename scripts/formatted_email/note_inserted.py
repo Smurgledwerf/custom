@@ -219,15 +219,17 @@ def main(server=None, input=None):
                     the_command = "php /opt/spt/custom/formatted_emailer/trusty_emailer.php '''%s''' '''%s''' '''%s''' '''%s''' '''%s''' '''%s'''" % (filled_in_email, ext_data['to_email'], ext_data['from_email'], ext_data['from_name'], subject, ext_data['ext_ccs'].replace(';','#Xs*'))
                     if ext_data['to_email'] not in [None,''] and ext_data['ext_ccs'] not in [None,'',';']:
                         os.system(the_command)
-                #Now do internal email
+                # Now do internal email
+                details = order.get('details', '')
+                order_name = int_data['order_name']
+                if details:
+                    order_name += " - " + details
                 if title:
                     full_title = title.get('title')
                     if title.get('episode') not in [None,'']:
                         full_title = '%s: %s' % (full_title, title.get('episode'))
-                    #title_row = "<div id='pagesubTitle3'>Title: <strong>%s</strong> | Title Code: <strong>%s</strong></div>" % (full_title, title.get('code')) 
-                    title_row = "<tr><td align='left' style='color: #06C; font-size: 16px;'>Title: <strong>%s</strong> | Title Code: <strong>%s</strong></td></tr>" % (full_title, title.get('code')) 
+                    title_row = "<tr><td align='left' style='color: #06C; font-size: 16px;'>Title: <strong>%s</strong> | Title Code: <strong>%s</strong></td></tr>" % (full_title, title.get('code'))
                 if proj:
-                    #proj_row = "<div id='pagesubTitle3'>Project: <strong>%s</strong> | Project Code: <strong>%s</strong></div>" % (proj.get('process'), proj.get('code'))
                     proj_row = "<tr><td align='left' style='color: #06C; font-size: 16px;'>Project: <strong>%s</strong> | Project Code: <strong>%s</strong></td></tr>" % (proj.get('process'), proj.get('code'))
                 if is_external_rejection:
                     title_row = title_row.replace('#06C', '#FF0000')
@@ -245,7 +247,7 @@ def main(server=None, input=None):
                     line = line.replace('[MESSAGE]', message)
                     line = line.replace('[CLIENT]', int_data['client_name'])
                     line = line.replace('[CLIENT_LOGIN]', int_data['client_login'])
-                    line = line.replace('[ORDER_NAME]', int_data['order_name'])
+                    line = line.replace('[ORDER_NAME]', order_name)
                     line = line.replace('[START_DATE]', fix_date(int_data['start_date']))
                     line = line.replace('[DUE_DATE]', fix_date(int_data['due_date']))
                     line = line.replace('[TITLE_ROW]', title_row)
