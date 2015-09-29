@@ -264,13 +264,13 @@ class IncompleteWOWdgInnerds(BaseTableElementWdg):
                         }
                         if(file_size_el.value == ''){
                             validated = false;
-                            warning_message += '\\nThe file size cannot be blank.';
+                            warning_message += '\\nThe file size must be entered before you can complete a work order.';
                         }
                     }
                     if(main_group in oc(['compression', 'compression supervisor'])){
                         if(pulled_el.value == ''){
                             validated = false;
-                            warning_message += '\\nThe number of edits must be entered.';
+                            warning_message += '\\nThe number of edits must be entered before you complete a work order.';
                         }
                     }
                 }
@@ -1017,7 +1017,7 @@ class IncompleteWOWdgInnerds(BaseTableElementWdg):
             table3.add_cell('''<input type="text" maxlength=12 style="width: 80px; height: 16px; border-radius: 5px; font-size: 10px;" size=5 id="trtwtl_top" onChange="top_el=document.getElementById('%s_trt_row'); top_el.setAttribute('bgcolor','#909977');" value="%s" old_value="%s"/>''' % (code, trtwtl, trtwtl))
             tt3 = table3.add_cell('File Size: ')
             tt3.add_style('font-size: 9px;')
-            table3.add_cell('''<input type="text" maxlength=3 style="width: 50px; height: 16px; border-radius: 5px; font-size: 10px;" size=5 id="file_size_top" onChange="top_el=document.getElementById('%s_trt_row'); top_el.setAttribute('bgcolor','#909977');" value="%s" old_value="%s"/>''' % (code, file_size, file_size))
+            table3.add_cell('''<input type="text" maxlength=8 style="width: 50px; height: 16px; border-radius: 5px; font-size: 10px;" size=5 id="file_size_top" onChange="top_el=document.getElementById('%s_trt_row'); top_el.setAttribute('bgcolor','#909977');" value="%s" old_value="%s"/>''' % (code, file_size, file_size))
             tt4 = table3.add_cell('Pulled Blacks/Edits: ')
             tt4.add_style('font-size: 9px;')
             table3.add_cell('''<input type="text" maxlength=3 style="width: 35px; height: 16px; border-radius: 5px; font-size: 10px;" size=5 id="pulled_blacks_top" onChange="top_el=document.getElementById('%s_trt_row'); top_el.setAttribute('bgcolor','#909977');" value="%s" old_value="%s"/>''' % (code, pulled_blacks, pulled_blacks))
@@ -1135,6 +1135,7 @@ class IncompleteWOWdgInnerds(BaseTableElementWdg):
                 cell1.add_behavior(my.get_see_wo_behavior(wo_code, taprocess))
             cell2 = table.add_cell(status_pull)
             cell3 = table.add_cell(worker_pull)
+            table.add_cell('Add hour(s):')
             cell4 = table.add_cell('''<input type="text" maxlength=5 style="width: 50px; height: 16px; border-radius: 5px;" size=5 id="hours" onChange="top_el=document.getElementById('inc_row_%s'); top_el.setAttribute('bgcolor','#909977');"/>''' % sk) 
             cell5 = table.add_cell('EQ:')
             info_s = eq_info.split('Z,Z')
