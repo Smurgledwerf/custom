@@ -279,7 +279,7 @@ class DashboardWdg(BaseRefreshWdg):
                            var server = TacticServerStub.get();
                            var cmd = "reports.dashboard_reports.DashboardReRunCmd";
                            server.execute_cmd(cmd, {});
-                           alert('Re-Running Reports. Please wait approximately 20 minutes to refresh.');
+                           alert('Re-Running Reports. Please wait approximately 2 hours to refresh.');
                             
                 }
                 catch(err){
@@ -375,7 +375,7 @@ class DashboardWdg(BaseRefreshWdg):
         title = table.add_cell('<font color="#FFFFFF"><b>Command Buttons</b></font>')
         title.add_attr('align','center')
         table.add_row()
-        butt5 = table.add_cell('<input type="button" value="Re-Run Reports (20 Mins)"/>')
+        butt5 = table.add_cell('<input type="button" value="Re-Run Reports (2 Hours)"/>')
         butt5.add_behavior(my.get_rerun_behavior())
         butt6 = table.add_cell('<input type="button" value="Shrink Priorities"/>')
         butt6.add_behavior(my.get_shrink_priorities_behavior())

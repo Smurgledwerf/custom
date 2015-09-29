@@ -1,6 +1,6 @@
 #NEED TO COLLECT ALL WORK HOURS AND REPORT THOSE UNCONNECTED TO WORK ORDERS AND TASKS, CONNECT THEM TO CLIENT AS WELL
 import tacticenv
-import os, sys, calendar, dateutil, datetime, time, getopt, pprint, re, math
+import os, sys, calendar, dateutil, datetime, time, getopt, pprint, re, math, traceback
 from pyasm.biz import *
 
 
@@ -2888,10 +2888,15 @@ for line in fyle:
         go_bool = False
 fyle.close()
 if go_bool:
-    os.system('''echo "RUNNING REPORTS" > %s''' % running_logger)
-    fill_report_vars(user_name, max_diff, efficiency_cost_prev_days)
-    print "DONE WITH FILL REPORT VARS"
-    os.system('''echo "REPORTS NOT RUNNING" > %s''' % running_logger)
+    os.system('''echo "RUNNING REPORTS" > {0}'''.format(running_logger))
+    try:
+        fill_report_vars(user_name, max_diff, efficiency_cost_prev_days)
+    except:
+        message = traceback.format_exc()
+        os.system('''echo "{0}" > {1}'''.format(message.replace('"', "'"), '/var/www/html/dashboard_report_error'))
+    finally:
+        print "DONE WITH FILL REPORT VARS"
+        os.system('''echo "REPORTS NOT RUNNING" > {0}'''.format(running_logger))
 else:
    sys.exit(-1) 
 # Insert into DB: timestamp, work_orders due today & codes, error & codes, error_types & codes number late & codes, orphaned title, proj, wo, task numbers, no due date tasks, titles, orders counts,  
