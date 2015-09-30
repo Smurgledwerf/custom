@@ -262,10 +262,6 @@ class IncompleteWOWdgInnerds(BaseTableElementWdg):
                             }
                             warning_message += 'The Total Runtime With Textless format is incorrect. Correct format is normal runtime format or "N\/A". Please fix this before continuing.';
                         }
-                        if(file_size_el.value == ''){
-                            validated = false;
-                            warning_message += '\\nThe file size must be entered before you can complete a work order.';
-                        }
                     }
                     if(main_group in oc(['compression', 'compression supervisor'])){
                         if(pulled_el.value == ''){
