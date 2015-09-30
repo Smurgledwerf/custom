@@ -8,6 +8,7 @@ __author__ = 'Topher.Hughes'
 __date__ = '03/09/2015'
 
 import traceback
+import common_tools.utils as ctu
 
 
 def get_notification_setting(login_group, server):
@@ -43,6 +44,44 @@ def get_update_message(prev_data, update_data):
     return message
 
 
+def get_sobjects(server, event_data):
+    """
+    Get the required variables for this trigger. Accounts for when the triggering
+    sobject is a work order or a task.
+
+    :param server: a tactic server stub object
+    :param event_data: the event dictionary
+    :return: work order sobject, task sobject
+    """
+    sobject = event_data.get('sobject')
+    sobject_type = ctu.get_sobject_type(sobject.get('__search_key__'))
+    work_order = {}
+    task = {}
+    if sobject_type == 'work_order':
+        work_order = sobject
+        results = server.query('sthpw/task', filters=[('code', work_order.get('task_code'))])
+        if results:
+            task = results[0]
+    elif sobject_type == 'task' and 'WORK_ORDER' in sobject.get('lookup_code'):
+        task = sobject
+        results = server.query('twog/work_order', filters=[('code', task.get('lookup_code'))])
+        if results:
+            work_order = results[0]
+
+    return work_order, task
+
+
+def get_is_insert(update_data):
+    """
+    The 'insert' logic had to change because work orders are not ready when they are created.
+    It is counted as an insert when the task status is updated to 'Ready'.
+
+    :param update_data: dictionary of updated columns
+    :return: boolean
+    """
+    return update_data.get('status') == 'Ready'
+
+
 def main(server=None, event_data=None):
     """
     The main function of the custom script.
@@ -56,11 +95,14 @@ def main(server=None, event_data=None):
 
     try:
         # CUSTOM_SCRIPT00107
-        work_order = event_data.get('sobject')
+        work_order, task = get_sobjects(server, event_data)
+        if not task or task.get('status') == 'Pending':
+            # They don't care about updates if the work order is not ready yet
+            return
+
         assigned_group = work_order.get('work_group')
         if assigned_group and get_notification_setting(assigned_group, server):
             from formatted_emailer import EmailDirections, email_sender
-            import common_tools.utils as ctu
             ed = EmailDirections(order_code=work_order.get('order_code'))
             internal_data = ed.get_internal_data()
             title = server.query('twog/title', filters=[('code', work_order.get('title_code'))])
@@ -69,7 +111,7 @@ def main(server=None, event_data=None):
             # to_email should be the department distribution group
             # TODO: get the actual department distribution email address
             internal_data['to_email'] = '{0}@2gdigital.com'.format(assigned_group)
-            if event_data.get('mode') == 'insert':
+            if get_is_insert(event_data.get('update_data')):
                 subject = 'Work Order "{0}" assigned to "{1}"'.format(work_order.get('process'), assigned_group)
                 message = work_order.get('instructions')
                 internal_data['message_type'] = 'INSTRUCTIONS:'
