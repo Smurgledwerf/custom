@@ -205,8 +205,10 @@ class FullOrderInstructionsWdg(BaseRefreshWdg):
         order_code = order.get('code')
         columns = ['code', 'instructions', 'order_code', 'title_code', 'proj_code', 'title', 'process']
         titles = self.server.query('twog/title', filters=[('order_code', order_code)], columns=columns)
-        projects = self.server.query('twog/proj', filters=[('order_code', order_code)], columns=columns)
-        work_orders = self.server.query('twog/work_order', filters=[('order_code', order_code)], columns=columns)
+        projects = self.server.query('twog/proj', filters=[('order_code', order_code)],
+                                     columns=columns, order_bys=['order_in_pipe asc'])
+        work_orders = self.server.query('twog/work_order', filters=[('order_code', order_code)],
+                                        columns=columns, order_bys=['order_in_pipe asc'])
 
         # organize the instructions like an outline
         order_name = order.get('name')
@@ -248,6 +250,7 @@ class FullOrderInstructionsWdg(BaseRefreshWdg):
         :return: a behavior dict
         """
         # TODO: make this 'accept' that the user read the instructions
+        # This functionality is still up for discussion.
         behavior = {'css_class': 'clickme', 'type': 'click_up', 'cbjs_action': '''
         try{
             var popup = spt.popup.get_popup(bvr.src_el);
