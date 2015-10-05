@@ -81,9 +81,13 @@ class CopyUrlButton(BaseTableElementWdg):
 
             textArea.select();
 
-            var successful = document.execCommand('copy');
-
-            document.body.removeChild(textArea);
+            try{
+                var successful = document.execCommand('copy');
+                document.body.removeChild(textArea);
+            }
+            catch(err){
+                alert("Error copying to clipboard. You most likely need to update your browser.");
+            }
         }
         catch(err){
             spt.app_busy.hide();
