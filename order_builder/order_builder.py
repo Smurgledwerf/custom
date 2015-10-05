@@ -2517,8 +2517,7 @@ class OrderTable(BaseRefreshWdg):
         bottom_buttons = Table()
         bottom_buttons.add_row()
 
-        base_url = ctu.get_base_url()
-        order_builder_url = "{0}order_builder/{1}".format(base_url, my.code)
+        order_builder_url = ctu.get_order_builder_url(my.code)
         copy_url_button = CopyUrlButton(title='Copy URL to Clipboard', url=order_builder_url)
         copy_url_cell = bottom_buttons.add_cell(copy_url_button)
         copy_url_cell.add_attr('align', 'right')

@@ -86,7 +86,7 @@ class CopyUrlButton(BaseTableElementWdg):
                 document.body.removeChild(textArea);
             }
             catch(err){
-                alert("Error copying to clipboard. You most likely need to update your browser.");
+                alert('Error copying to clipboard. You most likely need to update your browser.');
             }
         }
         catch(err){
@@ -102,8 +102,6 @@ class CopyUrlButton(BaseTableElementWdg):
         Handle how the widget is displayed.
 
         :return: a widget containing a copy button
-
-        :return:
         """
         button = ButtonSmallNewWdg(title=self.kwargs.get('title', 'Copy URL to Clipboard'))
         button.set_option('icon', 'LINK')

@@ -86,3 +86,23 @@ def get_base_url(server=None, project='twog'):
 
     url = 'http://{0}/tactic/{1}/'.format(server.server_name, project)
     return url
+
+
+def get_order_builder_url(order_code, server=None, project='twog'):
+    """
+    Gets the order builder url for the given order code.
+    Note that this does not format it as a hyperlink.
+
+    Ex. get_order_builder_url('ORDER12345')
+    -> 'http://tactic01.2gdigital.com/tactic/twog/order_builder/ORDER12345'
+
+    :param order_code: the order code as a string
+    :param server: a tactic server stub object
+    :param project: the project as a string
+    :return: a url to the order builder page
+    """
+    if not server:
+        server = get_server()
+
+    base_url = get_base_url(server, project)
+    return "{0}order_builder/{1}".format(base_url, order_code)
