@@ -68,3 +68,21 @@ def get_sobject_type(search_key):
     """
     sobject_type = search_key.split('?')[0].split('/')[1]
     return sobject_type
+
+
+def get_base_url(server=None, project='twog'):
+    """
+    Gets the base url for tactic. This would be used to get the
+    beginning of a custom url (like for the order_builder).
+
+    Note: the server from the browser already has .2gdigital.com
+
+    :param server: a TacticServerStub object
+    :param project: the project as a string
+    :return: the base url as a string
+    """
+    if not server:
+        server = get_server()
+
+    url = 'http://{0}/tactic/{1}/'.format(server.server_name, project)
+    return url

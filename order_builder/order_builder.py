@@ -1297,9 +1297,11 @@ class OrderBuilder(BaseRefreshWdg):
             my.user_is_scheduler = True
             my.g_edit_mode = 'edit'
     
-    def get_display(my):   
-        
-        my.sk = str(my.kwargs.get('sk'))
+    def get_display(my):
+        my.sk = str(my.kwargs.get('sk', ''))
+        if not my.sk:
+            code = my.kwargs.get('code', '')
+            my.sk = my.server.build_search_key('twog/order', code)
         my.code = my.sk.split('code=')[1]
         my.order_code = my.code
         sob_expr = "@SOBJECT(twog/order['code','%s'])" % my.code
@@ -2404,7 +2406,9 @@ class OrderTable(BaseRefreshWdg):
             return_date = date_obj.strftime("%Y-%m-%d  %H:%M")
         return return_date
     
-    def get_display(my):   
+    def get_display(my):
+        import common_tools.utils as ctu
+        from common_tools.copy_url_button import CopyUrlButton
 #        order_table_time = time.time()
         my.sk = str(my.kwargs.get('sk'))
         my.sid = str(my.kwargs.get('search_id'))
@@ -2512,6 +2516,12 @@ class OrderTable(BaseRefreshWdg):
         order_sales_cell.add_attr('nowrap','nowrap')
         bottom_buttons = Table()
         bottom_buttons.add_row()
+
+        base_url = ctu.get_base_url()
+        order_builder_url = "{0}order_builder/{1}".format(base_url, my.code)
+        copy_url_button = CopyUrlButton(title='Copy URL to Clipboard', url=order_builder_url)
+        copy_url_cell = bottom_buttons.add_cell(copy_url_button)
+        copy_url_cell.add_attr('align', 'right')
 
         instructions_button = FullInstructionsLauncherWdg(title='View Instructions', search_key=my.sk)
         instructions_cell = bottom_buttons.add_cell(instructions_button)
