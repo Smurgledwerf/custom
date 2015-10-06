@@ -1,0 +1,56 @@
+<config>
+<edeliveries_work_order_hours_wdg_conf>
+<html>
+<style type="text/css">
+.edeliveries_work_order_hours_wdg {
+  min-width: 200px;
+  height: 100px
+}
+
+.hours_actual {
+    height: 20px;
+    width: 20px;
+    background: #fff;
+}
+</style>
+<div class="edeliveries_work_order_hours_wdg">
+<![CDATA[
+<%
+    search_key = kwargs.get("search_key")
+
+    if not search_key:
+        search_key = "sthpw/task?project=twog&code=TASK00002700"
+
+    task = server.get_by_search_key(search_key)
+    task_id = task.get("id")
+    task_code = task.get("code")
+
+    #est_hours = task.get("bid_duration")
+    wo = server.eval("@SOBJECT(twog/work_order['code','%s'])" % task.get('lookup_code'))[0]
+    est_hours = wo.get('estimated_work_hours')
+
+    total_expr = "@SUM(sthpw/work_hour.straight_time)"
+    total_hours = server.eval(total_expr, search_key)
+
+    table = '''
+        <table width="100%%">
+          <tr>
+            <td>Actual</td>
+            <td class="hours_actual" id="hours_actual_%s" align="left">%s</td>
+            <td width="100%%" align="right" nowrap="nowrap">Add Hours: </td>
+            <td align="right"><input type="text" size="5" maxlength="5" id="hour_adder_%s" onkeyup="if(event.keyCode == 13){ task_code = '%s'; me_el = document.getElementById('hour_adder_' + task_code); new_hours = me_el.value; if(new_hours != ''){ if(new_hours != null){ if(!isNaN(new_hours)){ server = TacticServerStub.get(); search_key = '%s'; task = server.get_by_search_key(search_key); var today = new Date(); var dd = today.getDate(); var mm = today.getMonth() + 1; var yyyy = today.getFullYear(); var day = yyyy + '-' + mm + '-' + dd; new_obj = server.insert('sthpw/work_hour', {'day': day, 'search_type': 'sthpw/task', 'project_code': 'twog', 'process': task.process, 'task_code': task.code, 'search_id': task.id, 'straight_time': new_hours}); me_el.value = ''; actual_el = document.getElementById('hours_actual_' + task_code); actual_val = actual_el.innerHTML; if(actual_val == ''){ actual_val = 0; } actual_val = parseFloat(actual_val) + parseFloat(new_hours); actual_el.innerHTML = actual_val; descrip = prompt('Added ' + new_hours + ' work hours.\\nIf relevant, please enter a description.'); if(descrip != ''){ server.update(new_obj.__search_key__, {'description': descrip}); } }else{ alert(new_hours + ' is not a number.'); me_el.value = '';} } } }"/></td>
+          </tr>
+          <tr><td> </td></tr>
+          <tr><td> </td></tr>
+          <tr><td colspan="3" nowrap="nowrap" style="font-size: 8px; cursor: pointer;" onClick="spt.panel.load_popup('Add Generic Hours (Not Connected to Any Work Order, Title, Order, etc..)', 'tactic.ui.panel.EditWdg', {element_name: 'general', mode: 'insert', search_type: 'sthpw/work_hour', title: 'Add Generic Hours', view: 'insert', widget_key: 'edit_layout'});"><u>Add Non-Billable Hours</u></td><td width="100%%"></td></tr>
+        </table>
+    ''' %(task_code, total_hours, task_code, task_code, search_key)
+%>]]>
+<div class="ovw_title" style="z-index:100;">Work Order Hours</div>
+
+${table}
+</div>
+</html>
+</edeliveries_work_order_hours_wdg_conf>
+</config>
+

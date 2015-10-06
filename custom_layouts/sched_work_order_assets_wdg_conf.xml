@@ -1,0 +1,369 @@
+<config>
+<sched_work_order_assets_wdg_conf>
+<html>
+<style type="text/css">
+.sched_work_order_assets_wdg {
+    height: 300px;
+    overflow-y: auto;
+    min-width: 300px;
+}
+
+.sched_work_order_assets_wdg table td {
+    //border: 1px solid #fff;
+}
+
+.sched_work_order_assets_wdg tr.odd {
+    background: #fff;
+}
+
+.sched_work_order_assets_wdg tr.even {
+    background: #eee;
+}
+</style>
+<div class="sched_work_order_assets_wdg">
+<![CDATA[
+<%
+    from pyasm.web import Table
+    from source_issues import SourceDisplayWdg
+    def inspect_source_popup(source_code, security):
+        behavior = {'css_class': 'clickme', 'type': 'click_up', 'cbjs_action': '''
+                        try{
+                          var source_code = '%s';
+                          var security = '%s';
+                          if(security){
+                              spt.panel.load_popup('View Asset', 'order_builder.SourceSecurityEditWdg', {'source_code': source_code});
+                          }else{
+                              spt.panel.load_popup('View Asset', 'tactic.ui.panel.EditWdg', {element_name: 'general', mode: 'view', search_type: 'twog/source', code: source_code, title: 'Asset ' + source_code, view: 'edit', widget_key: 'edit_layout'});
+                          }
+                }
+                catch(err){
+                          spt.app_busy.hide();
+                          alert(err);
+                }
+         ''' % (source_code, security)}
+        return behavior
+    
+    def inspect_intermediate_popup(intermediate_code):
+        behavior = {'css_class': 'clickme', 'type': 'click_up', 'cbjs_action': '''
+                        try{
+                          var intermediate_code = '%s';
+                          spt.panel.load_popup('View Intermediate File', 'tactic.ui.panel.EditWdg', {element_name: 'general', mode: 'view', search_type: 'twog/intermediate_file', code: intermediate_code, title: 'Intermediate File ' + intermediate_code, view: 'edit', widget_key: 'edit_layout'});
+                }
+                catch(err){
+                          spt.app_busy.hide();
+                          alert(err);
+                }
+         ''' % (intermediate_code)}
+        return behavior
+    
+    def display_source_location(source_code, task_code):
+        behavior = {'css_class': 'clickme', 'type': 'click_up', 'cbjs_action': '''
+                        try{
+                          var source_code = '%s';
+                          var task_code = '%s';
+                          var assets_tbl = document.getElementsByClassName('assets_for_' + task_code)[0];
+                          source_row = assets_tbl.getElementsByClassName('source_location_row_' + source_code)[0];
+                          if(source_row.style.display == 'none'){
+                              source_row.style.display = 'table-row';
+                          }else if(source_row.style.display = 'table-row'){
+                              source_row.style.display = 'none';
+                          }  
+                }
+                catch(err){
+                          spt.app_busy.hide();
+                          alert(err);
+                }
+         ''' % (source_code, task_code)}
+        return behavior
+    
+    def display_intermediate_location(intermediate_code, task_code):
+        behavior = {'css_class': 'clickme', 'type': 'click_up', 'cbjs_action': '''
+                        try{
+                          var intermediate_code = '%s';
+                          var task_code = '%s';
+                          var assets_tbl = document.getElementsByClassName('assets_for_' + task_code)[0];
+                          intm_row = assets_tbl.getElementsByClassName('intermediate_location_row_' + intermediate_code)[0];
+                          if(intm_row.style.display == 'none'){
+                              intm_row.style.display = 'table-row';
+                          }else if(intm_row.style.display = 'table-row'){
+                              intm_row.style.display = 'none';
+                          }  
+                }
+                catch(err){
+                          spt.app_busy.hide();
+                          alert(err);
+                }
+         ''' % (intermediate_code, task_code)}
+        return behavior
+
+    def change_location(code, task_code, location):
+        behavior = {'css_class': 'clickme', 'type': 'click_up', 'cbjs_action': '''
+                        try{
+                          var code = '%s';
+                          var task_code = '%s';
+                          var location = '%s';
+                          new_place = prompt('Please Insert or Update the Current Location', location);
+                          
+                          st = 'twog/source'
+                          if(code.indexOf('INTERMEDIATE') != -1){
+                              st = 'twog/intermediate_file'
+                          }
+                          var server= TacticServerStub.get(); 
+                          sk = server.build_search_key(st, code)
+                          server.update(sk, {'location': new_place});
+                          
+                          location_cells = document.getElementsByClassName('location_cell_' + code);
+                          for(var r= 0; r < location_cells.length; r++){
+                              location_cells[r].innerHTML = 'Location: ' + new_place;
+                          }
+                          
+                }
+                catch(err){
+                          spt.app_busy.hide();
+                          alert(err);
+                }
+         ''' % (code, task_code, location)}
+        return behavior
+    info_butt = '<img border="0" style="vertical-align: middle" title="Detailed Info" name="Detailed Info" src="/context/icons/silk/information.png" />'   
+    locate_butt = '<img border="0" style="vertical-align: middle" title="Location" name="Location" src="/context/icons/custom/binoculars.png" />'
+    search_key = kwargs.get("search_key")
+    task_code = ''
+    if not search_key:
+        task_code = "TASK00015715"
+        #task_code = "TASK00015741"
+        task_expr = "@SOBJECT(sthpw/task['code', '%s'])" %task_code
+        task_so = server.eval(task_expr, single=True)
+        search_key = task_so.get("__search_key__")
+    else:
+        task_so = server.get_by_search_key(search_key)
+        task_code = task_so.get("code")
+    
+    wo_expr = "@SOBJECT(twog/work_order['task_code', '%s'])" %task_code
+    wo = server.eval(wo_expr, single=True)
+    wo_code = ''
+    wo_sk = ''
+    if wo:
+        wo_code = wo.get("code")
+        wo_sk = wo.get("__search_key__")
+    else:
+        wo_code = ""
+    in_table = Table()
+    in_table.add_attr('width','100%s' % '%')
+    in_table.add_attr('border','1')
+    in_table.add_style('border-width: 1px;')
+    in_table.add_style('border-color: #FFFFFF;')
+    in_table.add_style('background-color: #f9d0af;')
+    wo_sources = server.eval("@SOBJECT(twog/work_order_sources['work_order_code','%s'])" % wo_code)
+    for sc in wo_sources:
+        source_code = sc.get('source_code')
+        source = server.eval("@SOBJECT(twog/source['code','%s'])" % source_code)[0]
+        in_table.add_row()
+        in_table.add_cell('SRC')
+        info_table = Table()
+        info_table.add_attr('width','100%s' % '%')
+        info_table.add_row()
+        part = source.get('strat2g_part')
+        if part in [None,'']:
+            part = source.get('part')
+        full_name = source.get('title')
+        if source.get('episode') not in [None,'']:
+            full_name = '%s: %s' % (full_name, source.get('episode'))
+        uno = None
+        if not source.get('high_security'):
+            uno = info_table.add_cell('%s, %s' % (full_name, part))     
+        else:
+            uno = info_table.add_cell('<font color="#ff0000">!!!%s, %s!!!</font>' % (full_name, part))     
+        uno.add_attr('nowrap','nowrap')
+        info_table.add_row()
+        dos = info_table.add_cell('Barcode: %s' % (source.get('barcode')))     
+        dos.add_attr('nowrap','nowrap')
+        info_table.add_row()
+        tres = info_table.add_cell('%s, %s, %s' % (source.get('standard'), source.get('aspect_ratio'), source.get('total_run_time')))
+        tres.add_attr('nowrap','nowrap')
+        in_table.add_cell(info_table)
+        locate_cell = in_table.add_cell(locate_butt)
+        locate_cell.add_style('cursor: pointer;')
+        locate_cell.add_behavior(display_source_location(source.get('code'), task_code))
+        inspect = in_table.add_cell(info_butt)
+        inspect.add_style('cursor: pointer;')
+        inspect.add_behavior(inspect_source_popup(source_code, source.get('high_security')))
+        hider = in_table.add_row()
+        hider.add_attr('class','source_location_row_%s' % source.get('code'))
+        hider.add_style('display: none;')
+        wide = in_table.add_cell('Location: %s' % source.get('location'))
+        wide.add_attr('class','location_cell_%s' % source.get('code'))
+        wide.add_attr('colspan','4')
+    wo_passins = server.eval("@SOBJECT(twog/work_order_passin['work_order_code','%s'])" % wo_code)
+    for passin in wo_passins:
+        if passin.get('deliverable_source_code') not in [None,'']:
+            # NEED TO PUT IN DELIVERY INFORMATION IF IT HAS BEEN FILLED OUT - do in row above hidden row
+            source = server.eval("@SOBJECT(twog/source['code','%s'])" % passin.get('deliverable_source_code'))[0]
+            in_table.add_row()
+            in_table.add_cell('PASS-IN SRC')
+            info_table = Table()
+            info_table.add_attr('width','100%s' % '%')
+            info_table.add_row()
+            part = source.get('strat2g_part')
+            if part in [None,'']:
+                part = source.get('part')
+            full_name = source.get('title')
+            if source.get('episode') not in [None,'']:
+                full_name = '%s: %s' % (full_name, source.get('episode'))
+            uno = info_table.add_cell('%s, %s' % (full_name, part))     
+            uno.add_attr('nowrap','nowrap')
+            info_table.add_row()
+            dos = info_table.add_cell('Barcode: %s' % (source.get('barcode')))     
+            dos.add_attr('nowrap','nowrap')
+            info_table.add_row()
+            tres = info_table.add_cell('%s, %s, %s' % (source.get('standard'), source.get('aspect_ratio'), source.get('total_run_time')))
+            tres.add_attr('nowrap','nowrap')
+            in_table.add_cell(info_table)
+            locate_cell = in_table.add_cell(locate_butt)
+            locate_cell.add_style('cursor: pointer;')
+            locate_cell.add_behavior(display_source_location(source.get('code'), task_code))
+            inspect = in_table.add_cell(info_butt)
+            inspect.add_style('cursor: pointer;')
+            inspect.add_behavior(inspect_source_popup(source.get('code'), source.get('high_security')))
+            hider = in_table.add_row()
+            hider.add_attr('class','source_location_row_%s' % source.get('code'))
+            hider.add_style('display: none;')
+            wide = in_table.add_cell('Location: %s' % source.get('location'))
+            wide.add_attr('class','location_cell_%s' % source.get('code'))
+            wide.add_attr('colspan','4')
+    for passin in wo_passins:
+        if passin.get('intermediate_file_code') not in [None,'']:
+            intermediate_file = server.eval("@SOBJECT(twog/intermediate_file['code','%s'])" % passin.get('intermediate_file_code'))
+            if intermediate_file not in [None,[]]:
+                intermediate_file = intermediate_file[0]
+                in_table.add_row()
+                in_table.add_cell('PASS-IN INTM')
+   
+                info_table = Table()
+                info_table.add_attr('width','100%s' % '%')
+                info_table.add_row()
+                info_table.add_cell('%s: %s' % (intermediate_file.get('name'), intermediate_file.get('description')))
+                in_table.add_cell(info_table)
+   
+                locate_cell = in_table.add_cell(locate_butt)
+                locate_cell.add_style('cursor: pointer;')
+                locate_cell.add_behavior(display_intermediate_location(intermediate_file.get('code'), task_code))
+   
+                inspect = in_table.add_cell(info_butt)
+                inspect.add_style('cursor: pointer;')
+                inspect.add_behavior(inspect_intermediate_popup(intermediate_file.get('code')))                 
+   
+                hider = in_table.add_row()
+                hider.add_attr('class','intermediate_location_row_%s' % intermediate_file.get('code'))
+                hider.add_style('display: none;')
+                wide = in_table.add_cell('Location: %s' % intermediate_file.get('location'))
+                wide.add_attr('class','location_cell_%s' % intermediate_file.get('code'))
+                wide.add_attr('colspan','4')
+    out_table = Table()
+    out_table.add_attr('width', '100%s' % '%')
+    out_table.add_attr('border','1')
+    out_table.add_style('border-width: 1px;')
+    out_table.add_style('border-color: #FFFFFF;')
+    out_table.add_style('background-color: #b9bfcc;')
+    wo_intermediates = server.eval("@SOBJECT(twog/work_order_intermediate['work_order_code','%s'])" % wo_code)
+    for woit in wo_intermediates:
+        if woit.get('intermediate_file_code') not in [None,'']:
+            intermediate_file = server.eval("@SOBJECT(twog/intermediate_file['code','%s'])" % woit.get('intermediate_file_code'))
+            if intermediate_file not in [None,[]]:
+                intermediate_file = intermediate_file[0]
+                out_table.add_row()
+                out_table.add_cell('OUT INTM')
+   
+                info_table = Table()
+                info_table.add_attr('width','100%s' % '%')
+                info_table.add_row()
+                info_table.add_cell('%s: %s' % (intermediate_file.get('name'), intermediate_file.get('description')))
+                out_table.add_cell(info_table)
+   
+                locate_cell = out_table.add_cell(locate_butt)
+                locate_cell.add_style('cursor: pointer;')
+                locate_cell.add_behavior(display_intermediate_location(intermediate_file.get('code'), task_code))
+   
+                inspect = out_table.add_cell(info_butt)
+                inspect.add_style('cursor: pointer;')
+                inspect.add_behavior(inspect_intermediate_popup(intermediate_file.get('code')))                 
+   
+                hider = out_table.add_row()
+                hider.add_attr('class','intermediate_location_row_%s' % intermediate_file.get('code'))
+                hider.add_style('display: none;')
+                wide = out_table.add_cell('Location: %s' % intermediate_file.get('location'))
+                wide.add_attr('colspan','3')
+                wide.add_attr('class','location_cell_%s' % intermediate_file.get('code'))
+                label = "Change"
+                #if intermediate_file.get('location') in [None,'']:
+                #    label = "Set"
+                butt = out_table.add_cell('<input type="button" value="%s"/>' % label)
+                butt.add_behavior(change_location(intermediate_file.get('code'), task_code, intermediate_file.get('location')))
+    wo_deliverables = server.eval("@SOBJECT(twog/work_order_deliverables['work_order_code','%s'])" % wo_code)
+    for wod in wo_deliverables:
+        source_code = wod.get('deliverable_source_code')
+        if source_code not in [None,'']:
+            name = wod.get('name')
+            deliver_to = wod.get('deliver_to')
+            attn = wod.get('attn')
+            satisfied = wod.get('satisfied')
+            source = server.eval("@SOBJECT(twog/source['code','%s'])" % source_code)[0]
+            out_table.add_row()
+            out_table.add_cell('DLV')
+            info_table = Table()
+            info_table.add_attr('width','100%s' % '%')
+            info_table.add_row()
+            info_table.add_cell('%s, To: %s, %s. Satisfied: %s' % (name, deliver_to, attn, satisfied))
+            info_table.add_row()
+            part = source.get('strat2g_part')
+            if part in [None,'']:
+                part = source.get('part')
+            full_name = source.get('title')
+            if source.get('episode') not in [None,'']:
+                full_name = '%s: %s' % (full_name, source.get('episode'))
+            uno = info_table.add_cell('%s, %s' % (full_name, part))     
+            uno.add_attr('nowrap','nowrap')
+            info_table.add_row()
+            dos = info_table.add_cell('Barcode: %s' % (source.get('barcode')))     
+            dos.add_attr('nowrap','nowrap')
+            info_table.add_row()
+            tres = info_table.add_cell('%s, %s, %s' % (source.get('standard'), source.get('aspect_ratio'), source.get('total_run_time')))
+            tres.add_attr('nowrap','nowrap')
+            out_table.add_cell(info_table)
+            locate_cell = out_table.add_cell(locate_butt)
+            locate_cell.add_style('cursor: pointer;')
+            locate_cell.add_behavior(display_source_location(source.get('code'), task_code))
+            inspect = out_table.add_cell(info_butt)
+            inspect.add_style('cursor: pointer;')
+            inspect.add_behavior(inspect_source_popup(source.get('code'), source.get('high_security')))
+            hider = out_table.add_row()
+            hider.add_attr('class','source_location_row_%s' % source.get('code'))
+            hider.add_style('display: none;')
+            wide = out_table.add_cell('Location: %s' % source.get('location'))
+            wide.add_attr('class','location_cell_%s' % source.get('code'))
+            wide.add_attr('colspan','3')
+            label = "Change"
+            if source.get('location') in [None,'']:
+                label = "Set"
+            butt = out_table.add_cell('<input type="button" value="%s"/>' % label)
+            butt.add_behavior(change_location(source.get('code'), task_code, source.get('location')))
+        
+    table = Table()
+    table.add_attr('width','100%s' % '%')
+    table.add_attr('class','assets_for_%s' % task_code)
+    table.add_row()
+    table.add_cell(in_table)
+    table.add_row()
+    table.add_cell(out_table)
+    #final_tbl = table.get_display()
+    other_table = SourceDisplayWdg(work_order_code=wo_code)
+    final_tbl = other_table.get_display().get_display()
+    #context.write(out_tbl)
+
+%>]]>
+<div class="ovw_assets_wdg_${search_key}">${final_tbl}</div>
+</div>
+</html>
+</sched_work_order_assets_wdg_conf>
+</config>
+
+

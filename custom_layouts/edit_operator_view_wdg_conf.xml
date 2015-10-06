@@ -1,0 +1,166 @@
+<config>
+<edit_operator_view_wdg_conf>
+<html>
+<style type="text/css">
+.ovw_main {
+  width: 100%;
+  height: 100%;
+}
+
+.ovw_main table tr td {
+    vertical-align: top;
+}
+
+.ovw_top {
+  height: 500px;
+  margin: 10px;
+  overflow-y: auto;
+}
+
+.ovw_wo_list {
+    overflow_hidden;
+    height: 500px;
+    margin: 0px;
+}
+
+.ovw_tabs {
+  min-height: 700px;
+  margin: 0px 10px 10px 10px;
+}
+
+.ovw_slider_frame {
+    overflow: hidden;
+}
+
+
+
+.ovw_main_title h2 {
+    background: [expr]@GRADIENT('background2', -10)[/expr];
+    color: [expr]@GET(palette.color3)[/expr];
+    margin: 0;
+    height: 30px;
+    text-align: center;
+}
+
+.ovw_title {
+    color: [expr]@GET(palette.color)[/expr]; 
+    font-size: 16px;
+    font-weight: 400;
+    text-align: center;
+    background: [expr]@GRADIENT('background', -10)[/expr];
+}
+
+
+
+.ovw_wo_item {
+    padding-top: 10px;
+    height: 20px;
+} 
+
+.ovw_wo_item div {
+    float: left;
+    margin-right: 20px;
+} 
+
+.ovw_wo_item:hover {
+    background: [expr]@GET(palette.background2)[/expr];
+}
+
+.ovw_top_hide {
+    float: left;
+}
+.ovw_top_show {
+    float: left;
+}
+
+
+/* Discussion Wdg */
+.ovw_main .spt_discussion_top {
+    width: 300px;
+}
+</style>
+<div class="ovw_main">
+    <div>
+    <![CDATA[
+    <%
+    from client.tactic_client_lib import TacticServerStub
+    from pyasm.common import Environment
+    login = Environment.get_login()
+    user_name = login.get_login()
+    server = TacticServerStub.get()
+    login_in_groups = server.eval("@SOBJECT(sthpw/login_in_group['login','%s']['login_group','not in','client|user'])" % user_name)
+    groups_str = ''
+    for lig in login_in_groups:
+        if groups_str == '':
+            groups_str = lig.get('login_group')
+        else:
+            groups_str = '%s|%s' % (groups_str, lig.get('login_group'))
+    %>]]>  
+</div>
+  <div class="ovw_main_title">
+    <h2><div class="ovw_top_hide"><img src="/context/icons/common/up-arrow.png"/></div><div class="ovw_top_show" style="display:none;"><img src="/context/icons/common/down-arrow.png"/></div>
+      Operator View
+    </h2>
+  </div>
+  <div class="ovw_slider_frame">
+    <div class="ovw_top">
+      <div class="ovw_wo_list">
+        <element name="ovw_wo_list">
+          <display class="tactic.ui.panel.ViewPanelWdg">
+            <search_type>sthpw/task</search_type>
+            <view>edit_operator_view_tasks</view>
+            <mode>simple</mode>
+            <width>100%</width>
+            <simple_search_view>simple_task_filter</simple_search_view>
+            <search_view>link_search:edit_operator_view_tasks</search_view> 
+          </display>
+        </element>
+      </div>
+    </div>
+  </div>
+  <div class="ovw_tabs">
+    <element name="tabs">
+      <display class="tactic.ui.container.TabWdg"/>
+    </element>
+  </div>
+</div>
+</html>
+<behavior class="ovw_top_hide"><![CDATA[
+                    { "type": "click_up", 
+                    "cbjs_action": '''
+top_el = bvr.src_el.getParent(".ovw_main")
+list_el = top_el.getElement(".ovw_top")
+show_el = top_el.getElement("ovw_top_show");
+
+new Fx.Tween(list_el).start('margin-top', "-510px");
+bvr.src_el.setStyle("display", "none")
+//list_el.setStyle("display", "none")
+
+show_el = top_el.getElement(".ovw_top_show");
+show_el.setStyle("display", "block")
+
+
+'''
+}]]></behavior>
+
+
+<behavior class="ovw_top_show"><![CDATA[
+                    { "type": "click_up", 
+                    "cbjs_action": '''
+top_el = bvr.src_el.getParent(".ovw_main")
+list_el = top_el.getElement(".ovw_top")
+
+
+new Fx.Tween(list_el).start('margin-top', "0px");
+bvr.src_el.setStyle("display", "none")
+hide_el = top_el.getElement(".ovw_top_hide");
+hide_el.setStyle("display", "block")
+
+
+'''
+}]]></behavior>
+</edit_operator_view_wdg_conf>
+</config>
+
+
+

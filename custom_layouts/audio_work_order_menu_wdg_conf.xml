@@ -1,0 +1,245 @@
+<config>
+<audio_work_order_menu_wdg_conf>
+<html>
+<style type="text/css">
+.audio_work_order_menu_wdg {
+    min-width: 250px;
+    overflow-y: auto;
+    height: 600px;
+}
+
+.audio_work_order_menu_wdg table td {
+    border: 1px solid #fff;
+}
+
+.audio_work_order_menu_wdg tr {
+    opacity: 0.8;
+}
+
+.audio_work_order_menu_wdg tr:hover {
+    opacity: 1;
+    cursor: pointer;
+}
+
+
+.audio_work_order_menu_wdg tr.odd {
+    background: #fff
+}
+
+.audio_work_order_menu_wdg tr.even {
+    background: #eee
+}
+
+.audio_work_order_menu_wdg tr.menu_proj td {
+    padding-bottom: 5px;
+}
+</style>
+<div class="audio_work_order_menu_wdg">
+<![CDATA[
+<%
+
+from pyasm.common import Environment
+login = Environment.get_login()
+user_name = login.get_login()
+groups = server.eval("@SOBJECT(sthpw/login_in_group['login','%s'])" % user_name)
+in_sched = False
+groups_str = ''
+for grp in groups:
+    groups_str = groups_str + grp.get('login_group')
+    if 'scheduling' in grp.get('login_group'):
+        in_sched = True
+colors = {
+  "Assignment": "#fcaf88", 
+  "Pending": "#d7d7d7", 
+  "In_Progress": "#f5f3a4",
+  "In Progress": "#f5f3a4",
+  "Waiting": "#ffd97f",
+  "Need Assistance": "#fc88bf",
+  "Review": "#888bfc",
+  "Approved": "#d4b5e7",
+  "Completed": "#b7e0a5",
+  "Failed QC": "#ff0000",
+  "On_Hold": "#e8b2b8",
+  "On Hold": "#e8b2b8",
+  "Ready": "#b2cee8"
+} 
+
+search_key = kwargs.get("search_key")
+
+if not search_key:
+    task_code = "TASK00015740"
+    task_expr = "@SOBJECT(sthpw/task['code', '%s'])" % task_code
+    task_so = server.eval(task_expr, single=True)
+    search_key = task_so.get("__search_key__")
+
+else:
+    task_so = server.get_by_search_key(search_key)
+    task_code = task_so.get("code")
+
+
+#proj_expr = "@SOBJECT(twog/work_order['task_code','%s'].twog/proj.twog/title.twog/proj)" % task_code
+#print "MENU PROJ_EXPR = %s" % proj_expr
+#projs = server.eval(proj_expr, search_key)
+#print "MENU PROJS = %s" % projs
+projs = None
+wo_1 = server.eval("@SOBJECT(twog/work_order['task_code','%s'])" % task_code)
+proj_1 = server.eval("@SOBJECT(twog/proj['code','%s'])" % wo_1[0].get('proj_code'))
+if proj_1:
+    proj_1 = proj_1[0]
+    projs = server.eval("@SOBJECT(twog/proj['title_code','%s'])" % proj_1.get('title_code'))
+
+html = []
+html.append( "<table width='100%'>" )
+proj_sk = ''
+for proj in projs:
+    proj_sk = proj.get("__search_key__")
+    proj_process = proj.get("process")
+    
+    work_orders_expr = "@SOBJECT(twog/work_order['proj_code','%s'])" % proj.get('code')
+    work_orders = server.eval(work_orders_expr)
+    #task_expr = "@SOBJECT(twog/work_order.sthpw/task)"
+    #tasks = server.eval(task_expr, proj_sk)
+
+    proj_assigned_group = server.eval("@GET(sthpw/task['lookup_code','%s'].assigned_login_group)" % proj.get('code'))
+    if proj_assigned_group:
+        proj_assigned_group = proj_assigned_group[0]
+    else:
+        proj_assigned_group = ''
+    second_part = "<td>%s</td>" % proj_assigned_group
+    if in_sched:
+        second_part = "<td code='%s' class='change_priority'><u><b>Set Priority</b></u></td>" % proj.get('code')
+    mini_tbl = '<table><tr><td align="left" nowrap="nowrap"><b>PR: %s</b></td><td width="100%s"> </td><td align="right"><img proj_code="%s" proj_name="%s" class="launch_due_date" src="/context/icons/silk/calendar.png"/></td></tr></table>' % (proj_process, '%', proj.get('code'), proj_process)
+    html.append( "<tr class='odd menu_proj'>" )
+    html.append( "<td></td>" )
+    html.append( "<td>%s</td>" % mini_tbl )
+    html.append( second_part )
+    html.append( "</tr>" )
+
+    count = 0
+    for work_order in work_orders:
+        task_code = work_order.get('task_code')
+        task = server.eval("@SOBJECT(sthpw/task['code','%s'])" % task_code)
+        if task:
+            task = task[0]
+      
+            task_sk = task.get("__search_key__")
+    
+            task_process = task.get("process")
+            task_assigned = task.get("assigned_login_group")
+            task_status = task.get("status")
+            color = colors.get(task_status)
+            if not color:
+                color = "#2d2d2d"
+            highlight_color = "#2d2dfc"
+
+            color_div = "<div task_sk='%s' style='background:%s; width: 16px; height: 16px;'> </div>" % (task_sk,color)
+
+            if task_sk == search_key:
+                task_process = "<b task_sk='%s' style='background:%s; color: #fff'>%s</b>" % (task_sk, highlight_color, task_process)
+
+            if (count % 2 == 0):
+                html.append( "<tr class='menu_item even menu_work_order' search_key='%s'>" % task_sk )
+            else:
+                html.append( "<tr class='menu_item odd menu_work_order' search_key='%s'>" % task_sk)
+
+            html.append( "<td>%s</td>" %color_div )
+            html.append( "<td>WO: %s</td>" %(task_process) )
+            html.append( "<td><i>%s</i></td>" %(task_assigned) )
+            html.append( "</tr>" )
+            count = count + 1
+
+    
+html.append( "</table>" )
+html = "".join(html)
+context.write(html)
+
+%>]]>                                 
+</div>
+</html>
+<behavior class="launch_due_date"><![CDATA[
+                    { "type": "click_up", 
+                    "cbjs_action": '''
+ try{
+      proj_code = bvr.src_el.getAttribute('proj_code');
+      proj_name = bvr.src_el.getAttribute('proj_name');
+      order_sk = 'I dunno'
+      kwargs = {'proj_code': proj_code, 'proj_name': proj_name, 'order_sk': order_sk, 'send_wdg': 'OperatorView'};
+      spt.panel.load_popup("Change Due Date for " + proj_name + "'s work orders", 'order_builder.order_builder.ProjDueDateChanger', kwargs);
+  }
+  catch(err){
+	spt.app_busy.hide();
+	alert(err);
+  }
+
+
+'''}
+]]></behavior>
+<behavior class="change_priority"><![CDATA[
+                    { "type": "click_up", 
+                    "cbjs_action": '''
+ try{
+
+    var new_num = Number(prompt("Please enter the new priority number for this project's work orders.")); 
+    if(new_num != '' && new_num != null && String(new_num) != 'NaN'){
+                new_num = Number(new_num);
+		var server = TacticServerStub.get();
+		var code = bvr.src_el.getAttribute("code");
+                var proj_sk = server.build_search_key('twog/proj', code);
+                server.update(proj_sk, {'priority': new_num}); 
+                alert('Done setting priority');
+    }else{
+        alert("Please enter a number");
+    }
+  }
+  catch(err){
+	spt.app_busy.hide();
+	alert(err);
+  }
+
+
+'''}
+]]></behavior>
+<behavior class="menu_item"><![CDATA[
+                    { "type": "click_up", 
+                    "cbjs_action": '''
+
+    spt.app_busy.show("Loading...", "")
+
+    var server = TacticServerStub.get()
+
+    var search_key = bvr.src_el.getAttribute("search_key")
+
+    var task_so = server.get_by_search_key(search_key)
+    var tab_title = task_so.process;
+    var tab_name = task_so.code;
+
+    var top_el = bvr.src_el.getParent(".ovw_main")
+
+    var kwargs = {
+      'view': 'audio_operator_view_wdg_wo_panel',
+      'include_mako': 'true',
+      'search_key': search_key
+      
+    }
+    var class_name = "tactic.ui.panel.CustomLayoutWdg";
+
+    var wdg_el = bvr.src_el.getParent(".spt_custom_top")
+    var panel_el = wdg_el.getParent(".spt_custom_top")
+    spt.panel.load(panel_el, class_name, kwargs)
+
+    var tabs_el = top_el.getElement(".ovw_tabs")
+    //spt.tab.set_tab_top(tabs_el)
+    //spt.tab.add_new(tab_name, tab_title, class_name, kwargs)    
+
+
+    spt.app_busy.hide()
+
+'''}
+]]></behavior>
+</audio_work_order_menu_wdg_conf>
+</config>
+
+
+
+
+

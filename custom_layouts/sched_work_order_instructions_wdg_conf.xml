@@ -1,0 +1,58 @@
+<config>
+<sched_work_order_instructions_wdg_conf>
+<html>
+<style type="text/css">
+.sched_work_order_instructions_wdg {
+    margin: 10px;
+    border: 1px solid [expr]@GET(palette.background2)[/expr];
+    background: [expr]@GET(palette.background)[/expr];
+    padding:10px;
+    height: 580px;
+    overflow-y: auto;
+    min-width: 200px;
+}
+</style>
+<div class="sched_work_order_instructions_wdg">
+<![CDATA[
+<%
+search_key = kwargs.get("search_key")
+
+if not search_key:
+    task_code = "TASK00015740"
+    task_expr = "@SOBJECT(sthpw/task['code', '%s'])" %task_code
+    task_so = server.eval(task_expr, single=True)
+    search_key = task_so.get("__search_key__")
+
+else:
+    task_so = server.get_by_search_key(search_key)
+    task_code = task_so.get("code")
+
+wo_expr = "@SOBJECT(twog/work_order['task_code', '%s'])" % task_code
+wo = server.eval(wo_expr)
+if wo:
+    wo = wo[0]
+
+if wo:
+    instructions = wo.get("instructions")
+    try:
+        unicode(instructions, "ascii")
+    except UnicodeError:
+        instructions = unicode(instructions, "utf-8")
+    else:
+        # value was valid ASCII data
+        pass
+else:
+    instructions = "- No Instructions -"
+
+html = "<div>%s</div>" %instructions
+context.write(html)
+
+%>]]>                                            
+</div>
+</html>
+</sched_work_order_instructions_wdg_conf>
+</config>
+
+
+
+

@@ -1,0 +1,263 @@
+<config>
+<work_order_equipment_wdg_conf>
+<html>
+<style type="text/css">
+.work_order_equipment_wdg {
+    height: 350px;
+
+}
+
+.equipment_list_panel {
+    height: 300px;
+    overflow-y: auto;
+}
+
+.add_equipment_show {
+    height: 30px;
+    width: 150px;
+    background: [expr]@GRADIENT('background', -10)[/expr];
+    margin: 10px auto;
+    border-radius: 5px;
+    line-height: 30px;
+    font-size: 16px;
+    text-align: center;
+  
+}
+
+.equipment_title_top {
+    background: [expr]@GET(palette.background2)[/expr];
+    height: 20px;
+}
+
+.equipment_title {
+    float: left;
+}
+
+.equipment_hours {
+    //float:right;
+}
+
+
+.equipment_add_hours {
+    float: right;
+}
+
+.equipment_actual {
+    height: 20px;
+    width: 30px;
+    background: #fff;
+}
+
+.add_equipment_panel {
+    width: 300px;
+    height: 150px;
+    background: [expr]@GET(palette.background)[/expr];
+    position: relative;
+    //z-index: 10;
+    margin-top: -155px;
+    border: 1px solid #aaa;
+}
+
+.add_equipment_frame{
+    position: absolute;
+    //width: 300px;
+    z-index: 10;
+    overflow:hidden;
+}
+</style>
+<div class="work_order_equipment_wdg">
+<![CDATA[
+<%
+    search_key = kwargs.get("search_key")
+
+    if not search_key:
+        task_code = "TASK00015740"
+        task_expr = "@SOBJECT(sthpw/task['code', '%s'])" %task_code
+        task_so = server.eval(task_expr, single=True)
+        search_key = task_so.get("__search_key__")
+
+    else:
+        task_so = server.get_by_search_key(search_key)
+        task_code = task_so.get("code")
+
+    wo_expr = "@SOBJECT(twog/work_order['task_code', '%s'])" %task_code
+    wo = server.eval(wo_expr, single=True)
+    if wo:
+        wo_code = wo.get("code")
+    else:
+        wo_code = ""
+     
+
+    equipment_expr = "@SOBJECT(twog/work_order['task_code', '%s'].twog/equipment_used)" %task_code
+    equipment = server.eval(equipment_expr)
+
+    context.write("<div class='equipment_list_panel'>")
+
+    for item in equipment:
+
+        item_sk = item.get("__search_key__")
+        name = item.get("name")
+        eq_code = item.get("code")
+        description = item.get("description")
+        actual_duration = item.get("actual_duration")
+        expected_duration = item.get("expected_duration")
+  
+        title_html = '''
+            <div class="equipment_title_top">
+                <div class="equipment_title">%s: %s</div>
+            </div>
+        ''' %(name, description)
+
+        hours_html = '''
+            <div class="equipment_hours">
+                <table width='100%%'>
+                  <tr>
+                    <td style="width:50px">Actual</td>
+                    <td class="equipment_actual" id="equipment_actual_%s">%s</td>
+                    <td style="width: 50%%;" align="right" nowrap="nowrap">Add Hours: </td>
+                    <td style="text-align:right">
+                      <input id="hour_adder_%s" size="5" maxlength="5" value="" type="text" onkeyup="if(event.keyCode == 13){ eq_code = '%s'; me_el = document.getElementById('hour_adder_' + eq_code); new_hours = me_el.value; if(new_hours != ''){ if(new_hours != null){ if(!isNaN(new_hours)){ server = TacticServerStub.get(); search_key = '%s'; eq = server.get_by_search_key(search_key); curr_val = eq.actual_duration; if(curr_val == ''){ curr_val = 0; } else if (curr_val == null){ curr_val = 0; } new_dur = parseFloat(new_hours) + parseFloat(curr_val); server.update(search_key, {'actual_duration': new_dur}); me_el.value = ''; actual_el = document.getElementById('equipment_actual_' + eq_code); actual_val = actual_el.innerHTML; if(actual_val == ''){ actual_val = 0; } actual_val = parseFloat(actual_val) + parseFloat(new_hours); actual_el.innerHTML = actual_val; alert('Added ' + new_hours + ' equipment hours'); }else{ alert(new_hours + ' is not a number.'); me_el.value = '';} } } }"/>
+                    </td>
+                  </tr>
+                </table>
+            </div>
+        ''' %(eq_code, actual_duration, eq_code, eq_code, item_sk)
+   
+        item_html = title_html + hours_html + "<br/>"
+        context.write(item_html)
+
+    context.write("</div>")
+
+    add_equipment_div = '''
+      <div class="add_equipment_top" wo_code="%s" search_key="%s">
+        <div class="add_equipment_frame">
+          <div class="add_equipment_panel">
+              <div>
+                <b>Add Equipment to Work Order</b>
+              </div>
+              <table width="100%%"> 
+                <tr>
+                  <td>Equipment</td>
+                  <td>
+                    <element name="equipment_code">
+                      <display class="SelectWdg">
+                        <values_expr>@GET(twog/equipment.code)</values_expr>
+                        <labels_expr>@GET(twog/equipment.name)</labels_expr>
+                        <empty>true</empty>
+                      </display>
+                    </element>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Units</td>
+                  <td>
+                    <element name="units">
+                      <display widget="select">
+                        <values>items|mb|gb|tb</values>
+                        <empty>true</empty>
+                      </display>
+                    </element>
+
+                  </td>
+                </tr>
+
+
+                <tr>
+                  <td>Estimated Duration</td>
+                  <td><input class="spt_input" name="expected_duration" value="" type="text"/></td>
+                </tr>
+
+                <tr>
+                  <td>Estimated Quantity</td>
+                  <td><input class="spt_input" name="expected_quantity" value="" type="text"/></td>
+                </tr>
+
+              </table>
+              <table>
+                <tr>
+                  <td><input name="submit" value="Submit" type="button" class="add_equipment_submit"/></td>
+                  <td><input name="cancel" value="Cancel" type="button" class="add_equipment_hide"/></td>
+                  <td class="update_progress"> </td>
+                </tr>
+              </table>
+          </div>
+        </div>
+        <div class="add_equipment_show ovw_button">Add Equipment</div>
+      </div>
+    ''' %( wo_code, search_key )
+
+    context.write(add_equipment_div)
+
+%>]]>
+
+
+
+</div>
+</html>
+<behavior class="add_equipment_submit"><![CDATA[
+                    { "type": "click_up", 
+                    "cbjs_action": '''
+
+var gif = "<img src='/context/spt_js/edit_area/images/processing.gif'/>"
+
+var server = TacticServerStub.get();
+var top_el = bvr.src_el.getParent(".add_equipment_top");
+
+
+
+var values = spt.api.get_input_values(top_el);
+
+var search_key = top_el.getAttribute("search_key")
+var wo_code = top_el.getAttribute("wo_code")
+values.work_order_code = wo_code
+
+var equipment_code = values.equipment_code;
+var equipment_sk = server.build_search_key("twog/equipment", equipment_code)
+var equipment_so = server.get_by_search_key(equipment_sk)
+var equipment_name = equipment_so.name;
+values.name = equipment_name;
+
+server.insert("twog/equipment_used", values)
+
+var wdg_el = bvr.src_el.getParent(".spt_custom_top")
+var class_name = "tactic.ui.panel.CustomLayoutWdg";
+var kwargs = {
+    'view': 'work_order_equipment_wdg',
+    'search_key': search_key,
+    'include_mako': 'true'
+}
+
+spt.panel.load(wdg_el, class_name, kwargs);
+//spt.panel.refresh(wdg_el);
+
+
+'''}
+]]></behavior>
+
+<behavior class="add_equipment_show"><![CDATA[
+                    { "type": "click_up", 
+                    "cbjs_action": '''
+top_el = bvr.src_el.getParent(".work_order_equipment_wdg")
+panel_el = top_el.getElement(".add_equipment_panel")
+
+new Fx.Tween(panel_el).start('margin-top', "0px");
+
+
+'''
+}]]></behavior>
+
+
+<behavior class="add_equipment_hide"><![CDATA[
+                    { "type": "click_up", 
+                    "cbjs_action": '''
+top_el = bvr.src_el.getParent(".work_order_equipment_wdg")
+panel_el = top_el.getElement(".add_equipment_panel")
+
+new Fx.Tween(panel_el).start('margin-top', "-155px");
+
+'''
+}]]></behavior>
+</work_order_equipment_wdg_conf>
+</config>
+
+

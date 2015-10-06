@@ -1,0 +1,97 @@
+<config>
+<machine_room_work_order_checklist_wdg_conf>
+<html>
+<style type="text/css">
+.machine_room_work_order_checklist_wdg {
+    height: 300px;
+    overflow-y: auto;
+    min-width: 200px;
+}
+
+.checklist_update {
+    display: none;
+}
+</style>
+<div class="machine_room_work_order_checklist_wdg">
+  <div class="wo_checklist_top">
+    <div>
+<![CDATA[
+<%
+  search_key = kwargs.get("search_key")
+
+  if not search_key:
+      task_code = "TASK00015740"
+      task_expr = "@SOBJECT(sthpw/task['code', '%s'])" %task_code
+      task_so = server.eval(task_expr, single=True)
+      search_key = task_so.get("__search_key__")
+
+  else:
+      task_so = server.get_by_search_key(search_key)
+      task_code = task_so.get("code")
+
+  wo_1 = server.eval("@SOBJECT(twog/work_order['task_code','%s'])" % task_code)
+  checklist_expr = "@SOBJECT(twog/work_order_prereq['work_order_code','%s'])" % wo_1[0].get('code')
+  checklist = server.eval(checklist_expr) 
+
+  html = []
+  html.append( "<table width='100%'>" )
+
+  for item in checklist:
+
+      item_sk = item.get("__search_key__")
+      code = item.get("code")
+      prereq = item.get("prereq")
+      satisfied = item.get("satisfied")
+
+      html.append( "<tr class='checklist_row'>" )
+      html.append( "<td>%s</td>" %prereq )
+      html.append( "<td>" )
+
+      if satisfied:
+          html.append( "<input type='checkbox' search_key='%s' name='%s' checked='checked' class='list_checkbox'/>" %(item_sk, prereq ) )
+      else:
+          html.append( "<input type='checkbox' search_key='%s' name='%s' class='list_checkbox'/>" %(item_sk, prereq ) )
+
+
+      html.append( "</td>" )
+      html.append( "<td width='24px'><img class='checklist_update' src='/context/spt_js/edit_area/images/processing.gif'/></td>" )
+      html.append( "</tr>" )     
+
+  html.append( "</table>" )
+  html = "".join(html)
+  context.write(html)
+     
+
+  %>]]>       
+</div>
+  </div>
+</div>
+</html>
+<behavior class="list_checkbox"><![CDATA[
+                    { "type": "change", 
+                    "cbjs_action": '''
+
+check_el = bvr.src_el;
+search_key = bvr.src_el.getAttribute("search_key")
+
+row_el = bvr.src_el.getParent(".checklist_row")
+update_el = row_el.getElement(".checklist_update")
+update_el.style.display = "block"
+
+value = check_el.checked;
+
+var data = {
+    'satisfied': value
+}
+var server = TacticServerStub.get()
+server.update(search_key, data)
+
+update_el.style.display = "none"
+'''}
+
+
+]]></behavior>
+</machine_room_work_order_checklist_wdg_conf>
+</config>
+
+

@@ -1,0 +1,258 @@
+<config>
+<machine_room_work_order_status_wdg_conf>
+<html>
+<style type="text/css">
+.because_divs_are_stupid {
+    height: 100px;
+}
+
+
+.because_divs_are_stupid .login_select{
+    line-height: 18px;
+    font-size: 15px;
+    margin-bottom: 1px;
+    color: #fff;
+    cursor: pointer;
+    opacity: 0.7;
+    padding-left: 10px;
+    
+}
+
+.because_divs_are_stupid .login_select:hover{
+   opacity: 1;
+}
+.machine_room_work_order_status_wdg {
+    height: 100px;
+}
+
+
+.machine_room_work_order_status_wdg .status_select{
+    line-height: 18px;
+    font-size: 15px;
+    margin-bottom: 1px;
+    color: #fff;
+    cursor: pointer;
+    opacity: 0.7;
+    padding-left: 10px;
+    
+}
+
+.machine_room_work_order_status_wdg .status_select:hover{
+   opacity: 1;
+}
+
+
+.update_status_panel {
+    width: 200px;
+    height: 200px;
+    background: [expr]@GET(palette.background)[/expr];
+    position: relative;
+    //z-index: 10;
+    margin-top: -205px;
+    border: 1px solid #aaa;
+}
+
+.update_status_frame{
+    position: absolute;
+    width: 200px;
+    //height: 150px;
+    z-index: 10;
+    overflow:hidden;
+}
+</style>
+<div>
+<![CDATA[
+<%
+
+
+colors = {
+  "Assignment": "#fcaf88", 
+  "Pending": "#d7d7d7", 
+  "In Progress": "#f5f3a4",
+  "In_Progress": "#f5f3a4",
+  "Waiting": "#ffd97f",
+  "Need Assistance": "#fc88bf",
+  "Review": "#888bfc",
+  "Approved": "#d4b5e7",
+  "Completed": "#b7e0a5",
+  "Failed QC": "#ff0000",
+  "On_Hold": "#e8b2b8",
+  "On Hold": "#e8b2b8",
+  "Ready": "#b2cee8"
+} 
+from pyasm.widget import SelectWdg
+
+
+search_key = kwargs.get("search_key")
+if not search_key:
+    task_code = "TASK00015740"
+    task_expr = "@SOBJECT(sthpw/task['code', '%s'])" %task_code
+    task_so = server.eval(task_expr, single=True)
+    search_key = task_so.get("__search_key__")
+
+else:
+    task_so = server.get_by_search_key(search_key)
+    task_code = task_so.get("code")
+
+task_status = task_so.get("status")
+task_assigned = task_so.get('assigned')
+
+status_behavior = {'css_class': 'sel_change', 'type': 'change', 'cbjs_action': '''
+		try{
+                    var server= TacticServerStub.get();
+                    var search_key = '%s';
+                    new_status = bvr.src_el.value;
+                    server.update(search_key, {'status': new_status});
+                    wdg_top = bvr.src_el.getParent(".ovw_columns");
+                    menu = wdg_top.getElementsByClassName('machine_room_work_order_menu_wdg')[0];
+                    color_lookup = {
+                     "Assignment": "#fcaf88", 
+                     "Pending": "#d7d7d7", 
+                     "In Progress": "#f5f3a4",
+                     "In_Progress": "#f5f3a4",
+                     "Waiting": "#ffd97f",
+                     "Need Assistance": "#fc88bf",
+                     "Review": "#888bfc",
+                     "Approved": "#d4b5e7",
+                     "Completed": "#b7e0a5",
+                     "Failed QC": "#ff0000",
+                     "On_Hold": "#e8b2b8",
+                     "On Hold": "#e8b2b8",
+                     "Ready": "#b2cee8"
+                    } 
+                    task_div = null;
+                    divs = document.getElementsByTagName('div');
+                    for(var r = 0; r < divs.length; r++){
+                        if(divs[r].getAttribute('task_sk') == search_key){
+                            task_div = divs[r];
+                            task_div.style.background = color_lookup[new_status];
+                        }
+                    }
+                    task_div2 = null;
+                    bs = document.getElementsByTagName('b');
+                    for(var r = 0; r < bs.length; r++){
+                        if(bs[r].getAttribute('task_sk') == search_key){
+                            task_div2 = bs[r];
+                            task_div2.style.background = color_lookup[new_status];
+                            //task_div2.innerHTML = new_status;
+                        }
+                    }
+                    h1s = document.getElementsByTagName('h1');
+                    my_h1 = null;
+                    for(var r = 0; r < h1s.length; r++){
+                        if(h1s[r].getAttribute('h1_sk') == search_key){
+                            my_h1 = h1s[r];
+                            my_h1.innerHTML = new_status;
+                        }
+                    }
+                    
+                    colorizer = wdg_top.getElementsByClassName('ovw_wo_frame_' + search_key)[0];
+                    colorizer.style.background = color_lookup[new_status];
+                    
+                    if(new_status == 'Failed QC'){
+                        operator_description = prompt("Please tell us why this failed.");
+                        task_code = search_key.split('code=')[1];
+                        task = server.eval("@SOBJECT(sthpw/task['code','" + task_code + "'])")[0]
+                        lookup_code = task.lookup_code;
+                        error_entries = server.eval("@SOBJECT(twog/production_error['work_order_code','" + lookup_code + "'])")
+                        error_entry = error_entries[error_entries.length - 1];
+                        server.update(error_entry.__search_key__, {'operator_description': operator_description});
+                    }
+       
+	}
+	catch(err){
+		  spt.app_busy.hide();
+		  alert(err);
+	}
+                ''' % search_key}
+
+login_behavior = {'css_class': 'sel_change', 'type': 'change', 'cbjs_action': '''
+		try{
+                    var server= TacticServerStub.get();
+                    var search_key = '%s';
+                    new_assigned = bvr.src_el.value;
+                    server.update(search_key, {'assigned': new_assigned});
+	}
+	catch(err){
+		  spt.app_busy.hide();
+		  alert(err);
+	}
+                ''' % search_key}
+
+logins = server.eval("@SOBJECT(sthpw/login['location','internal']['@ORDER_BY','login'])")
+login_select = SelectWdg('login_select')
+login_select.append_option('--SELECT--','NOTHING')
+for lg in logins:
+    login_select.append_option(lg.get('login'), lg.get('login'))
+    if lg.get('login') == task_assigned:
+        login_select.set_value(task_assigned)
+login_select.add_behavior(login_behavior) 
+color_arr = ["Pending","Ready","On_Hold","Failed QC","In_Progress","Completed"]
+status_select = SelectWdg('matt_status_select')
+for c in color_arr:
+    if c == task_status:
+        status_select.set_value(task_status)
+    status_select.append_option(c,c)
+status_select.add_behavior(status_behavior) 
+#status_select.add_style('display: none;')
+
+status_display = status_select.get_display()
+login_display = login_select.get_display()
+print "STATUS DISPLAY =%s" % status_display
+pipeline_code = task_so.get("pipeline_code")
+#context.write("<div>%s</div>" %pipeline_code)
+
+
+#status_expr = "@GET(config/process['pipeline_code', '%s']['search_type', 'sthpw/task'].process)" %pipeline_code
+#status_list = server.eval(status_expr)
+status_list = []
+
+if len(status_list) == 0:
+    status_list =  ["Pending","Ready","On_Hold","Failed QC","In_Progress","Completed"]
+
+color = colors.get(task_status)
+if not color:
+    color = "#2d2d2d"
+
+    
+%>]]>
+<div class="ovw_wo_frame_${search_key}" style="background: ${color}"><div>${login_select}</div><div class="machine_room_work_order_status_wdg">${status_select}<h1 align="center" h1_sk="${search_key}">${task_status}</h1></div></div>
+
+</div>
+</html>
+
+
+
+
+<behavior class="machine_room_work_order_status_wdg"><![CDATA[
+                    { "type": "hover",
+            "cbjs_action_over": '''
+                top_el = bvr.src_el.getParent(".machine_room_work_order_status_wdg")
+                sels = top_el.getElementsByTagName('select');
+                the_sel = null;
+                for(var r = 0; r < sels.length; r++){
+                    if(sels[r].name == 'matt_status_select'){
+                        the_sel = sels[r];
+                    }
+                }
+                the_sel.style.display = 'inline';
+             
+            ''',
+            "cbjs_action_out": '''
+                top_el = bvr.src_el.getParent(".machine_room_work_order_status_wdg")
+                sels = top_el.getElementsByTagName('select');
+                the_sel = null;
+                for(var r = 0; r < sels.length; r++){
+                    if(sels[r].name == 'matt_status_select'){
+                        the_sel = sels[r];
+                    }
+                }
+                the_sel.style.display = 'none';
+            '''}
+
+]]></behavior>
+</machine_room_work_order_status_wdg_conf>
+</config>
+
+
+

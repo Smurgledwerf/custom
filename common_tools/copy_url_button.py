@@ -37,6 +37,7 @@ class CopyUrlButton(BaseTableElementWdg):
         """
         behavior = {'css_class': 'clickme', 'type': 'click_up', 'cbjs_action': '''
         try{
+            var url = '%s';
             var textArea = document.createElement("textarea");
 
             //
@@ -75,7 +76,7 @@ class CopyUrlButton(BaseTableElementWdg):
             // Avoid flash of white box if rendered for any reason.
             textArea.style.background = 'transparent';
 
-            textArea.value = '%s';
+            textArea.value = url;
 
             document.body.appendChild(textArea);
 
@@ -86,7 +87,7 @@ class CopyUrlButton(BaseTableElementWdg):
                 document.body.removeChild(textArea);
             }
             catch(err){
-                alert('Error copying to clipboard. You most likely need to update your browser.');
+                var value = prompt('Your browser might be out of date. Please copy the url manually.', url);
             }
         }
         catch(err){

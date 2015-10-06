@@ -1,0 +1,16 @@
+<config>
+<add_hours_wdg_conf>
+<html>
+<div>
+<![CDATA[
+<%
+    from operator_view.operator_view import WorkOrderHoursWdg
+    wdg = WorkOrderHoursWdg(popup='true')
+    table = str(wdg.get_display().get_display())
+    table = table.replace('None','')
+%>]]>
+${table}
+</div>
+</html>
+</add_hours_wdg_conf>
+</config>

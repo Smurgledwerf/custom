@@ -1,0 +1,170 @@
+<config>
+<media_vault_operator_view_wdg_wo_panel_conf>
+<html>
+<style type="text/css">
+.ovw_wo_panel {
+    min-width: 1000px;
+    width: 100%;
+}
+
+.ovw_columns {
+  overflow-x: scroll;
+  width:100%;
+  position: relative;
+  height: 660px;
+}
+
+.ovw_column{
+    background: [expr]@GET(palette.background3)[/expr];
+    border-right: 1px solid #FFF;
+    position: absolute;
+    height: 640px;
+}
+
+.ovw_column_1 {width: 350px; left: 0px;}
+.ovw_column_2 {width: 350px; left: 353px;}
+.ovw_column_3 {width: 300px; left: 704px;}
+.ovw_column_4 {width: 250px; left: 1006px;}
+.ovw_column_5 {width: 300px; left: 1258px;}
+</style>
+<div class="ovw_wo_panel">
+  <div>
+<![CDATA[
+<%
+
+search_key = kwargs.get("search_key")
+if not search_key:
+    task_code = "TASK00015740"
+    task_expr = "@SOBJECT(sthpw/task['code', '%s'])" %task_code
+    task_so = server.eval(task_expr, single=True)
+    search_key = task_so.get("__search_key__")
+
+else:
+    task_so = server.get_by_search_key(search_key)
+    task_code = task_so.get("code")
+
+
+
+
+proj_sk = ''
+proj_expr = "@SOBJECT(twog/work_order['task_code', '%s'].twog/proj)" %task_code
+proj_so = server.eval(proj_expr, single=True)
+if proj_so:
+    proj_sk = proj_so.get("__search_key__")
+
+
+title_expr = "@SOBJECT(twog/work_order['task_code', '%s'].twog/proj.twog/title)" %task_code
+title_so = server.eval(title_expr, single=True)
+
+if title_so:
+    title_sk = title_so.get("__search_key__")
+    title = title_so.get("title")
+    episode = title_so.get("episode")
+    title_1 = "%s: %s" %(title, episode)
+else:
+    title_1 = "- No Title -"
+
+media_vault_work_order_expr = "@SOBJECT(twog/work_order['task_code', '%s'])" %task_code
+media_vault_work_order_so = server.eval(media_vault_work_order_expr, single=True)
+if media_vault_work_order_so:
+    media_vault_work_order_sk = media_vault_work_order_so.get("__search_key__")
+    name = media_vault_work_order_so.get("name")
+    code= media_vault_work_order_so.get("code")
+    id = media_vault_work_order_so.get("id")
+    process = media_vault_work_order_so.get("process")
+    title_2 = "WO# %s: %s" %(id, process)
+else:
+    title_2 = "- No Work Order -"
+
+%>]]>                                            
+</div>
+  <table>
+    <tr>
+      <td class="ovw_main_title title_1" width="350px">
+        <h2>${title_1}</h2>
+      </td>
+      <td class="ovw_main_title title_2" width="1208px">
+        <h2>${title_2}</h2>
+      </td>
+    </tr>
+  </table>
+  <div class="ovw_columns">
+    <div class="ovw_column ovw_column_1">
+      <element name="menu">
+        <display class="tactic.ui.panel.CustomLayoutWdg">
+          <search_key>${search_key}</search_key>
+          <view>media_vault_work_order_menu_wdg</view>
+          <include_mako>true</include_mako>
+        </display>
+      </element>
+    </div>
+    <div class="ovw_column ovw_column_2">
+      <div class="ovw_title">Checklist</div>
+      <element name="checklist">
+        <display class="tactic.ui.panel.CustomLayoutWdg">
+          <search_key>${search_key}</search_key>
+          <view>media_vault_work_order_checklist_wdg</view>
+          <include_mako>true</include_mako>
+        </display>
+      </element>
+      <div class="ovw_title">Assets</div>
+      <element name="assets">
+        <display class="tactic.ui.panel.CustomLayoutWdg">
+          <search_key>${search_key}</search_key>
+          <view>media_vault_work_order_assets_wdg</view>
+          <include_mako>true</include_mako>
+        </display>
+      </element>
+    </div>
+    <div class="ovw_column ovw_column_3">
+      <div class="ovw_title">Work Order Instructions</div>
+      <element name="instructions">
+        <display class="tactic.ui.panel.CustomLayoutWdg">
+          <search_key>${search_key}</search_key>
+          <view>media_vault_work_order_instructions_wdg</view>
+          <include_mako>true</include_mako>
+        </display>
+      </element>
+    </div>
+    <div class="ovw_column ovw_column_4">
+      <element name="instructions">
+        <display class="tactic.ui.panel.CustomLayoutWdg">
+          <search_key>${search_key}</search_key>
+          <view>media_vault_work_order_hours_wdg</view>
+          <include_mako>true</include_mako>
+        </display>
+      </element>
+      <div class="ovw_title">Work Order Equipment</div>
+      <element name="equipment">
+        <display class="tactic.ui.panel.CustomLayoutWdg">
+          <search_key>${search_key}</search_key>
+          <view>media_vault_work_order_equipment_wdg</view>
+          <include_mako>true</include_mako>
+        </display>
+      </element>
+      <div class="ovw_title">Status And Assignment</div>
+      <element name="status">
+        <display class="tactic.ui.panel.CustomLayoutWdg">
+          <search_key>${search_key}</search_key>
+          <view>media_vault_work_order_status_wdg</view>
+          <include_mako>true</include_mako>
+        </display>
+      </element>
+    </div>
+    <div class="ovw_column ovw_column_5">
+      <div class="ovw_title">Project Notes</div>
+      <element name="notes">
+        <display class="tactic.ui.widget.DiscussionWdg">
+          <search_key>${proj_sk}</search_key>
+          <note_expandable>true</note_expandable>
+          <show_context_notes>true</show_context_notes>
+        </display>
+      </element>
+    </div>
+  </div>
+</div>
+</html>
+</media_vault_operator_view_wdg_wo_panel_conf>
+</config>
+
+
