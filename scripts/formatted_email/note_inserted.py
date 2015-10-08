@@ -221,7 +221,7 @@ def main(server=None, input=None):
                         os.system(the_command)
                 # Now do internal email
                 details = order.get('details', '')
-                order_name = int_data['order_name']
+                order_name = int_data.get('order_hyperlink', int_data['order_name'])
                 if details:
                     order_name += " - " + details
                 if title:

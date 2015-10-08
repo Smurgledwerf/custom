@@ -1331,6 +1331,7 @@ class MakeNoteWdg(Command):
     def make_email_info(my, wo_obj):
         from pyasm.search import Search
         from formatted_emailer import EmailDirections
+        import common_tools.utils as ctu
         wo_sk = wo_obj.get_search_key()
         order_s = Search("twog/order")
         order_s.add_filter('code',wo_obj.get_value('order_code'))
@@ -1427,10 +1428,12 @@ class MakeNoteWdg(Command):
         ed_int = email_dirs.get_internal_data()
         new_int_ccs = ed_int['int_ccs']
         my.email_info['int_ccs'] = '%s;%s;%s;%s' % (my.note_ccs, new_int_ccs, ed_int['scheduler_email'], ed_int['to_email'])
-        #Was forcing an email to them, not doing that anymore. Just rely on the user to do it correctly
-        #if new_status in ['Rejected','Fix Needed']:
-        #    my.email_info['int_ccs'] = '%s;Compression@2gdigital.com;QC@2gdigital.com' % (my.email_info['int_ccs'])
-        #
+
+        order_builder_url = ctu.get_order_builder_url(my.email_info['order_code'], my.server)
+        href = '<a href="{0}">{1}</a>'
+        order_hyperlink = href.format(order_builder_url, my.email_info['order_name'])
+        my.email_info['order_hyperlink'] = order_hyperlink
+
         return my.email_info
 
     def send_internal_email(my, email_info):
@@ -1442,7 +1445,7 @@ class MakeNoteWdg(Command):
                 line = line.replace('Operator Description','File Path(s)')
             line = line.replace('[LOGIN]', email_info['from_name'])
             line = line.replace('[ORDER_CODE]', email_info['order_code'])
-            line = line.replace('[ORDER_NAME]', email_info['order_name'])
+            line = line.replace('[ORDER_NAME]', email_info.get('order_hyperlink', email_info['order_name']))
             line = line.replace('[PO_NUMBER]', email_info['po_number'])
             line = line.replace('[SCHEDULER]', email_info['scheduler'])
             line = line.replace('[CLIENT_NAME]', email_info['client_name'])

@@ -56,6 +56,7 @@ def main(server=None, input=None):
         
         import os, time
         from pyasm.common import Environment
+        import common_tools.utils as ctu
         internal_template_file = '/opt/spt/custom/formatted_emailer/internal_general_fillin_template.html'
         trigger_sobject = input.get('trigger_sobject')
         event = trigger_sobject.get('event')
@@ -114,6 +115,11 @@ def main(server=None, input=None):
                 order_name = order_obj.get('name')
                 client_name = order_obj.get('client_name')
                 scheduler = order_obj.get('login')
+
+            order_builder_url = ctu.get_order_builder_url(order_code, server)
+            href = '<a href="{0}">{1}</a>'
+            order_hyperlink = href.format(order_builder_url, order_name)
+
             title_obj = server.eval("@SOBJECT(twog/title['code','%s'])" % title_code)
             title_due_date = ''
             title_expected_delivery = ''
@@ -168,7 +174,7 @@ def main(server=None, input=None):
             filled = ''
             for line in int_template:
                 line = line.replace('[ORDER_CODE]', order_code)
-                line = line.replace('[ORDER_NAME]', order_name)
+                line = line.replace('[ORDER_NAME]', order_hyperlink)
                 line = line.replace('[PO_NUMBER]', po_number)
                 line = line.replace('[MAIN_MESSAGE]', main_message)
                 line = line.replace('[TOP_MESSAGE]', head_message)

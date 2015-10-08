@@ -102,7 +102,7 @@ def main(server=None, input=None):
                 line = line.replace('[MESSAGE]', message)
                 line = line.replace('[CLIENT]', int_data['client_name'])
                 line = line.replace('[CLIENT_LOGIN]', int_data['client_login'])
-                line = line.replace('[ORDER_NAME]', int_data['order_name'])
+                line = line.replace('[ORDER_NAME]', int_data.get('order_hyperlink', int_data['order_name']))
                 line = line.replace('[START_DATE]', fix_date(int_data['start_date']))
                 line = line.replace('[DUE_DATE]', fix_date(int_data['due_date']))
                 line = line.replace('[TITLE_ROW]', '')

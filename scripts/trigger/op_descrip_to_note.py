@@ -27,6 +27,7 @@ def main(server=None, input=None):
         from pyasm.common import Environment
         from pyasm.biz import Note
         from pyasm.search import Search
+        import common_tools.utils as ctu
         login = Environment.get_login()
         user_name = login.get_login()
         delim = '#Xs*'
@@ -90,6 +91,11 @@ def main(server=None, input=None):
         operator_description = operator_description.replace('\n','<br/>')
         operator_description = operator_description.replace('  ', '  ')
         action_taken = sobject.get('action_taken')
+
+        order_builder_url = ctu.get_order_builder_url(order.get('code'), server)
+        href = '<a href="{0}">{1}</a>'
+        order_hyperlink = href.format(order_builder_url, order_name)
+
         title_row = ''
         proj_row = ''
         if title:
@@ -115,7 +121,7 @@ def main(server=None, input=None):
             line = line.replace('[PROCESS]', process)
             line = line.replace('[CLIENT_NAME]', client_name)
             line = line.replace('[PO_NUMBER]', po_number)
-            line = line.replace('[ORDER_NAME]', order_name)
+            line = line.replace('[ORDER_NAME]', order_hyperlink)
             line = line.replace('[TITLE]', title_name)
             line = line.replace('[EPISODE]', episode)
             line = line.replace('[ERROR_TYPE]', error_type)

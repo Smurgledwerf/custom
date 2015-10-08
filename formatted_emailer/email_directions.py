@@ -1,5 +1,6 @@
 import tacticenv, os
 from tactic_client_lib import TacticServerStub
+import common_tools.utils as ctu
 #This is to collect the correct data for emails and to determine who they should go to
 class EmailDirections():
     def __init__(my, *args, **kwargs):
@@ -226,12 +227,16 @@ class EmailDirections():
             if email not in int_list:
                 int_list.append(email)
 
-        
+        order_builder_url = ctu.get_order_builder_url(my.order_code, my.server)
+        href = '<a href="{0}">{1}</a>'
+        order_hyperlink = href.format(order_builder_url, my.order_name)
+
         clean_data = {}
         for key, val in my.data.iteritems():
             if key != 'ext_ccs':
                 clean_data[key] = val    
         send_data = clean_data
+        send_data['order_hyperlink'] = order_hyperlink
         send_data['from_email'] = from_email
         send_data['to_email'] = to_email
         #print "int list = %s" % int_list
