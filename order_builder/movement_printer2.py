@@ -194,13 +194,12 @@ class MovementPrintWdg2(BaseRefreshWdg):
             source_client = 'This Source Has No Client Attached'
             if len(source_client_poss) > 0:
                 source_client = source_client_poss[0].get('name')
-            source_title = '%s: %s' % (source.get('title'), source.get('episode'))
+            source_title = source.get('title').replace(u'\u2019', "'")
+            source_episode = source.get('episode').replace(u'\u2019', "'")
             if all_sources_str == '':
-                all_sources_str = '<div id="source"><div id="barcode">%s</div><div id="title">%s</div><div id="episode">%s</div><div id="type">%s</div><div id="outside_barcode">%s</div><div id="client">%s</div></div>' % (source.get('barcode'), source.get('title'), source.get('episode'), source.get('format'), out_bar, source_client)
-                #all_sources_str = '<div id="source"><div id="barcode">%s</div><div id="title">%s</div><div id="episode">%s</div><div id="type">%s</div><div id="outside_barcode">%s</div><div id="client">%s</div></div>' % (source.get('barcode'), source.get('title'), source.get('episode'), source.get('source_type'), out_bar, source_client)
+                all_sources_str = '<div id="source"><div id="barcode">%s</div><div id="title">%s</div><div id="episode">%s</div><div id="type">%s</div><div id="outside_barcode">%s</div><div id="client">%s</div></div>' % (source.get('barcode'), source_title, source_episode, source.get('format'), out_bar, source_client)
             else:
-                all_sources_str = '%s<div id="source"><div id="barcode">%s</div><div id="title">%s</div><div id="episode">%s</div><div id="type">%s</div><div id="outside_barcode">%s</div><div id="client">%s</div></div>' % (all_sources_str, source.get('barcode'), source.get('title'), source.get('episode'), source.get('format'), out_bar, source_client)
-                #all_sources_str = '%s<div id="source"><div id="barcode">%s</div><div id="title">%s</div><div id="episode">%s</div><div id="type">%s</div><div id="outside_barcode">%s</div><div id="client">%s</div></div>' % (all_sources_str, source.get('barcode'), source.get('title'), source.get('episode'), source.get('source_type'), out_bar, source_client)
+                all_sources_str = '%s<div id="source"><div id="barcode">%s</div><div id="title">%s</div><div id="episode">%s</div><div id="type">%s</div><div id="outside_barcode">%s</div><div id="client">%s</div></div>' % (all_sources_str, source.get('barcode'), source_title, source_episode, source.get('format'), out_bar, source_client)
             
         select = SelectWdg('print_type')
         for guy in my.types:
@@ -214,7 +213,7 @@ class MovementPrintWdg2(BaseRefreshWdg):
             f = open(my.template_files[guy], 'r')
             for line in f:
                 if not line.strip():
-        	    continue
+                    continue
                 else:
                     line = line.rstrip('\r\n')
                     line =line.replace('[FROM]',from_name)
