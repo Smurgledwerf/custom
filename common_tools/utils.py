@@ -88,6 +88,26 @@ def get_base_url(server=None, project='twog'):
     return url
 
 
+def get_edit_wdg_url(search_type, sobject_code, server=None, project='twog'):
+    """
+    Gets the url for the view/edit widget
+
+    Ex. get_edit_wdg_url('twog/title', 'TITLE1337')
+    -> 'http://tactic01.2gdigital.com/tactic/twog/sobject/twog/title/TITLE1337'
+
+    :param search_type: the tactic search type
+    :param sobject_code: the sobject's code
+    :param server: a tactic server stub object
+    :param project: the project as a string
+    :return: a url to the sobject's view
+    """
+    if not server:
+        server = get_server()
+
+    base_url = get_base_url(server, project)
+    return "{0}sobject/{1}/{2}".format(base_url, search_type, sobject_code)
+
+
 def get_order_builder_url(order_code, server=None, project='twog'):
     """
     Gets the order builder url for the given order code.
