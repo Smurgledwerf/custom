@@ -88,6 +88,23 @@ def get_base_url(server=None, project='twog'):
     return url
 
 
+def get_edit_wdg_from_search_key(search_key, server=None, project='twog'):
+    """
+    Convenience function for getting the edit widget url from a search key.
+
+    Ex. get_edit_wdg_from_search_key('twog/source?project=twog&code=SOURCE178165')
+    -> 'http://tactic01.2gdigital.com/tactic/twog/sobject/twog/source/SOURCE178165'
+
+    :param search_key: the search key of an sobject
+    :param server: a tactic server stub object
+    :param project: the project as a string
+    :return: a url to the sobject's view
+    """
+    search_type = search_key.split('?')[0]
+    sobject_code = search_key.split('code=')[1]
+    return get_edit_wdg_url(search_type, sobject_code, server, project)
+
+
 def get_edit_wdg_url(search_type, sobject_code, server=None, project='twog'):
     """
     Gets the url for the view/edit widget
