@@ -8,6 +8,8 @@ from tactic.ui.common import BaseTableElementWdg
 from tactic.ui.common import BaseRefreshWdg
 from tactic.ui.panel import EditWdg
 
+import common_tools.utils as ctu
+
 class MovementPrintLauncherWdg2(BaseTableElementWdg):
 
     def init(my):
@@ -194,8 +196,9 @@ class MovementPrintWdg2(BaseRefreshWdg):
             source_client = 'This Source Has No Client Attached'
             if len(source_client_poss) > 0:
                 source_client = source_client_poss[0].get('name')
-            source_title = source.get('title').replace(u'\u2019', "'")
-            source_episode = source.get('episode').replace(u'\u2019', "'")
+            replace_dict = {u'\u2018': "'", u'\u2019': "'", u'\u201c': '"', u'\u201d': '"'}
+            source_title = ctu.replace_multiple(source.get('title'), replace_dict)
+            source_episode = ctu.replace_multiple(source.get('episode'), replace_dict)
             if all_sources_str == '':
                 all_sources_str = '<div id="source"><div id="barcode">%s</div><div id="title">%s</div><div id="episode">%s</div><div id="type">%s</div><div id="outside_barcode">%s</div><div id="client">%s</div></div>' % (source.get('barcode'), source_title, source_episode, source.get('format'), out_bar, source_client)
             else:
