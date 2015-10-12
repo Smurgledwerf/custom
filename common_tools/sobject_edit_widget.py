@@ -147,7 +147,9 @@ class SobjectEditLauncherWdg(BaseTableElementWdg):
         """
         search_type = self.kwargs.get('search_type')
         sobject_code = self.get_sobject_code()
-        display_column = self.kwargs.get('display_column', 'code')
+        display_column = self.kwargs.get('display_column')
+        if not display_column:
+            display_column = 'code'
         display_name = self.server.eval("@GET({0}['code','{1}'].{2})".format(search_type, sobject_code, display_column))
         display_name = display_name[0] if display_name else sobject_code
 

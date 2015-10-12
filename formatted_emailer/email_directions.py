@@ -61,7 +61,10 @@ class EmailDirections():
         else:
             my.scheduler_email = ''
         my.from_name = '%s.%s' % (my.logged_in_login.get('first_name'), my.logged_in_login.get('last_name'))
-        my.data = {'order_code': my.order_code, 'po_number': my.po_number, 'client_email': my.client_email, 'scheduler_email': my.scheduler_email, 'client_name': my.client_name, 'client_login': my.client_login, 'order_name': my.order_name, 'start_date': my.start_date, 'due_date': my.due_date, 'from_name': my.from_name, 'location': my.location}
+        my.data = {'order_code': my.order_code, 'po_number': my.po_number, 'client_email': my.client_email,
+                   'scheduler_email': my.scheduler_email, 'client_name': my.client_name, 'client_code': my.client_code,
+                   'client_login': my.client_login, 'order_name': my.order_name, 'start_date': my.start_date,
+                   'due_date': my.due_date, 'from_name': my.from_name, 'location': my.location}
     
     def get_external_data(my):
         send_data = {}
@@ -231,12 +234,16 @@ class EmailDirections():
         href = '<a href="{0}">{1}</a>'
         order_hyperlink = href.format(order_builder_url, my.order_name)
 
+        client_hyperlink = ctu.get_edit_wdg_hyperlink('twog/client', my.client_code,
+                                                      sobject_name=my.client_name, server=my.server)
+
         clean_data = {}
         for key, val in my.data.iteritems():
             if key != 'ext_ccs':
                 clean_data[key] = val    
         send_data = clean_data
         send_data['order_hyperlink'] = order_hyperlink
+        send_data['client_hyperlink'] = client_hyperlink
         send_data['from_email'] = from_email
         send_data['to_email'] = to_email
         #print "int list = %s" % int_list

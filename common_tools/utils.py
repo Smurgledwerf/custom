@@ -125,6 +125,31 @@ def get_edit_wdg_url(search_type, sobject_code, server=None, project='twog'):
     return "{0}sobject/{1}/{2}".format(base_url, search_type, sobject_code)
 
 
+def get_edit_wdg_hyperlink(search_type, sobject_code, sobject_name='', server=None, project='twog'):
+    """
+    Convenience function to get the hyperlink for the view/edit widget.
+
+    Ex. get_edit_wdg_url('twog/title', 'TITLE1337', 'Awesome Movie')
+    -> '<a href="http://tactic01.2gdigital.com/tactic/twog/sobject/twog/title/TITLE1337">Awesome Movie</a>'
+
+    :param search_type: the tactic search type
+    :param sobject_code: the sobject's code
+    :param sobject_name: the name of the sobject, to use for the link
+    :param server: a tactic server stub object
+    :param project: the project as a string
+    :return: a url to the sobject's view
+    """
+    if not server:
+        server = get_server()
+
+    href = '<a href="{0}">{1}</a>'
+    url = get_edit_wdg_url(search_type, sobject_code, server=server, project=project)
+    if not sobject_name:
+        sobject_name = sobject_code
+
+    return href.format(url, sobject_name)
+
+
 def get_order_builder_url(order_code, server=None, project='twog'):
     """
     Gets the order builder url for the given order code.
