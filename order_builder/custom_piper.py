@@ -251,14 +251,12 @@ class CustomPipelineListWdg(BaseRefreshWdg):
         cl_res = my.server.eval(client_name_expr)
         if len(cl_res) > 0:
             my.client_name = cl_res[0]
-       
 
         top = my.top
         top.add_class("spt_pipeline_list")
         my.set_as_panel(top)
 
         title_div = DivWdg()
-
 
         button = ActionButtonWdg(title="+", tip="Add a new pipeline", size='small')
         button.add_style("float: right")
@@ -292,8 +290,6 @@ class CustomPipelineListWdg(BaseRefreshWdg):
         ''' % (my.order_code, my.client_name)
         } )
 
-
-
         title_div.add(button)
 
         top.add(title_div)
@@ -303,14 +299,11 @@ class CustomPipelineListWdg(BaseRefreshWdg):
         title_div.add_gradient("background", "background")
         title_div.add("<b>Pipelines</b>")
 
-
-
         top.add("<br/>")
 
         pipelines_div = DivWdg()
         top.add(pipelines_div)
         pipelines_div.add_class("spt_resizable")
-        #pipelines_div.add_style("overflow: auto")
         pipelines_div.add_style("overflow-y: scroll")
         pipelines_div.add_style("overflow-x: scroll")
         pipelines_div.add_style("min-height: 290px")
@@ -324,7 +317,6 @@ class CustomPipelineListWdg(BaseRefreshWdg):
         inner.add_style("height: 290px")
         pipelines_div.add(inner)
 
-
         # add in a context menu
         menu = my.get_pipeline_context_menu()
         menus = [menu.get_data()]
@@ -334,9 +326,7 @@ class CustomPipelineListWdg(BaseRefreshWdg):
         from tactic.ui.container.smart_menu_wdg import SmartMenu
         SmartMenu.attach_smart_context_menu( pipelines_div, menus_in, False )
 
-
         project_code = Project.get_project_code()
-
 
         # project_specific  pipelines
         from pyasm.widget import SwapDisplayWdg
@@ -348,24 +338,17 @@ class CustomPipelineListWdg(BaseRefreshWdg):
         title = DivWdg("<b>2G Pipelines</b>")
         title.add_style("padding-bottom: 2px")
         inner.add(title)
-        #inner.add(HtmlElement.br())
         content_div = DivWdg()
         content_div.add_styles('padding-left: 8px; padding-top: 6px') 
         SwapDisplayWdg.create_swap_title(title, swap, content_div, is_open=True)
         inner.add(content_div)
         try:
-            #search = Search("config/pipeline")
-            #pipelines = search.get_sobjects()
             search = Search("sthpw/pipeline")
+            search.add_where("hide is not True")
             search.add_filter("project_code", project_code)
             search.add_filter("search_type", "sthpw/task", op="!=")
-            #search.add_filter("hide", ['True','true','T','t','1'], op='not in')
-            # This pretty weird that != does not find NULL values
-            search.add_filter("search_type", "NULL", op='is', quoted=False)
-            search.add_op("or")
             pipelines = search.get_sobjects()
- 
-             
+
             client_pipes = {'twog/title': [], 'twog/proj': [], 'other': []}
             other_pipes = {'twog/title': {}, 'twog/proj': {}, 'other': {}}
             translate = {'twog/title': 'Title', 'twog/proj': 'Project', 'other': 'Other'}
@@ -374,25 +357,24 @@ class CustomPipelineListWdg(BaseRefreshWdg):
             beginnings = []
             f_seq = False
             for pipeline in pipelines:
-                if not pipeline.get_value('hide'):
-                    pcode = pipeline.get_code()
-                    pcode = pcode.rstrip(' ')
-                    pcode = pcode.strip(' ')
-                    beginning = pcode.split('_')[0]
-                    if len(beginning) == len(pcode):
-                        beginning = pcode.split(' ')[0]
-                    st = pipeline.get_value('search_type')
-                    if st not in ['twog/proj','twog/title']:
-                        st = 'other'
-                    if beginning == my.client_name:
-                        client_pipes[st].append(pipeline)
-                    else:
-                        if 'twog/' not in beginning:
-                            if beginning not in beginnings:
-                                beginnings.append(beginning)
-                            if beginning not in other_pipes[st].keys():
-                                other_pipes[st][beginning] = []
-                            other_pipes[st][beginning].append(pipeline)
+                pcode = pipeline.get_code()
+                pcode = pcode.rstrip(' ')
+                pcode = pcode.strip(' ')
+                beginning = pcode.split('_')[0]
+                if len(beginning) == len(pcode):
+                    beginning = pcode.split(' ')[0]
+                st = pipeline.get_value('search_type')
+                if st not in ['twog/proj','twog/title']:
+                    st = 'other'
+                if beginning == my.client_name:
+                    client_pipes[st].append(pipeline)
+                else:
+                    if 'twog/' not in beginning:
+                        if beginning not in beginnings:
+                            beginnings.append(beginning)
+                        if beginning not in other_pipes[st].keys():
+                            other_pipes[st][beginning] = []
+                        other_pipes[st][beginning].append(pipeline)
             
             beginnings.sort()
             client_title = DivWdg("<b>%s</b>" % my.client_name)
@@ -442,8 +424,6 @@ class CustomPipelineListWdg(BaseRefreshWdg):
                         for pipeline in other_pipes[k][beginning]:
                             pipeline_div = my.get_pipeline_wdg(pipeline)
                             sub_content_div2.add(pipeline_div)
-                      
- 
 
             if not pipelines:
                 no_items = DivWdg()
@@ -476,14 +456,14 @@ class CustomPipelineListWdg(BaseRefreshWdg):
         search = Search("sthpw/pipeline")
         search.add_filter("project_code", project_code)
         search.add_filter("search_type", "sthpw/task")
+        search.add_where("hide is not True")
         pipelines = search.get_sobjects()
 
         colors = {}
         for pipeline in pipelines:
-            if not pipeline.get_value('hide'):
-                pipeline_div = my.get_pipeline_wdg(pipeline)
-                content_div.add(pipeline_div)
-                colors[pipeline.get_code()] = pipeline.get_value("color")
+            pipeline_div = my.get_pipeline_wdg(pipeline)
+            content_div.add(pipeline_div)
+            colors[pipeline.get_code()] = pipeline.get_value("color")
 
         if not pipelines:
             no_items = DivWdg()
@@ -491,16 +471,12 @@ class CustomPipelineListWdg(BaseRefreshWdg):
             content_div.add(no_items)
             no_items.add("<i>-- No Items --</i>")
 
-
-
-
         inner.add("<br clear='all'/>")
-
-
 
         # site-wide  pipelines
         search = Search("sthpw/pipeline")
         search.add_filter("project_code", "NULL", op="is", quoted=False)
+        search.add_where("hide is not True")
         pipelines = search.get_sobjects()
 
         swap = SwapDisplayWdg()
@@ -521,10 +497,9 @@ class CustomPipelineListWdg(BaseRefreshWdg):
         site_wide_div.add_class("spt_pipeline_list_site")
 
         for pipeline in pipelines:
-            if not pipeline.get_value('hide'):
-                pipeline_div = my.get_pipeline_wdg(pipeline)
-                site_wide_div.add(pipeline_div)
-                colors[pipeline.get_code()] = pipeline.get_value("color")
+            pipeline_div = my.get_pipeline_wdg(pipeline)
+            site_wide_div.add(pipeline_div)
+            colors[pipeline.get_code()] = pipeline.get_value("color")
 
         # this is done in spt.pipeline.first_init() already
         """
@@ -542,9 +517,6 @@ class CustomPipelineListWdg(BaseRefreshWdg):
         """
 
         return top
-
-
-
 
     def get_pipeline_wdg(my, pipeline):
         '''build each pipeline menu item'''
