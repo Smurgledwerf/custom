@@ -30,7 +30,7 @@ def main(server=None, event_data=None):
         event_data = {}
 
     try:
-        # CUSTOM_SCRIPT
+        # CUSTOM_SCRIPT00108
         
         order = event_data.get('sobject')
         title_name = order.get('name') + ' - Onboarding'
