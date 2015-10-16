@@ -17,8 +17,8 @@ def main(server=None, event_data=None):
     :param event_data: a dict with data for the event containing:
     'is_insert': True or False
     'mode': 'insert', 'update', 'retire'
-    'prev_data': dict of column: values before the update
-    'update_data': dict of column: values that were updated
+    'prev_data': dict of {column: values} before the update
+    'update_data': dict of {column: values} that were updated
     'search_type': search type of triggering sobject
     'search_code': code of the sobject
     'search_key': search key of the sobject
@@ -30,7 +30,7 @@ def main(server=None, event_data=None):
         event_data = {}
 
     try:
-        # CUSTOM_SCRIPT
+        # CUSTOM_SCRIPT00108
         
         order = event_data.get('sobject')
         title_name = order.get('name') + ' - Onboarding'
@@ -38,7 +38,7 @@ def main(server=None, event_data=None):
                       'pipeline_code': 'New_Order_Onboarding', 'client_code': order.get('client_code'),
                       'start_date': order.get('start_date'), 'due_date': order.get('due_date')}
 
-        server.execute_cmd('manual_updaters.commander.CreateTitlesCmd', args={'episodes': [''], 'data': title_data})
+        server.execute_cmd('manual_updaters.commander.CreateTitlesCmd', args={'data': title_data})
 
     except AttributeError as e:
         traceback.print_exc()

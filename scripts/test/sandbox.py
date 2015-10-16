@@ -17,8 +17,8 @@ def main(server=None, event_data=None):
     :param event_data: a dict with data for the event containing:
     'is_insert': True or False
     'mode': 'insert', 'update', 'retire'
-    'prev_data': dict of column: values before the update
-    'update_data': dict of column: values that were updated
+    'prev_data': dict of {column: values} before the update
+    'update_data': dict of {column: values} that were updated
     'search_type': search type of triggering sobject
     'search_code': code of the sobject
     'search_key': search key of the sobject
