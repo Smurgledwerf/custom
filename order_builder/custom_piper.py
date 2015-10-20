@@ -489,7 +489,7 @@ class CustomPipelineListWdg(BaseRefreshWdg):
         title.add("<b>Site Wide Pipelines</b><br/>")
       
         site_wide_div = DivWdg()
-        site_wide_div.add_styles('padding-left: 8px; padding-top: 6px') 
+        site_wide_div.add_styles('padding-left: 8px; padding-top: 6px')
         SwapDisplayWdg.create_swap_title(title, swap, site_wide_div, is_open=False)
 
         colors = {}
@@ -499,6 +499,34 @@ class CustomPipelineListWdg(BaseRefreshWdg):
         for pipeline in pipelines:
             pipeline_div = my.get_pipeline_wdg(pipeline)
             site_wide_div.add(pipeline_div)
+            colors[pipeline.get_code()] = pipeline.get_value("color")
+
+        inner.add("<br clear='all'/>")
+
+        # old pipelines
+        search = Search("sthpw/pipeline")
+        search.add_filter('hide', True)
+        old_pipelines = search.get_sobjects()
+
+        swap = SwapDisplayWdg()
+
+        title = DivWdg()
+        inner.add(swap)
+        swap.add_style("margin-top: -2px")
+        inner.add(title)
+        swap.add_style("float: left")
+        title.add("<b>Old Pipelines</b><br/>")
+
+        old_pipelines_div = DivWdg()
+        old_pipelines_div.add_styles('padding-left: 8px; padding-top: 6px')
+        SwapDisplayWdg.create_swap_title(title, swap, old_pipelines_div, is_open=False)
+
+        colors = {}
+        inner.add(old_pipelines_div)
+
+        for pipeline in old_pipelines:
+            pipeline_div = my.get_pipeline_wdg(pipeline)
+            old_pipelines_div.add(pipeline_div)
             colors[pipeline.get_code()] = pipeline.get_value("color")
 
         # this is done in spt.pipeline.first_init() already
