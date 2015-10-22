@@ -56,7 +56,7 @@ def main(server=None, input=None):
                     # Get the process information surrounding this wo's process from the project's pipeline
                     info2 = server.get_pipeline_processes_info(proj.get('__search_key__'), related_process=wo.get('process'))
                     if 'input_processes' in info2.keys():
-                        input_processes2 = info2.get('input_processes')
+                        input_processes2 = info2.get('input_processes', [])
                         # WHACKER
                         whack_says = are_no_hackpipes_preceding(wo)
                         # END WHACKER
@@ -117,7 +117,7 @@ def main(server=None, input=None):
             input_processes = []
             if not hack:
                 info = server.get_pipeline_processes_info(parent.get('__search_key__'), related_process=proj.get('process'))
-                input_processes = info.get('input_processes')
+                input_processes = info.get('input_processes', [])
                 output_processes = info.get('output_processes')
             else:
                 hack_rez = are_no_hackpipes_preceding(proj)
