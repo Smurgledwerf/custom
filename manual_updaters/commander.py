@@ -418,7 +418,8 @@ class CreateTitlesCmd(Command):
         my.user_name = my.login.get_login() 
         my.server = TacticServerStub.get()
         my.data = kwargs.get('data')
-        my.episodes = kwargs.get('episodes')
+        # There has to be at least one episode for some reason, even if it's empty
+        my.episodes = kwargs.get('episodes', [''])
         
 
     def check(my):
