@@ -35,7 +35,7 @@ def main(server=None, event_data=None):
         order = event_data.get('sobject')
         title_name = order.get('name') + ' - Onboarding'
         title_data = {'order_code': order.get('code'), 'title': title_name, 'onboarding_priority': '1',
-                      'pipeline_code': 'New_Order_Onboarding', 'client_code': order.get('client_code'),
+                      'pipeline_code': 'Onboarding_Project', 'client_code': order.get('client_code'),
                       'start_date': order.get('start_date'), 'due_date': order.get('due_date')}
 
         server.execute_cmd('manual_updaters.commander.CreateTitlesCmd', args={'data': title_data})
