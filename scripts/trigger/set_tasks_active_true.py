@@ -56,7 +56,7 @@ def main(server=None, input=None):
                     # Get the process information surrounding this wo's process from the project's pipeline
                     info2 = server.get_pipeline_processes_info(proj.get('__search_key__'), related_process=wo.get('process'))
                     if 'input_processes' in info2.keys():
-                        input_processes2 = info2.get('input_processes', [])
+                        input_processes2 = info2.get('input_processes')
                         # WHACKER
                         whack_says = are_no_hackpipes_preceding(wo)
                         # END WHACKER
@@ -117,14 +117,14 @@ def main(server=None, input=None):
             input_processes = []
             if not hack:
                 info = server.get_pipeline_processes_info(parent.get('__search_key__'), related_process=proj.get('process'))
-                input_processes = info.get('input_processes', [])
+                input_processes = info.get('input_processes')
                 output_processes = info.get('output_processes')
             else:
                 hack_rez = are_no_hackpipes_preceding(proj)
                 if not hack_rez:
                     input_processes.append("TRIPWIRE")
             # If there are no input processes for this, it must be one of the proj's that should be set to 'Ready' (but we'll need to check hackpipe first)
-            if len(input_processes) < 1:
+            if input_processes is not None and len(input_processes) < 1:
                 ptask_code = proj.get('task_code')
                 # Get the actual task associated with the proj
                 ptask = server.eval("@SOBJECT(sthpw/task['code','%s'])" % ptask_code)
